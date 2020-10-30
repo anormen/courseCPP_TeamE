@@ -1,0 +1,69 @@
+Use cases
+
+*Accelerate/Decelerate on pedal input
+*Shift gear on engine speed
+*Shift gear on lever position
+*Report function status/problems
+*Provide Engine speed to be displayed to user
+*Provide Fuel consumtion to user
+*Provide Actual gear to user
+*Provide Vehicle speed to user
+*Provide user means to Start/Stop engine
+*Provide simulation input from logfile
+
+ECM
+
+Input:
+*VehicleSpeed (wheel speed)
+*AcceleratoPedalPosition
+*BrakePedalPosition (tbd)
+*GearLeverPosition
+*PowerMode	
+*CrankRequest
+
+Output:
+*FuelConsumtion
+*EngineTorque
+*EngineSpeed
+*FaultStatus
+*Status (oilpressure, temperature, running etc.)
+
+SW Components:
+CAN Communication
+CalculateFuelConsumption
+CalculateEngineSpeed
+EngineStatus
+ModeManagement
+Diagnostics
+
+TCM
+
+Input:
+*GearLeverPosition (PRND)
+*Powermode
+*EngineTorque
+*EngineSpeed
+
+Output:
+*ActualGear
+*GearboxOutTorque (tbd)
+*FaultStatus
+*VehicleSpeed
+
+SW Components:
+CAN Communication
+CalculateActualGear
+CalculateVehicleSpeed
+ModeManagement
+Calibration
+Diagnostics
+
+MVP:
+Keyboard input
+Console output
+Three nodes
+CAN communication
+Accelerate
+Shift gear on lever
+Present vehicle speed
+gliffy sequence diagrams
