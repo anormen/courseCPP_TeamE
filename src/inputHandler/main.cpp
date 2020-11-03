@@ -3,6 +3,6 @@
 
 int main() {
 
-
+    std::cout << "inputHandler\n";
     //First version with pseudo code
 }
