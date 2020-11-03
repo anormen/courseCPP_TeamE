@@ -5,7 +5,6 @@ class ECM
 {
   public:
     // Calculate RPM
-    // Calculate fuel
     //...
   private:
     // int RPM
