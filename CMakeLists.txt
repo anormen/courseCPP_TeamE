@@ -4,4 +4,4 @@ include_directories(share)
 add_executable(inputHandler src/inputHandler/main.cpp share/can_class.cpp)
 target_link_libraries(inputHandler PRIVATE ncurses) # should it be PRIVATE?
 add_executable(ECM src/ECM/main.cpp src/ECM/ECM.cpp share/can_class.cpp)
-add_executable(displayHandler src/displayHandler/main.cpp share/can_class.cpp) 
+add_executable(displayHandler src/displayHandler/main.cpp src/displayHandler/display_class.cpp share/can_class.cpp) 
