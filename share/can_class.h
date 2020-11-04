@@ -1,7 +1,18 @@
 #ifndef _CAN_CLASS_H_
 #define _CAN_CLASS_H_ 
 #include <unistd.h>
-
+#include <linux/can.h>
+#include <linux/can/raw.h>
+#include <sys/socket.h>
+#include <net/if.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <iostream>
+#include <cstring>
+#include <iomanip>
+#include <fcntl.h>
+#include <chrono>
+#include <thread>  
 class canHandler{
 
     public:
