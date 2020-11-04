@@ -1,25 +1,30 @@
 #include <iostream>
+#include <curses.h>
 #include "socketcan_cpp.h"
-#include "key_input_X11.hpp"
 
-int main() {
+int main()
+{
 
     std::cout << "inputHandler\n";
+    initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
 
-    Display *display;
-    Window window;
-    XEvent event;
-    uint key;
-    display = XOpenDisplay(NULL);
+    int ch;
+    nodelay(stdscr, TRUE);
 
-    SetupKeyInput(display,window);
-    
-    while(1){
-        key = ReadInputKey(display,event);
-        std::cout << "key = " << key << std::endl;
+    while (1)
+    {
+        if ((ch = getch()) == ERR)
+        {
+            // Do nothing
+        } else {
+            std::cout << "Input is " << ch << std::endl;
+            // Call convert (check if valid?)
+        }
     }
 
-    XCloseDisplay(display);
     return 0;
     /*
     Init:
@@ -39,5 +44,4 @@ int main() {
 
     clear memory
     */
-
 }
