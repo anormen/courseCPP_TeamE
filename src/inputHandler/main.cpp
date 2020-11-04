@@ -21,8 +21,10 @@ int main()
 
     frame=can.getTxBuffer();
     frame->can_dlc=1;
-    frame->data[0]=0;
+    //frame->data[0]=0;
     frame->can_id=100;
+
+    //Conversion conv;
 
     //Conversion conv;
 
@@ -34,6 +36,8 @@ int main()
         } else {
             std::cout << "Input is " << key << std::endl;
 
+            //conv.SetKey(key);
+            //conv.getFrame(frame);
             if(key==259)
                 frame->data[0]+=10;
 
