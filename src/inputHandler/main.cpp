@@ -21,7 +21,7 @@ int main()
 
     frame=can.getTxBuffer();
     frame->can_dlc=1;
-    //frame->data[0]=0;
+    frame->data[0]=0;
     frame->can_id=100;
 
     //Conversion conv;
