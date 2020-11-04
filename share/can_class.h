@@ -1,5 +1,6 @@
 #ifndef _CAN_CLASS_H_
 #define _CAN_CLASS_H_ 
+#include <unistd.h>
 
 class canHandler{
 
@@ -10,8 +11,8 @@ class canHandler{
         uint16_t canWriteFrame();
         can_frame* getRxBuffer(){ return &frameRx; };
         can_frame* getTxBuffer(){ return &frameTx; };
-        ~canHandler() {};
-        const int cycletime = 250; //cycletime for can send
+        ~canHandler() { close(canSocket); };
+        const int cycletime = 250; //cycletime for can send TBD
     private:
         struct can_frame frameRx;
         struct can_frame frameTx;        
