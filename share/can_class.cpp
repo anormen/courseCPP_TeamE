@@ -18,6 +18,8 @@ int main()
 
     canhd.canInit();
 
+    can_frame* canRxptr = canhd.getRxBuffer();
+
     while(1){
         int b = canhd.canReadFrame();
      /*   std::cout << "Data: [" << std::setw(2) << std::setfill('0') << (int)canhd..can_id << " " << std::setw(2) << std::setfill('0') << (int)frame.can_dlc << " ";
@@ -29,7 +31,7 @@ int main()
       */
         int v = canhd.canWriteFrame();
 
-std::cout << b << ":" << v << std::endl;
+    std::cout << b << ":" << v << std::endl;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(canhd.cycletime)); //see if take value from can frames?
     }
