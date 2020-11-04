@@ -1,6 +1,5 @@
 #include <iostream>
 #include <curses.h>
-#include "socketcan_cpp.h"
 #include "can_class.h"
 
 int main()
@@ -16,9 +15,14 @@ int main()
     int key;
     nodelay(stdscr, TRUE);
 
-    scpp::CanFrame frame;
+    can_frame *frame;
     canHandler can;
     can.canInit();
+
+    frame=can.getTxBuffer();
+    frame->can_dlc=1;
+    frame->data[0]=0;
+    frame->can_id=100;
 
     //Conversion conv;
 
@@ -30,9 +34,13 @@ int main()
         } else {
             std::cout << "Input is " << key << std::endl;
 
-            //Conv.SetKey(key)
-            //Conv.GetFrame(&frame)
-            can.canWriteFrame();
+            if(key==259)
+                frame->data[0]+=10;
+
+            std::cout << "frame->data[0] = " << (int)frame->data[0] << std::endl;
+
+            uint16_t b = can.canWriteFrame();
+            std::cout << "b = " << b << std::endl;
         }
     }
 
