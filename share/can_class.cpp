@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <linux/can.h>
 #include <linux/can/raw.h>
 #include <sys/socket.h>
@@ -10,6 +11,9 @@
 #include <fcntl.h>
 #include <chrono>
 #include <thread>  
+=======
+
+>>>>>>> 4bb2b893ac2fe1103906c4ebafbd6c44a25d1630
 #include "can_class.h"
 
 void canHandler::canInit(void){
