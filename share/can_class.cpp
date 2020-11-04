@@ -12,29 +12,6 @@
 #include <thread>  
 #include "can_class.h"
 
-int main()
-{
-   canHandler canhd;
-
-    canhd.canInit();
-
-    while(1){
-        int b = canhd.canReadFrame();
-     /*   std::cout << "Data: [" << std::setw(2) << std::setfill('0') << (int)canhd..can_id << " " << std::setw(2) << std::setfill('0') << (int)frame.can_dlc << " ";
-        for(int i = 0 ; i < 8 ; i++ )
-        {
-            std::cout << std::setw(2) << std::setfill('0') << std::hex<< (int)frame.data[i] << (i < 7 ? ":" : "");
-        }
-        std::cout << "]" << std::endl;
-      */
-        int v = canhd.canWriteFrame();
-
-std::cout << b << ":" << v << std::endl;
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(canhd.cycletime)); //see if take value from can frames?
-    }
-    return 0;
-}
 void canHandler::canInit(void){
 
     struct sockaddr_can addr;

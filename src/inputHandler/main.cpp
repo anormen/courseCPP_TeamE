@@ -1,27 +1,38 @@
 #include <iostream>
 #include <curses.h>
 #include "socketcan_cpp.h"
+#include "can_class.h"
 
 int main()
 {
 
     std::cout << "inputHandler\n";
+    // Init key input
     initscr();
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
 
-    int ch;
+    int key;
     nodelay(stdscr, TRUE);
+
+    scpp::CanFrame frame;
+    canHandler can;
+    can.canInit();
+
+    //Conversion conv;
 
     while (1)
     {
-        if ((ch = getch()) == ERR)
+        if ((key = getch()) == ERR)
         {
             // Do nothing
         } else {
-            std::cout << "Input is " << ch << std::endl;
-            // Call convert (check if valid?)
+            std::cout << "Input is " << key << std::endl;
+
+            //Conv.SetKey(key)
+            //Conv.GetFrame(&frame)
+            can.canWriteFrame();
         }
     }
 

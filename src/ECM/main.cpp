@@ -2,7 +2,20 @@
 #include "socketcan_cpp.h"
 #include "ECM.hpp"
 
-int main() {
+int main()
+{
+
+    int acc_ped = 0;
+    bool engine_on = true;
+
+    ECM ecm = ECM();
+    for (size_t i = 1; i <= 100; i++)
+    {
+        ecm.CalculateRPM(acc_ped);
+        std::cout << "RPM: " << ecm.GetRPM() << std::endl;
+        if(i%20==0)
+            acc_ped+=20;
+    }
 
     /*
 

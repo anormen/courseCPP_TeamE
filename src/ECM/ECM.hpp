@@ -4,10 +4,12 @@
 class ECM 
 {
   public:
-    // Calculate RPM
-    //...
+    ECM();
+    ~ECM() = default;
+    void CalculateRPM(int acc_ped);
+    int GetRPM();
   private:
-    // int RPM
+    int RPM;
 };
 
 #endif //ECM_HPP
