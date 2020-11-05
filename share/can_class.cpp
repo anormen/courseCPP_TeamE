@@ -23,9 +23,9 @@ void canHandler::canInit(void){
     return;
 }
 
-uint16_t canHandler::canReadFrame(){
+uint16_t canHandler::canReadFrame(can_frame &frame){
 
-    uint16_t nbytes = recv(this->canSocket, &this->frameRx, sizeof(struct can_frame), 0);//need to fault handle empty socket
+    uint16_t nbytes = recv(this->canSocket, &frame, sizeof(struct can_frame), 0);//need to fault handle empty socket
 
     if (nbytes < 0)
         std::cout << "can raw socket read buffer empty" << std::endl;
@@ -37,9 +37,9 @@ uint16_t canHandler::canReadFrame(){
     return nbytes;
 }
 
-uint16_t canHandler::canWriteFrame(){
+uint16_t canHandler::canWriteFrame(can_frame &frame){
 
-    uint16_t nbytes = send(this->canSocket, &this->frameTx, sizeof(struct can_frame), 0); //need to fault handle empty socket
+    uint16_t nbytes = send(this->canSocket, &frame, sizeof(struct can_frame), 0); //need to fault handle empty socket
 
     if (nbytes < 0)
         std::cout << "can raw socket write failed" << std::endl;
@@ -51,16 +51,12 @@ uint16_t canHandler::canWriteFrame(){
     return nbytes; // tbd if needed
 }
 // print frame for debugging
-void canHandler::printFrame(canMode buffSelect){
+void canHandler::printFrame(can_frame &frame){
 
-    can_frame* frame;
-
-    (buffSelect == canMode::RX) ? frame = &this->frameRx : frame = &this->frameTx;
-
-    std::cout << "Data: [ ID: " << std::dec << std::setw(3) << std::setfill('0') << (int)frame->can_id << " L: " << std::setw(2) << std::setfill('0') << (int)frame->can_dlc << " : ";
+    std::cout << "ID: " << std::dec << std::setw(3) << std::setfill('0') << (int)frame.can_id << " L: " << std::setw(2) << std::setfill('0') << (int)frame.can_dlc << " [ ";
     for(int i = 0 ; i < 8 ; i++ )            
-        std::cout << std::setw(2) << std::setfill('0') << std::hex<< (int)frame->data[i] << (i < 7 ? ":" : "");
-    std::cout << "]" << std::endl;
+        std::cout << std::setw(2) << std::setfill('0') << std::hex<< (int)frame.data[i] << (i < 7 ? ":" : "");
+    std::cout << " ]" << std::endl;
 
     return;
 }

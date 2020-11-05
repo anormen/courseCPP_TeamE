@@ -17,37 +17,37 @@
 
 int main()
 {
-    canHandler canHndl;
+    canHandler *canHndl;
+    can_frame fr;
     displayHandler dispHndl;   
     fr100 frame100;
     fr200 frame200;
     fr300 frame300; 
 
-    canHndl.canInit();
-    can_frame* canRxptr = canHndl.getRxBuffer();
+    canHndl->canInit();
 
     while(1){
-        canHndl.canReadFrame();
-        canHndl.printFrame(canMode::RX);
+        canHndl->canReadFrame(fr);
+        canHndl->printFrame(fr);
 
         //check frame id, check lenght
-        if(canRxptr->can_dlc > 0)
+        if(fr.can_dlc > 0)
         {
-            switch(canRxptr->can_id)
+            switch(fr.can_id)
             {       
                 case 100: //inpur handler
-                    memcpy(&frame100, canRxptr, 16);
+                    memcpy(&frame100, &fr, 16);
                     dispHndl.setValueAcc(frame100.accelerator);
                     dispHndl.setValueBrake(frame100.brake);  
                     dispHndl.setValueMode(frame100.mode);
                     dispHndl.setValueStartStop(frame100.startstop);                                       
                     break;
                 case 200: //ecm
-                    memcpy(&frame200, canRxptr, 16);
+                    memcpy(&frame200, &fr, 16);
                     dispHndl.setValueRpm(frame200.rpm);
                     break;
                 case 300: //tcm
-                    memcpy(&frame300, canRxptr, 16);
+                    memcpy(&frame300, &fr, 16);
                     //dispHndl.setValueRpm(frame200.rpm);
                     break;
                 default:

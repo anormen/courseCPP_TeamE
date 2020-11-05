@@ -2,6 +2,11 @@
 #define _FRAMES_H
 #include <cstdint>
 
+enum class GearLeverPos {PARK = 0, REVERSE = 1, NEUTRAL = 2, DRIVE = 3};
+enum class StartButtonSts {UNPRESSED = 0, PRESSED = 1};
+enum class SimulationMode { OFF = 0, INACTIVE = 1, ACTIVE = 2 };
+enum class DriverInformation { NO_MSG = 0, NO_BRAKE = 1, NOT_IN_P = 2, NOT_IN_P_IN_D = 3 };
+
 struct fr100{
 //header
     uint32_t canid = 100;; 

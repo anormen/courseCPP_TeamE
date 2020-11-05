@@ -21,16 +21,12 @@ class canHandler{
     public:
         canHandler(){};
         void canInit(void);
-        uint16_t canReadFrame();
-        uint16_t canWriteFrame();
-        void printFrame(canMode);
-        can_frame* getRxBuffer(){ return &frameRx; };
-        can_frame* getTxBuffer(){ return &frameTx; };
+        uint16_t canReadFrame(can_frame &frame);
+        uint16_t canWriteFrame(can_frame &frame);
+        void printFrame(can_frame &frame);
         ~canHandler() { close(canSocket); };
         const int cycletime = 250; //cycletime for can send TBD
-    private:
-        struct can_frame frameRx;
-        struct can_frame frameTx;        
+    private:       
         uint16_t canSocket;
         const char *ifname = "vcan0";
 };

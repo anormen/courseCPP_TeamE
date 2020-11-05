@@ -3,10 +3,6 @@
 #include <stdint.h>
 /* File defining the frame content sent by InputHandler*/
 
-enum class GearLeverPos {PARK, REVERSE, NEUTRAL, DRIVE};
-enum class StartButtonSts {UNPRESSED, PRESSED};
-enum class SimulationMode {INACTIVE, ACTIVE };
-
 union {
     Frame_data frameDataSet;
     uint8_t frameDataArray[8];
