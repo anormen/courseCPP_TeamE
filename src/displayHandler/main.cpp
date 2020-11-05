@@ -61,7 +61,7 @@ int main()
             std::cout << "can data read buffer is empty" << std::endl;
   
         dispHndl.update();
-        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate)); //see if take value from can frames?
+        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate-100)); //see if take value from can frames?
     }
     return 0;
 }

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <curses.h>
+#include <chrono>
+#include <thread>  
 #include "can_class.h"
 #include "frames.hpp"
 
@@ -49,6 +51,7 @@ int main()
             if(b!=16)
                 std::cout << "ERROR sending can frame\n\r";
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate));
     }
 
     return 0;
