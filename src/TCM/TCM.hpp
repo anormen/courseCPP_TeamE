@@ -1,10 +1,12 @@
 #ifndef TCM_HPP
 #define TCM_HPP
 
+#include<iostream>
+
 class TCM
 {
   public:
-    void CalculateGear(int &RPM);
+    unsigned int CalculateGear(unsigned int RPM);
     int GetGear();
   private:
     int gear;

@@ -2,10 +2,10 @@
 
 int TCM::GetGear(){return this->gear;}
 
-void TCM::CalculateGear(int &RPM){
+unsigned int TCM::CalculateGear(unsigned int RPM){
     if(RPM>1200){
         gear+=1;
         RPM+=-300;
     }
-        
+    return RPM;
 }

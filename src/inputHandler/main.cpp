@@ -2,6 +2,7 @@
 #include <curses.h>
 #include "can_class.h"
 #include "frames.hpp"
+#include<bitset>
 
 int main()
 {
@@ -16,7 +17,7 @@ int main()
     int key;
     nodelay(stdscr, TRUE);
 
-    can_frame *frame;
+    can_frame frame;
     canHandler can;
     can.canInit();
 
@@ -24,16 +25,8 @@ int main()
     fr100 data_to_send;
     //data_to_send.acc_ped=0;
 
-    frame=can.getTxBuffer();
+    //frame=can.getTxBuffer();
     data_to_send.accelerator=0;
-
-    //frame->can_dlc=1;
-    //frame->data[0]=0;
-    //frame->can_id=100;
-
-    //Conversion conv;
-
-    //Conversion conv;
 
     while (1)
     {
@@ -46,13 +39,16 @@ int main()
             if(key==259)
                 data_to_send.accelerator+=10;
 
+            if(key==115)
+                data_to_send.startstop=!data_to_send.startstop; // toggle bit, does this work?
+
             //std::cout << "&data_to_send = " << &data_to_send << " &data_to_send+6 " << &data_to_send+6 << std::endl;
 
-            memcpy(frame,&data_to_send,16);
+            memcpy(&frame,&data_to_send,16);
 
-            std::cout << "frame->data[0] = " << (int)frame->data[0] << std::endl;
+            //std::cout << "frame->data[0] = " << (int)frame->data[0] << std::endl;
 
-            uint16_t b = can.canWriteFrame();
+            uint16_t b = can.canWriteFrame(frame);
             std::cout << "b = " << b << std::endl;
         
         }

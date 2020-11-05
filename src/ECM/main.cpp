@@ -8,7 +8,7 @@
 int main()
 {
 
-    can_frame *frame_read, *frame_write;
+    can_frame frame_read, frame_write;
     canHandler can;
     can.canInit();
 
@@ -16,10 +16,8 @@ int main()
     fr100 data_read;
     fr200 data_write;
 
-    frame_read = can.getRxBuffer();
-    frame_write = can.getTxBuffer();
-    //frame_write->can_dlc=1;
-    //frame_write->can_id = 200;
+    //frame_read = can.getRxBuffer();
+    //frame_write = can.getTxBuffer();
 
     int acc_ped = 0;
     int rpm = 0;
@@ -30,32 +28,23 @@ int main()
 
     while (1)
     {
-        can.canReadFrame();
-        //data_read=frame_read->data;
-        memcpy(&data_read,frame_read,16);
+        can.canReadFrame(frame_read);
+        memcpy(&data_read,&frame_read,16);
         acc_ped = data_read.accelerator;
-        //acc_ped = frame_read->data[0];
         ecm.CalculateRPM(acc_ped);
         
         data_write.rpm=ecm.GetRPM();
-        //tcm.CalculateGear(rpm); // måste ändra rpm i ecm klassen
+        
+        //data_write.rpm = tcm.CalculateGear(data_write.rpm); // Why can't I just pass the adress to rpm without return? bit field...
         //gear = tcm.GetGear();
 
-        std::cout << "ECM acc_ped = " << acc_ped << " RPM = " << data_write.rpm << " gear = " << gear << std::endl;
+        std::cout << "ECM acc_ped = " << acc_ped << " RPM = " << data_write.rpm << " gear = " << tcm.GetGear() << std::endl;
 
-
-
-        memcpy(frame_write,&data_write,16);
-        uint16_t b = can.canWriteFrame();
-
-
-
-        //std::cout << "b = " << b << std::endl;
-
+        memcpy(&frame_write,&data_write,16);
+        uint16_t b = can.canWriteFrame(frame_write);
         
         usleep(100000);
     }
-
 
     /*
 

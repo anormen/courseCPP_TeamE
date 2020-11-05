@@ -37,7 +37,7 @@ uint16_t canHandler::canReadFrame(can_frame &frame){
     return nbytes;
 }
 
-uint16_t canHandler::canWriteFrame(can_frame &frame){
+uint16_t canHandler::canWriteFrame(const can_frame &frame){
 
     uint16_t nbytes = send(this->canSocket, &frame, sizeof(struct can_frame), 0); //need to fault handle empty socket
 

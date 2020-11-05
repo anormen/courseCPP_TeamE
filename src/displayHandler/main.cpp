@@ -17,18 +17,18 @@
 
 int main()
 {
-    canHandler *canHndl;
+    canHandler canHndl;
     can_frame fr;
     displayHandler dispHndl;   
     fr100 frame100;
     fr200 frame200;
     fr300 frame300; 
 
-    canHndl->canInit();
+    canHndl.canInit();
 
     while(1){
-        canHndl->canReadFrame(fr);
-        canHndl->printFrame(fr);
+        canHndl.canReadFrame(fr);
+        canHndl.printFrame(fr);
 
         //check frame id, check lenght
         if(fr.can_dlc > 0)
