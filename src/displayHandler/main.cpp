@@ -38,14 +38,17 @@ int main()
                 case 100: //inpur handler
                     memcpy(&frame100, canRxptr, 16);
                     dispHndl.setValueAcc(frame100.accelerator);
-                    dispHndl.setValueBrake(frame100.brake);                    
+                    dispHndl.setValueBrake(frame100.brake);  
+                    dispHndl.setValueMode(frame100.mode);
+                    dispHndl.setValueStartStop(frame100.startstop);                                       
                     break;
                 case 200: //ecm
                     memcpy(&frame200, canRxptr, 16);
                     dispHndl.setValueRpm(frame200.rpm);
                     break;
                 case 300: //tcm
-
+                    memcpy(&frame300, canRxptr, 16);
+                    //dispHndl.setValueRpm(frame200.rpm);
                     break;
                 default:
                     std::cout << "Invalid can frame id" << std::endl;
@@ -55,7 +58,7 @@ int main()
             std::cout << "can data read buffer is empty" << std::endl;
   
         dispHndl.update();
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000)); //see if take value from can frames?
+        std::this_thread::sleep_for(std::chrono::milliseconds(500)); //see if take value from can frames?
     }
     return 0;
 }
