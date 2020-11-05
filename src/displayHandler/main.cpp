@@ -15,6 +15,8 @@
 #include "display_class.h"
 #include "frames.hpp"
 
+const u_int16_t displayUpdateRate = 500;
+
 int main()
 {
     canHandler canHndl;
@@ -58,7 +60,7 @@ int main()
             std::cout << "can data read buffer is empty" << std::endl;
   
         dispHndl.update();
-        std::this_thread::sleep_for(std::chrono::milliseconds(500)); //see if take value from can frames?
+        std::this_thread::sleep_for(std::chrono::milliseconds(displayUpdateRate)); //see if take value from can frames?
     }
     return 0;
 }

@@ -7,6 +7,10 @@ enum class StartButtonSts {UNPRESSED = 0, PRESSED = 1};
 enum class SimulationMode { OFF = 0, INACTIVE = 1, ACTIVE = 2 };
 enum class DriverInformation { NO_MSG = 0, NO_BRAKE = 1, NOT_IN_P = 2, NOT_IN_P_IN_D = 3 };
 
+const u_int16_t fr100_updateRate = 200;
+const u_int16_t fr200_updateRate = 200;
+const u_int16_t fr300_updateRate = 200;
+
 struct fr100{
 //header
     uint32_t canid = 100;; 
