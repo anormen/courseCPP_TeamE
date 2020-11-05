@@ -23,6 +23,7 @@ int main()
     while (1)
     {
         can.canReadFrame(frame_read);
+        can.printFrame(frame_read);
         memcpy(&data_read,&frame_read,16);
         //acc_ped = data_read.accelerator;
         ecm.CalculateRPM(data_read.accelerator);
@@ -36,6 +37,7 @@ int main()
 
         memcpy(&frame_write,&data_write,16);
         uint16_t b = can.canWriteFrame(frame_write);
+        can.canWriteFrame(frame_write);
         
         std::this_thread::sleep_for(std::chrono::milliseconds(fr200_updateRate));
     }

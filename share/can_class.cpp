@@ -1,4 +1,6 @@
 #include "can_class.h"
+#include <chrono>
+#include <iomanip>
 
 void canHandler::canInit(void){
 
@@ -53,10 +55,12 @@ uint16_t canHandler::canWriteFrame(const can_frame &frame){
 // print frame for debugging
 void canHandler::printFrame(can_frame &frame){
 
-    std::cout << "ID: " << std::dec << std::setw(3) << std::setfill('0') << (int)frame.can_id << " L: " << std::setw(2) << std::setfill('0') << (int)frame.can_dlc << " [ ";
+    auto now = std::chrono::steady_clock::now();
+    std::cout << "T: " << std::dec << std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+    std::cout << " ID: " << std::setw(3) << std::setfill('0') << (int)frame.can_id << " L: " << std::setw(2) << std::setfill('0') << (int)frame.can_dlc << " [ ";
     for(int i = 0 ; i < 8 ; i++ )            
         std::cout << std::setw(2) << std::setfill('0') << std::hex<< (int)frame.data[i] << (i < 7 ? ":" : "");
-    std::cout << " ]" << std::endl;
+    std::cout << " ]" << std::dec << std::endl;
 
     return;
 }
