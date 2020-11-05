@@ -32,22 +32,22 @@ int main()
         {
             // Do nothing
         } else {
-            std::cout << "Input is " << key << std::endl;
+            std::cout << "Input is " << key << "\n\r";
 
-            if(key==259)
+            if(key==259) {
                 fr100_to_send.accelerator+=10;
-
-            if(key==115)
+            } else if(key==115) {
                 fr100_to_send.startstop=!fr100_to_send.startstop; // toggle bit, does this work?
+            } else {
+                std::cout << "Input not valid, press 'arrow up' for acceleration or 's' for start and stop engine\n\r";
+            }
 
             //std::cout << "&data_to_send = " << &data_to_send << " &data_to_send+6 " << &data_to_send+6 << std::endl;
-
             memcpy(&frame,&fr100_to_send,16);
 
-            //std::cout << "frame->data[0] = " << (int)frame->data[0] << std::endl;
-
             uint16_t b = can.canWriteFrame(frame);
-            std::cout << "b = " << b << std::endl;
+            if(b!=16)
+                std::cout << "ERROR sending can frame\n\r";
         }
     }
 
