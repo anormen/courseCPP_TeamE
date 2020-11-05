@@ -1,6 +1,7 @@
 #include <iostream>
 #include <curses.h>
 #include "can_class.h"
+#include "frames.hpp"
 
 int main()
 {
@@ -19,10 +20,16 @@ int main()
     canHandler can;
     can.canInit();
 
+    uint8_t a;
+    fr100 data_to_send;
+    //data_to_send.acc_ped=0;
+
     frame=can.getTxBuffer();
-    frame->can_dlc=1;
-    frame->data[0]=0;
-    frame->can_id=100;
+    data_to_send.accelerator=0;
+
+    //frame->can_dlc=1;
+    //frame->data[0]=0;
+    //frame->can_id=100;
 
     //Conversion conv;
 
@@ -36,15 +43,18 @@ int main()
         } else {
             std::cout << "Input is " << key << std::endl;
 
-            //conv.SetKey(key);
-            //conv.getFrame(frame);
             if(key==259)
-                frame->data[0]+=10;
+                data_to_send.accelerator+=10;
+
+            //std::cout << "&data_to_send = " << &data_to_send << " &data_to_send+6 " << &data_to_send+6 << std::endl;
+
+            memcpy(frame,&data_to_send,16);
 
             std::cout << "frame->data[0] = " << (int)frame->data[0] << std::endl;
 
             uint16_t b = can.canWriteFrame();
             std::cout << "b = " << b << std::endl;
+        
         }
     }
 

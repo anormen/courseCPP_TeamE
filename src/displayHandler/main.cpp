@@ -41,7 +41,7 @@ int main()
                     dispHndl.setValueBrake(frame100.brake);                    
                     break;
                 case 200: //ecm
-                    memcpy(&frame100, canRxptr, 16);
+                    memcpy(&frame200, canRxptr, 16);
                     dispHndl.setValueRpm(frame200.rpm);
                     break;
                 case 300: //tcm
@@ -55,7 +55,7 @@ int main()
             std::cout << "can data read buffer is empty" << std::endl;
   
         dispHndl.update();
-        std::this_thread::sleep_for(std::chrono::milliseconds(canHndl.cycletime)); //see if take value from can frames?
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000)); //see if take value from can frames?
     }
     return 0;
 }
