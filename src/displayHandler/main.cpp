@@ -13,11 +13,15 @@
 #include <thread>  
 #include "can_class.h"
 #include "display_class.h"
+#include "frames.hpp"
 
 int main()
 {
     canHandler canHndl;
-    displayHandler dispHndl;    
+    displayHandler dispHndl;   
+    fr100 frame100;
+    fr200 frame200;
+    fr300 frame300; 
 
     canHndl.canInit();
     can_frame* canRxptr = canHndl.getRxBuffer();
@@ -32,12 +36,16 @@ int main()
             switch(canRxptr->can_id)
             {       
                 case 100: //inpur handler
-                    dispHndl.setValueAcc(canRxptr->data[0]);
+                    memcpy(&frame100, canRxptr, 16);
+                    dispHndl.setValueAcc(frame100.accelerator);
+                    dispHndl.setValueBrake(frame100.brake);                    
                     break;
                 case 200: //ecm
-                    dispHndl.setValueRpm(canRxptr->data[0]);
+                    memcpy(&frame100, canRxptr, 16);
+                    dispHndl.setValueRpm(frame200.rpm);
                     break;
                 case 300: //tcm
+
                     break;
                 default:
                     std::cout << "Invalid can frame id" << std::endl;
