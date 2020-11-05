@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unistd.h>
+#include <thread>
 #include "can_class.h"
 #include "ECM.hpp"
 #include "../TCM/TCM.hpp"
@@ -10,18 +11,11 @@ int main()
 
     can_frame frame_read, frame_write;
     canHandler can;
-    can.canInit();
 
-    
     fr100 data_read;
     fr200 data_write;
 
-    //frame_read = can.getRxBuffer();
-    //frame_write = can.getTxBuffer();
-
-    int acc_ped = 0;
-    int rpm = 0;
-    int gear =1;
+    can.canInit();
 
     ECM ecm = ECM();
     TCM tcm = TCM();
@@ -30,20 +24,20 @@ int main()
     {
         can.canReadFrame(frame_read);
         memcpy(&data_read,&frame_read,16);
-        acc_ped = data_read.accelerator;
-        ecm.CalculateRPM(acc_ped);
+        //acc_ped = data_read.accelerator;
+        ecm.CalculateRPM(data_read.accelerator);
         
         data_write.rpm=ecm.GetRPM();
         
         //data_write.rpm = tcm.CalculateGear(data_write.rpm); // Why can't I just pass the adress to rpm without return? bit field...
         //gear = tcm.GetGear();
 
-        std::cout << "ECM acc_ped = " << acc_ped << " RPM = " << data_write.rpm << " gear = " << tcm.GetGear() << std::endl;
+        std::cout << "ECM acc_ped = " << data_read.accelerator << " RPM = " << data_write.rpm << " gear = " << tcm.GetGear() << std::endl;
 
         memcpy(&frame_write,&data_write,16);
         uint16_t b = can.canWriteFrame(frame_write);
         
-        usleep(100000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(fr200_updateRate));
     }
 
     /*

@@ -11,8 +11,6 @@
 #include <cstring>
 #include <iomanip>
 #include <fcntl.h>
-#include <chrono>
-#include <thread>  
 
 enum class canMode : bool { RX , TX };
 

@@ -1,7 +1,7 @@
 #ifndef _FRAMES_H
 #define _FRAMES_H
 #include <cstdint>
-
+#include<bitset>
 enum class GearLeverPos {PARK = 0, REVERSE = 1, NEUTRAL = 2, DRIVE = 3};
 enum class StartButtonSts {UNPRESSED = 0, PRESSED = 1};
 enum class SimulationMode { OFF = 0, INACTIVE = 1, ACTIVE = 2 };

@@ -1,14 +1,14 @@
-#include <iostream>
-#include <linux/can.h>
-#include <linux/can/raw.h>
-#include <sys/socket.h>
-#include <net/if.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <iostream>
-#include <cstring>
-#include <iomanip>
-#include <fcntl.h>
+//#include <iostream>
+//#include <linux/can.h>
+//#include <linux/can/raw.h>
+//#include <sys/socket.h>
+//#include <net/if.h>
+//#include <sys/ioctl.h>
+//#include <sys/types.h>
+//#include <iostream>
+//#include <cstring>
+//#include <iomanip>
+//#include <fcntl.h>
 #include <chrono>
 #include <thread>  
 #include "can_class.h"
@@ -21,6 +21,7 @@ int main()
 {
     canHandler canHndl;
     can_frame fr;
+    memset(&fr,0,sizeof(fr));
     displayHandler dispHndl;   
     fr100 frame100;
     fr200 frame200;
@@ -60,7 +61,7 @@ int main()
             std::cout << "can data read buffer is empty" << std::endl;
   
         dispHndl.update();
-        std::this_thread::sleep_for(std::chrono::milliseconds(displayUpdateRate)); //see if take value from can frames?
+        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate)); //see if take value from can frames?
     }
     return 0;
 }
