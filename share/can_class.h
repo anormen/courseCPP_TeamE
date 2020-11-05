@@ -13,6 +13,9 @@
 #include <fcntl.h>
 #include <chrono>
 #include <thread>  
+
+enum class canMode : bool { RX , TX };
+
 class canHandler{
 
     public:
@@ -20,6 +23,7 @@ class canHandler{
         void canInit(void);
         uint16_t canReadFrame();
         uint16_t canWriteFrame();
+        void printFrame(canMode);
         can_frame* getRxBuffer(){ return &frameRx; };
         can_frame* getTxBuffer(){ return &frameTx; };
         ~canHandler() { close(canSocket); };

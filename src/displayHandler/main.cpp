@@ -12,22 +12,19 @@
 #include <chrono>
 #include <thread>  
 #include "can_class.h"
+#include "display_class.h"
 
 int main()
 {
-    canHandler canhndl;
+    canHandler canHndl;
+    displayHandler dispHndl;    
 
-    canhndl.canInit();
-    can_frame* canRxptr = canhndl.getRxBuffer();
+    canHndl.canInit();
+    can_frame* canRxptr = canHndl.getRxBuffer();
 
     while(1){
-        canhndl.canReadFrame();
-        
-        //debug
-        std::cout << "Data: [" << std::setw(3) << std::setfill('0') << (int)canRxptr->can_id << " " << std::setw(2) << std::setfill('0') << (int)canRxptr->can_dlc << " ";
-        for(int i = 0 ; i < 8 ; i++ )            
-            std::cout << std::setw(2) << std::setfill('0') << std::hex<< (int)canRxptr->data[i] << (i < 7 ? ":" : "");
-        std::cout << "]" << std::endl;
+        canHndl.canReadFrame();
+        canHndl.printFrame(canMode::RX);
 
         //check frame id, check lenght
         if(canRxptr->can_dlc > 0)
@@ -35,10 +32,10 @@ int main()
             switch(canRxptr->can_id)
             {       
                 case 100: //inpur handler
-                    std::cout << "decoded CAN data: FR100 Accelpedal: " << (int)canRxptr->data[0] << std::endl;
+                    dispHndl.setValueAcc(canRxptr->data[0]);
                     break;
                 case 200: //ecm
-                    std::cout << "decoded CAN data: FR200 RPM: " << (int)canRxptr->data[0] << std::endl;
+                    dispHndl.setValueRpm(canRxptr->data[0]);
                     break;
                 case 300: //tcm
                     break;
@@ -49,8 +46,8 @@ int main()
         else
             std::cout << "can data read buffer is empty" << std::endl;
   
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(canhndl.cycletime)); //see if take value from can frames?
+        dispHndl.update();
+        std::this_thread::sleep_for(std::chrono::milliseconds(canHndl.cycletime)); //see if take value from can frames?
     }
     return 0;
 }
