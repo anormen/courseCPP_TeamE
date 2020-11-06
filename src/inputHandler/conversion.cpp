@@ -1,80 +1,75 @@
 
-#include <iostream>
+#include "conversion.hpp"
 #include "inputHandlerFrame.h"
-#include "share/socketcan_cpp.h"
-
-class Conversion{
-
-private:
-    uint8_t brakePedalPos = 0;
-    uint8_t accPedalPos = 0;
-    StartButtonSts startButton = StartButtonSts::UNPRESSED;
-    GearLeverPos gearLeverPos = GearLeverPos::PARK;
 
 
-    void AccPedUp(){
-        accPedalPos = accPedalPos + 10;
-        if (accPedalPos > 100) { 
-            accPedalPos = 100;
-        }
-    void AccPedDown(){      
-        if (accPedalPos >10) { 
-            accpedalPos = accpedalPos - 10;
-        }
-        else
-        {
-            accPeUdalPos = 0;
-        } 
+void Conversion::AccPedUp(){
+    frameData.DataSet.accPedal = frameData.DataSet.AccPedal + 10;
+    if (frameData.DataSet.accPedal > 100) { 
+        frameData.DataSet.accPedal = 100;
     }
-    void BrakePedalUp(){
-        brakePedalPos = 100;
+    frameData.DataSet.accPedal = 100;
+}
+void Conversion::AccPedDown(){      
+    if (frameData.DataSet.accPedal >10) { 
+        frameData.DataSet.accPedal = frameData.DataSet.accPedal - 10;
     }
-    void BrakePedDown(){
-        brakePedalPos = 0;
-    }
-    void SetStartButton(){
-        startButton = StartButtonSts::PRESSED;
-    }
-    void ReleaseStartButton(){
-        Startbutton = StartButtonSts::UNPRESSED;
-    }
-    void SetSimulationMode(){
-        //Do something
-    }
+    else {
+        frameData.DataSet.accPedal = 0;
+    } 
+}
+void Conversion::BrakePedalUp(){
+    frameData.DataSet.brakePedal = 100;
+}
+void Conversion::BrakePedDown(){
+    frameData.DataSet.brakePedal = 0; 
+}
+void Conversion::SetStartButton(){
+   // frameData.DataSet.startButton = StartButtonSts::PRESSED;
+}
+void Conversion::ReleaseStartButton(){
+  //  frameData.DataSet.startButton = StartButtonSts::UNPRESSED;
+}
+void Conversion::SetSimulationMode(){
+    //Do something
+}
+
+// This is defintion in can.h
+//struct can_frame {
+//	canid_t can_id;  /* 32 bit CAN_ID + EFF/RTR/ERR flags */
+//	__u8    can_dlc; /* frame payload length in byte (0 .. CAN_MAX_DLEN) */
+//	__u8    __pad;   /* padding */
+//	__u8    __res0;  /* reserved / padding */
+//	__u8    __res1;  /* reserved / padding */
+//	__u8    data[CAN_MAX_DLEN] __attribute__((aligned(8)));
+
+void  Conversion::getFrame(can_frame &_frame){
     
-    
+    _frame.can_id = Frame_id;
+    _frame.data[0] = frameData.frameDataArray[0];
+    _frame.data[1] = frameData.frameDataArray[1];
+    _frame.data[2] = frameData.frameDataArray[2];
+    _frame.data[3] = frameData.frameDataArray[3];
+    _frame.data[4] = frameData.frameDataArray[4];
+    _frame.can_dlc = 8;
 
-public:
-    Conversion(){
-    // Nothin here yet
-    }    
-   void  getFrame(CanFrame &_frame){
-       _fram.id = Frame_id;
-       _frame.data[0] = frameData.frameDataArray[0];
-       _frame.data[1] = frameData.frameDataArray[1];
-       _frame.data[2] = frameData.frameDataArray[2];
-       _frame.data[3] = frameData.frameDataArray[3];
-       _frame.data[4] = frameData.frameDataArray[4];
-       _frame.len = 8;
+}
 
-   }
-
-    void SetKey(int _key){
-        switch (_key)
-            case 259: // Arrow UP
-                AccKeyUp();
-                break;
-            case 258: //Arrow Down
-                AccKeyDown();
-                break;
-            case 67: // s
-                SetStartButton();
-                break;
-            default :  
-                ReleaseStartButton();         
-        }
-
-    ~Conversion() {
-            
+void Conversion::SetKey(int _key){
+    switch (_key){
+        case 259: // Arrow UP
+            AccPedUp();
+            break;
+        case 258: //Arrow Down
+            AccPedDown();
+            break;
+        case 115: // s
+            SetStartButton();
+            break;
+        case 99: //
+            BrakePedalUp();
+        default :  
+            ReleaseStartButton();         
     }
 }
+Conversion::~Conversion(){}
