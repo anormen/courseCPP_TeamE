@@ -41,6 +41,11 @@ int main()
                 fr100_to_send.accelerator+=10;
             } else if(key==115) {
                 fr100_to_send.startstop=!fr100_to_send.startstop; // toggle bit, does this work?
+            } else if(key==27){
+                fr100_to_send.mode=(uint8_t)SimulationMode::OFF;
+                memcpy(&frame,&fr100_to_send,16);
+                uint16_t b = can.canWriteFrame(frame);
+                break;
             } else {
                 std::cout << "Input not valid, press 'arrow up' for acceleration or 's' for start and stop engine\n\r";
             }
