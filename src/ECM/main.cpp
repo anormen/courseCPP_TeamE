@@ -11,12 +11,12 @@ int main()
 
     can_frame frame_read, frame_write;
     canHandler can;
+    can.canInit();
 
     fr100 data_read;
     fr200 data_write;
-    uint8_t mode;
 
-    can.canInit();
+    SimulationMode mode;
 
     ECM ecm = ECM();
     TCM tcm = TCM();
@@ -27,19 +27,17 @@ int main()
         can.printFrame(frame_read);
         memcpy(&data_read,&frame_read,16);
         //acc_ped = data_read.accelerator;
+        mode=static_cast<SimulationMode>(data_read.mode);
 
-        // enum class SimulationMode { OFF = 0, INACTIVE = 1, ACTIVE = 2 };
-        mode=data_read.mode;
-
-        while((SimulationMode)mode==SimulationMode::INACTIVE) {
+        while(mode==SimulationMode::INACTIVE) {
             can.canReadFrame(frame_read);
             memcpy(&data_read,&frame_read,16);
         }
 
-        if((SimulationMode)mode==SimulationMode::OFF)
+        if(mode==SimulationMode::OFF)
             break;
 
-        if((SimulationMode)mode==SimulationMode::ACTIVE){
+        if(mode==SimulationMode::ACTIVE){
             ecm.CalculateRPM(data_read.accelerator,(StartButtonSts)data_read.startstop);
             data_write.rpm=ecm.GetRPM();
         
@@ -55,24 +53,5 @@ int main()
         std::this_thread::sleep_for(std::chrono::milliseconds(fr200_updateRate));
     }
 
-    /*
-
-    Init:
-        CAN read
-        CAN write
-        ECM class
-
-    while( 
-        (should be two seperate threads later)
-        Read CAN
-        convert from can_frame.data
-        calc RPM
-        convert to can_frame.data
-        Write CAN
-    )
-
-    clear memory etc
-    */
-    std::cout << "ECM main\n";
-    //First version with pseudo code
+    return 0;
 }
