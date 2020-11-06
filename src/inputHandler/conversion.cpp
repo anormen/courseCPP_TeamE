@@ -1,75 +1,80 @@
 
 #include "conversion.hpp"
-#include "inputHandlerFrame.h"
 
+Conversion::Conversion(){
+
+    
+    //memset(&fr100_to_send,0,sizeof(fr100_to_send));
+    fr100_to_send.accelerator=0;
+    fr100_to_send.startstop=(uint8_t)StartButtonSts::UNPRESSED;
+    fr100_to_send.brake=0;
+    fr100_to_send.mode=(uint8_t)SimulationMode::ACTIVE;
+
+    
+}
 
 void Conversion::AccPedUp(){
-    frameData.DataSet.accPedal = frameData.DataSet.AccPedal + 10;
-    if (frameData.DataSet.accPedal > 100) { 
-        frameData.DataSet.accPedal = 100;
+    fr100_to_send.accelerator = fr100_to_send.accelerator + 10;
+    if (fr100_to_send.accelerator > 100) { 
+        fr100_to_send.accelerator = 100;
     }
-    frameData.DataSet.accPedal = 100;
+    fr100_to_send.accelerator = 100;
 }
 void Conversion::AccPedDown(){      
-    if (frameData.DataSet.accPedal >10) { 
-        frameData.DataSet.accPedal = frameData.DataSet.accPedal - 10;
+    if (fr100_to_send.accelerator >10) { 
+        fr100_to_send.accelerator = fr100_to_send.accelerator - 10;
     }
     else {
-        frameData.DataSet.accPedal = 0;
-    } 
+        fr100_to_send.accelerator = 0;
+    }
 }
 void Conversion::BrakePedalUp(){
-    frameData.DataSet.brakePedal = 100;
+    fr100_to_send.brake = 100;
 }
 void Conversion::BrakePedDown(){
-    frameData.DataSet.brakePedal = 0; 
+    fr100_to_send.brake = 0; 
 }
 void Conversion::SetStartButton(){
-   // frameData.DataSet.startButton = StartButtonSts::PRESSED;
+   fr100_to_send.startstop = (uint8_t)StartButtonSts::PRESSED;
 }
 void Conversion::ReleaseStartButton(){
-  //  frameData.DataSet.startButton = StartButtonSts::UNPRESSED;
+  fr100_to_send.startstop = (uint8_t)StartButtonSts::UNPRESSED;
 }
 void Conversion::SetSimulationMode(){
+
+    fr100_to_send.mode=(uint8_t)SimulationMode::ACTIVE;
+    // TBD What happens when OFF default on
     //Do something
 }
 
-// This is defintion in can.h
-//struct can_frame {
-//	canid_t can_id;  /* 32 bit CAN_ID + EFF/RTR/ERR flags */
-//	__u8    can_dlc; /* frame payload length in byte (0 .. CAN_MAX_DLEN) */
-//	__u8    __pad;   /* padding */
-//	__u8    __res0;  /* reserved / padding */
-//	__u8    __res1;  /* reserved / padding */
-//	__u8    data[CAN_MAX_DLEN] __attribute__((aligned(8)));
+void  Conversion::fillFrame(can_frame &_frame, UserReq _userReq){
+   
 
-void  Conversion::getFrame(can_frame &_frame){
-    
-    _frame.can_id = Frame_id;
-    _frame.data[0] = frameData.frameDataArray[0];
-    _frame.data[1] = frameData.frameDataArray[1];
-    _frame.data[2] = frameData.frameDataArray[2];
-    _frame.data[3] = frameData.frameDataArray[3];
-    _frame.data[4] = frameData.frameDataArray[4];
-    _frame.can_dlc = 8;
-
-}
-
-void Conversion::SetKey(int _key){
-    switch (_key){
-        case 259: // Arrow UP
-            AccPedUp();
-            break;
-        case 258: //Arrow Down
-            AccPedDown();
-            break;
-        case 115: // s
-            SetStartButton();
-            break;
-        case 99: //
-            BrakePedalUp();
-        default :  
-            ReleaseStartButton();         
+switch (_userReq){
+    case UserReq::SIMULATION_MODE: // s
+        SetSimulationMode();
+        break;
+    case  UserReq::ACC_PED_UP: // Arrow UP
+        AccPedUp();
+        break;
+    case  UserReq::ACC_PED_DOWN: //Arrow Down
+        AccPedDown();
+        break;
+    case UserReq::STARTBUTTON: // s
+        SetStartButton();
+        break;
+    case UserReq::BRAKE_PED_UP: //
+        BrakePedalUp();
+    case UserReq::BRAKE_PED_DOWN: //
+        BrakePedalUp();
+    default :  
+        ReleaseStartButton();   // NOT OK SOLUTION NEED IMPROVMENT      
+        std::cout << "Input not valid, press 'arrow up' for acceleration or 's' for start and stop engine\n\r";       
     }
+
+
+    //std::cout << "&data_to_send = " << &data_to_send << " &data_to_send+6 " << &data_to_send+6 << std::endl;
+    memcpy(&_frame,&fr100_to_send,16);
 }
+
 Conversion::~Conversion(){}

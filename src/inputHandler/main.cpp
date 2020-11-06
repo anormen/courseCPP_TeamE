@@ -4,6 +4,8 @@
 #include <thread>  
 #include "can_class.h"
 #include "frames.hpp"
+#include "conversion.hpp"
+#include "key_converter.hpp"
 
 int main()
 {
@@ -21,13 +23,9 @@ int main()
     canHandler can;
     can.canInit();
 
-    uint8_t a;
-    fr100 fr100_to_send;
-    //memset(&fr100_to_send,0,sizeof(fr100_to_send));
-    fr100_to_send.accelerator=0;
-    fr100_to_send.startstop=(uint8_t)StartButtonSts::UNPRESSED;
-    fr100_to_send.brake=0;
-    fr100_to_send.mode=(uint8_t)SimulationMode::ACTIVE;
+    Conversion conv;
+    keyConverter keyConv;
+    UserReq userReq; //Make more local??
 
     while (1)
     {
@@ -35,24 +33,9 @@ int main()
         {
             // Do nothing
         } else {
-            std::cout << "Input is " << key << "\n\r";
-
-            if(key==259) {
-                fr100_to_send.accelerator+=10;
-            } else if(key==115) {
-                fr100_to_send.startstop=!fr100_to_send.startstop; // toggle bit, does this work?
-            } else if(key==27){
-                fr100_to_send.mode=(uint8_t)SimulationMode::OFF;
-                memcpy(&frame,&fr100_to_send,16);
-                uint16_t b = can.canWriteFrame(frame);
-                //break;
-            } else {
-                std::cout << "Input not valid, press 'arrow up' for acceleration or 's' for start and stop engine\n\r";
-            }
-
-            //std::cout << "&data_to_send = " << &data_to_send << " &data_to_send+6 " << &data_to_send+6 << std::endl;
-            memcpy(&frame,&fr100_to_send,16);
-
+            //std::cout << "Input is " << key << "\n\r";
+            userReq = keyConv.readInputReq();
+            conv.fillFrame(frame, userReq);
             uint16_t b = can.canWriteFrame(frame);
             if(b!=16)
                 std::cout << "ERROR sending can frame\n\r";
