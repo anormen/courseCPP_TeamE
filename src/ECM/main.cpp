@@ -14,6 +14,7 @@ int main()
 
     fr100 data_read;
     fr200 data_write;
+    uint8_t mode;
 
     can.canInit();
 
@@ -26,19 +27,31 @@ int main()
         can.printFrame(frame_read);
         memcpy(&data_read,&frame_read,16);
         //acc_ped = data_read.accelerator;
-        ecm.CalculateRPM(data_read.accelerator);
-        
-        data_write.rpm=ecm.GetRPM();
-        
-        //data_write.rpm = tcm.CalculateGear(data_write.rpm); // Why can't I just pass the adress to rpm without return? bit field...
-        //gear = tcm.GetGear();
 
-        std::cout << "ECM acc_ped = " << data_read.accelerator << " RPM = " << data_write.rpm << " gear = " << tcm.GetGear() << std::endl;
+        // enum class SimulationMode { OFF = 0, INACTIVE = 1, ACTIVE = 2 };
+        mode=data_read.mode;
 
-        memcpy(&frame_write,&data_write,16);
-        uint16_t b = can.canWriteFrame(frame_write);
-        can.canWriteFrame(frame_write);
+        while((SimulationMode)mode==SimulationMode::INACTIVE) {
+            can.canReadFrame(frame_read);
+            memcpy(&data_read,&frame_read,16);
+        }
+
+        if((SimulationMode)mode==SimulationMode::OFF)
+            break;
+
+        if((SimulationMode)mode==SimulationMode::ACTIVE){
+            ecm.CalculateRPM(data_read.accelerator,(StartButtonSts)data_read.startstop);
+            data_write.rpm=ecm.GetRPM();
         
+            //rpm = tcm.CalculateGear(data_write.rpm); // Why can't I just pass the adress to rpm without return? bit field...
+            //gear = tcm.GetGear();
+
+            std::cout << "ECM acc_ped = " << data_read.accelerator << " RPM = " << data_write.rpm << " gear = " << tcm.GetGear() << std::endl;
+
+            memcpy(&frame_write,&data_write,16);
+            uint16_t b = can.canWriteFrame(frame_write);
+            can.printFrame(frame_write);
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(fr200_updateRate));
     }
 

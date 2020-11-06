@@ -6,7 +6,8 @@
 class TCM
 {
   public:
-    unsigned int CalculateGear(unsigned int RPM);
+    //TCM(){};
+    void CalculateGear(int &RPM);
     int GetGear();
   private:
     int gear;
