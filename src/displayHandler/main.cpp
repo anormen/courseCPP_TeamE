@@ -42,16 +42,24 @@ int main()
                     memcpy(&frame100, &fr, 16);
                     dispHndl.setValueAcc(frame100.accelerator);
                     dispHndl.setValueBrake(frame100.brake);  
-                    dispHndl.setValueMode(frame100.mode);
-                    dispHndl.setValueStartStop(frame100.startstop);                                       
+                    dispHndl.setValueMode((SimulationMode)frame100.mode);
+                    dispHndl.setValueStartStop((StartButtonSts)frame100.startstop);   
+                    dispHndl.setValueGearLever((GearLeverPos)frame100.gearlever); 
+                    dispHndl.setValueInputUB(frame100.updatebit);                                                                             
                     break;
                 case 200: //ecm
                     memcpy(&frame200, &fr, 16);
                     dispHndl.setValueRpm(frame200.rpm);
+                    dispHndl.setValueFuelConsumption(frame200.fuel);
+                    dispHndl.setValueDriverInfo((DriverInformation)frame200.driverinfo);
+                    dispHndl.setValueTelltale(frame200.telltale);
+                    dispHndl.setValueECMUB(frame200.updatebit);
                     break;
                 case 300: //tcm
                     memcpy(&frame300, &fr, 16);
-                    //dispHndl.setValueRpm(frame200.rpm);
+                    dispHndl.setValueVehicleSpeed(frame300.speed);
+                    dispHndl.setValueGearActual(frame300.gearactual);
+                    dispHndl.setValueTCMUB(frame300.updatebit);                                        
                     break;
                 default:
                     std::cout << "Invalid can frame id" << std::endl;
