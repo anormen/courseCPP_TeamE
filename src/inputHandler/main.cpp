@@ -25,8 +25,9 @@ int main()
     fr100 fr100_to_send;
     //memset(&fr100_to_send,0,sizeof(fr100_to_send));
     fr100_to_send.accelerator=0;
-    fr100_to_send.startstop=0;
+    fr100_to_send.startstop=(uint8_t)StartButtonSts::UNPRESSED;
     fr100_to_send.brake=0;
+    fr100_to_send.mode=(uint8_t)SimulationMode::ACTIVE;
 
     while (1)
     {
