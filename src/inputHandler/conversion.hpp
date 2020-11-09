@@ -10,8 +10,6 @@
 #include "key_converter.hpp"
 
 
-//enum class UserReq { SIMULATION_MODE, STARTBUTTON, ACC_PED_UP, ACC_PED_DOWN, BRAKE_PED_UP, BRAKE_PED_DOWN, GEARLEV_UP, GEARLEV_DOWN, UNDEFINED };
-
 class Conversion{
 
 private:
@@ -21,7 +19,7 @@ private:
     void AccPedUp();
     void AccPedDown();
     void BrakePedalUp();
-    void BrakePedDown();
+    void BrakePedalDown();
     void SetStartButton();
     void ReleaseStartButton();
     void SetSimulationMode();
