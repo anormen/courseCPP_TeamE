@@ -18,7 +18,6 @@ void Conversion::AccPedUp(){
     if (fr100_to_send.accelerator > 100) { 
         fr100_to_send.accelerator = 100;
     }
-    fr100_to_send.accelerator = 100;
 }
 void Conversion::AccPedDown(){      
     if (fr100_to_send.accelerator >10) { 
@@ -51,7 +50,7 @@ void  Conversion::fillFrame(can_frame &_frame, UserReq _userReq){
    
 
 switch (_userReq){
-    case UserReq::SIMULATION_MODE: // s
+    case UserReq::SIMULATION_MODE: // m
         SetSimulationMode();
         break;
     case  UserReq::ACC_PED_UP: // Arrow UP
