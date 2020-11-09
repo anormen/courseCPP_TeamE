@@ -7,25 +7,25 @@
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
+#include <fcntl.h>
+#include <chrono>
+#include <chrono>
+#include <iomanip>
 #include <iostream>
 #include <cstring>
-#include <iomanip>
-#include <fcntl.h>
-
-enum class canMode : bool { RX , TX };
 
 class canHandler{
 
     public:
-        canHandler(){};
-        void canInit(void);
+        canHandler(){ startTime = std::chrono::steady_clock::now();};
+        void canInit();
         uint16_t canReadFrame(can_frame &frame);
         uint16_t canWriteFrame(const can_frame &frame);
-        void printFrame(can_frame &frame);
+        void printFrame(const can_frame &frame);
         ~canHandler() { close(canSocket); };
-        const int cycletime = 250; //cycletime for can send TBD
     private:       
         uint16_t canSocket;
+        std::chrono::time_point<std::chrono::steady_clock> startTime;
         const char *ifname = "vcan0";
 };
 
