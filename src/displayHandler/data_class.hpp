@@ -9,7 +9,7 @@ class dataLayer{
 
     public:
         dataLayer(){};
-        void process(display &dhndl, const can_frame &frameGen);
+        void processInput(display &dHndl, const can_frame &frameGen);
         ~dataLayer(){};
     private:
         fr100 frame100;

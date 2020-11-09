@@ -25,13 +25,14 @@ void canHandler::canInit(void){
 
 uint16_t canHandler::canReadFrame(can_frame &frame){
 
+    memset(&frame,0 ,sizeof(frame)); //clear frame buffer 
     uint16_t nbytes = recv(this->canSocket, &frame, sizeof(struct can_frame), 0);//need to fault handle empty socket
 
     if (nbytes < 0)
         std::cout << "Failed to read can buffer" << std::endl;
 
     if (nbytes == 0)
-        std::cout << "Can raw socket read buffer empty" << std::endl;
+        std::cout << "Can raw socket read buffer empty" << std::endl; // when blocking call
 
     /* paranoid check ... */
     if (nbytes < sizeof(struct can_frame))

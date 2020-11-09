@@ -12,6 +12,7 @@ class display{
         void setValueRpm(int _rpm){  rpm = _rpm; };
         void setValueBrake(int _brake){  brake = _brake; };        
         void setValueMode(SimulationMode _mode){  mode = _mode; }; 
+        SimulationMode getValueMode(){  return mode; };         
         void setValueStartStop(StartButtonSts _start){  startstop = _start; };      
         void setValueGearLever(GearLeverPos _gearlever){ gearlever = _gearlever; };
         void setValueDriverInfo(DriverInformation _driverinfo){  driverinfo = _driverinfo; };
