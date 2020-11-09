@@ -1,9 +1,10 @@
 #ifndef _DISPLAY_HANDLER_H_
 #define _DISPLAY_HANDLER_H_
 
-#include "display_class.h"
+#include "display_class.hpp"
 #include "frames.hpp"
 #include "can_class.h"
+#include "data_class.hpp"
 
 class displayHandler{
     public:
@@ -12,12 +13,11 @@ class displayHandler{
         ~displayHandler(){};
     private:
         can_frame frameGen;
-        fr100 frame100;
-        fr200 frame200;
-        fr300 frame300;
         display dispHndl;
+        dataLayer dataHndl;
         canHandler canHndl;
-        uint16_t displayUpdateRate = 500;
+        uint16_t displayUpdateRate = 100;
+
 };
 
 #endif
