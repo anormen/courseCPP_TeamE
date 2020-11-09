@@ -21,9 +21,9 @@ int main()
     ECM ecm = ECM();
     TCM tcm = TCM();
 
-    std::thread(/*Read and write can*/);
+    //std::thread(/*Read and write can*/);
 
-    std::thread(/*calc RPM etc*/);
+    //std::thread(/*calc RPM etc*/);
 
     // move to seperate function
     data_write.rpm=0;
