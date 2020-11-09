@@ -2,10 +2,10 @@
 #define _DISPLAY_CLASS_H_ 
 #include "frames.hpp"
 
-class displayHandler{
+class display{
 
     public:
-        displayHandler(){};
+        display(){};
         void initDisplay();
         void update();
         void setValueAcc(int _acc){ accelerator = _acc; };
@@ -22,7 +22,7 @@ class displayHandler{
         void setValueInputUB(bool _inputUb){ inputUb = _inputUb; };
         void setValueECMUB(bool _ecmUb){  ecmUb = _ecmUb; };
         void setValueTCMUB(bool _tcmUb){  tcmUb = _tcmUb; };                               
-        ~displayHandler(){};
+        ~display(){};
     private:
         int accelerator = 0;
         int rpm = 0;

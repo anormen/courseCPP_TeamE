@@ -53,8 +53,8 @@ uint16_t canHandler::canWriteFrame(const can_frame &frame){
 // print frame for debugging
 void canHandler::printFrame(const can_frame &frame){
 
-    auto now = std::chrono::steady_clock::now();
-    std::cout  << std::dec << "T: " << std::setw(6) << std::setfill('0') << std::chrono::duration_cast<std::chrono::milliseconds>(now-startTime).count()
+    std::cout << std::dec << "T: "
+    << std::setw(6) << std::setfill('0') << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-startTime).count()
     << std::setw(3) << std::setfill('0') << " ID: " << (int)frame.can_id 
     << std::setw(2) << std::setfill('0') << " L: " << (int)frame.can_dlc << " [ ";
     for(int i = 0 ; i < 8 ; i++ )            
