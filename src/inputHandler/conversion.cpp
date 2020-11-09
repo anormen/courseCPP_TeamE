@@ -30,7 +30,7 @@ void Conversion::AccPedDown(){
 void Conversion::BrakePedalUp(){
     fr100_to_send.brake = 100;
 }
-void Conversion::BrakePedDown(){
+void Conversion::BrakePedalDown(){
     fr100_to_send.brake = 0; 
 }
 void Conversion::SetStartButton(){
@@ -65,10 +65,9 @@ switch (_userReq){
     case UserReq::BRAKE_PED_UP: //
         BrakePedalUp();
     case UserReq::BRAKE_PED_DOWN: //
-        BrakePedalUp();
+        BrakePedalDown();
     default :  
         ReleaseStartButton();   // NOT OK SOLUTION NEED IMPROVMENT      
-        std::cout << "Input not valid, press 'arrow up' for acceleration or 's' for start and stop engine\n\r";       
     }
 
 
