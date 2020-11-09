@@ -4,7 +4,7 @@
 
 enum class GearLeverPos : uint8_t {PARK = 0, REVERSE = 1, NEUTRAL = 2, DRIVE = 3};
 enum class StartButtonSts : uint8_t {UNPRESSED = 0, PRESSED = 1};
-enum class SimulationMode : uint8_t { OFF = 0, INACTIVE = 1, ACTIVE = 2 , SLEEP = 3};
+enum class SimulationMode : uint8_t { SLEEP = 0, INACTIVE = 1, ACTIVE = 2 , OFF = 3};
 enum class DriverInformation : uint8_t { NO_MSG = 0, NO_BRAKE = 1, NOT_IN_P = 2, NOT_IN_P_IN_D = 3 };
 
 //Farme cycle times

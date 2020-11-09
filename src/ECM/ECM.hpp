@@ -9,7 +9,7 @@ class ECM
   public:
     ECM();
     ~ECM() = default;
-    void CalculateRPM(int acc_ped, StartButtonSts startstop);
+    void CalculateRPM(int acc_ped, bool eng_on);
     int GetRPM();
   private:
     int RPM;
