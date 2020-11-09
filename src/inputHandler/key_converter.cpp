@@ -32,6 +32,10 @@ UserReq keyConverter::readInputReq()
         required_action=UserReq::STARTBUTTON;
     else if (key==109) // m
         required_action=UserReq::SIMULATION_MODE;
+    else if (key==261) // arrow right
+        required_action=UserReq::BRAKE_PED_UP;
+    else if (key==260) // arrow left
+        required_action=UserReq::BRAKE_PED_DOWN;
     else
         required_action=UserReq::UNDEFINED;
     
