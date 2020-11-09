@@ -10,8 +10,8 @@ ECM::ECM(){
 
 }
 
-void ECM::CalculateRPM(int acc_ped, StartButtonSts startstop){
-    if(startstop==StartButtonSts::PRESSED){
+void ECM::CalculateRPM(int acc_ped, bool eng_on){
+    if(eng_on==true){
         if(this->RPM<900)
             this->RPM=900;
         this->RPM+=50*acc_ped/50;
