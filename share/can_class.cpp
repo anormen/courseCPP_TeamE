@@ -28,7 +28,10 @@ uint16_t canHandler::canReadFrame(can_frame &frame){
     uint16_t nbytes = recv(this->canSocket, &frame, sizeof(struct can_frame), 0);//need to fault handle empty socket
 
     if (nbytes < 0)
-        std::cout << "can raw socket read buffer empty" << std::endl;
+        std::cout << "Failed to read can buffer" << std::endl;
+
+    if (nbytes == 0)
+        std::cout << "Can raw socket read buffer empty" << std::endl;
 
     /* paranoid check ... */
     if (nbytes < sizeof(struct can_frame))
