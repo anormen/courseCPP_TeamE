@@ -2,25 +2,51 @@
 #include "data_class.hpp"
 #include <thread>
 
+std::mutex guard;
+
 displayHandler::displayHandler(){
 
-    memset(&frameGen,0,sizeof(frameGen));   
-    canHndl.canInit();
-    dispHndl.initDisplay();
+    memset(&frameGen,0,sizeof(frameGen)); //clear generic can frame
+    canHndl.canInit(); //init can comm (get socket) 
+    dispHndl.initDisplay(); //fake
+    futureDisplay = finishedDisplay.get_future();
+    futureReader = finishedReader.get_future();
+
+    std::thread reader( [this](){  //start can reader thread
+
+        finishedReader.set_value_at_thread_exit();
+        while(dispHndl.getValueMode() != SimulationMode::OFF){ //run as song as mode != off (3)
+            if(canHndl.canReadFrame(frameGen) != -1){ //print frame if any data
+                canHndl.printFrame(frameGen);
+                std::lock_guard<std::mutex> lock(guard); //block write to frame during display
+                    dataHndl.processInput(dispHndl, frameGen);  
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(10)); 
+        }
+    });
+    reader.detach();
+
+    std::thread display( [this](){
+
+        finishedDisplay.set_value_at_thread_exit();
+        while(dispHndl.getValueMode() != SimulationMode::OFF){
+            { // fake scope to release lock
+                std::lock_guard<std::mutex> lock(guard);
+                    dispHndl.update();  
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));                   
+        }
+    });
+    display.detach();
 };
 
-void displayHandler::run(){
+bool displayHandler::run(){
 
-        int16_t noOfBytes = canHndl.canReadFrame(frameGen);
-        if(noOfBytes > 0){
-            canHndl.printFrame(frameGen);
-            dataHndl.processInput(dispHndl, frameGen);
-        }
+    bool isRunning = true;
 
-        dispHndl.update();  
+        if(this->futureReader.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready &&      
+            this->futureDisplay.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
+                isRunning = false;
 
-        if(dispHndl.getValueMode() == SimulationMode::OFF)
-            this->setValue_isRunning(false);
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(displayUpdateRate));     
+    return isRunning;
 };

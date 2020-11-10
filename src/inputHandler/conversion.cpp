@@ -35,7 +35,7 @@ void Conversion::BrakePedalUp(){
     }
 }
 void Conversion::BrakePedalDown(){
-    if (fr100_to_send.brake <10) { 
+    if (fr100_to_send.brake >10) { 
         fr100_to_send.brake = fr100_to_send.brake - 10;
     }
     else {

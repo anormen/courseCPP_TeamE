@@ -8,9 +8,9 @@ int main()
 {
     displayHandler disp;
 
-    while(disp.getValue_isRunning()){
-        
-        disp.run();
-    }
+    while(disp.run()){
+        //do someting if needed
+    };
+
     return 0;
 }
