@@ -16,7 +16,7 @@ void canHandler::canInit(void){
     addr.can_ifindex = ifr.ifr_ifindex;
 
     
-    int result = bind(this->canSocket, (struct sockaddr *)&addr, sizeof(addr)); //
+    int16_t result = bind(this->canSocket, (struct sockaddr *)&addr, sizeof(addr)); //
     if(result < 0)
         std::cout << "Bind failed" << std::endl;
 
@@ -26,7 +26,7 @@ void canHandler::canInit(void){
 uint16_t canHandler::canReadFrame(can_frame &frame){
 
     memset(&frame,0 ,sizeof(frame)); //clear frame buffer 
-    uint16_t nbytes = recv(this->canSocket, &frame, sizeof(struct can_frame), 0);//need to fault handle empty socket
+    int16_t nbytes = recv(this->canSocket, &frame, sizeof(struct can_frame), 0);//need to fault handle empty socket
 
     if (nbytes < 0)
         std::cout << "Failed to read can buffer" << std::endl;
@@ -43,7 +43,7 @@ uint16_t canHandler::canReadFrame(can_frame &frame){
 
 uint16_t canHandler::canWriteFrame(const can_frame &frame){
 
-    uint16_t nbytes = send(this->canSocket, &frame, sizeof(struct can_frame), 0); //need to fault handle empty socket
+    int16_t nbytes = send(this->canSocket, &frame, sizeof(struct can_frame), 0); //need to fault handle empty socket
 
     if (nbytes < 0)
         std::cout << "can raw socket write failed" << std::endl;

@@ -10,7 +10,7 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
             switch(frameGen.can_id)
             {       
                 case 100: //inpur handler
-                    memcpy(&frame100, &frameGen, 16);   
+                    memcpy(&frame100, &frameGen, sizeof(frame100));   
                     dHndl.setValueAcc(frame100.accelerator);
                     dHndl.setValueAcc(frame100.accelerator);
                     dHndl.setValueBrake(frame100.brake);  
@@ -20,7 +20,7 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
                     dHndl.setValueInputUB(frame100.updatebit);                                                                             
                     break;
                 case 200: //ecm
-                    memcpy(&frame200, &frameGen, 16);
+                    memcpy(&frame200, &frameGen, sizeof(frame200));  
                     dHndl.setValueRpm(frame200.rpm);
                     dHndl.setValueFuelConsumption(frame200.fuel);
                     dHndl.setValueDriverInfo((DriverInformation)frame200.driverinfo);
@@ -28,7 +28,7 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
                     dHndl.setValueECMUB(frame200.updatebit);
                     break;
                 case 300: //tcm
-                    memcpy(&frame300, &frameGen, 16);
+                    memcpy(&frame300, &frameGen, sizeof(frame300));  
                     dHndl.setValueVehicleSpeed(frame300.speed);
                     dHndl.setValueGearActual(frame300.gearactual);
                     dHndl.setValueTCMUB(frame300.updatebit);                                        

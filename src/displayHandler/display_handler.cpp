@@ -11,9 +11,8 @@ displayHandler::displayHandler(){
 
 void displayHandler::run(){
 
-        uint16_t noOfBytes = canHndl.canReadFrame(frameGen);
-        if(this->frameGen.can_id != 0)
-        {
+        int16_t noOfBytes = canHndl.canReadFrame(frameGen);
+        if(noOfBytes > 0){
             canHndl.printFrame(frameGen);
             dataHndl.processInput(dispHndl, frameGen);
         }
