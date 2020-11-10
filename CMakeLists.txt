@@ -6,4 +6,5 @@ target_link_libraries(inputHandler PRIVATE ncurses pthread) # should it be PRIVA
 add_executable(ECM src/ECM/main.cpp src/ECM/ECM.cpp share/can_class.cpp src/TCM/TCM.cpp)
 target_link_libraries(ECM PRIVATE pthread)
 add_executable(displayHandler src/displayHandler/main.cpp src/displayHandler/display_class.cpp share/can_class.cpp src/displayHandler/display_handler.cpp src/displayHandler/data_class.cpp) 
+#set_target_properties(displayHandler PROPERTIES CXX_STANDARD 17)
 target_link_libraries(displayHandler PRIVATE pthread)

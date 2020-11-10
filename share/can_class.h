@@ -19,8 +19,8 @@ class canHandler{
     public:
         canHandler(){ startTime = std::chrono::steady_clock::now();};
         void canInit();
-        uint16_t canReadFrame(can_frame &frame);
-        uint16_t canWriteFrame(const can_frame &frame);
+        int16_t canReadFrame(can_frame &frame);
+        int16_t canWriteFrame(const can_frame &frame);
         void printFrame(const can_frame &frame);
         ~canHandler() { close(canSocket); };
     private:       

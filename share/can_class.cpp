@@ -23,7 +23,7 @@ void canHandler::canInit(void){
     return;
 }
 
-uint16_t canHandler::canReadFrame(can_frame &frame){
+int16_t canHandler::canReadFrame(can_frame &frame){
 
     memset(&frame,0 ,sizeof(frame)); //clear frame buffer 
     int16_t nbytes = recv(this->canSocket, &frame, sizeof(struct can_frame), 0);//need to fault handle empty socket
@@ -41,7 +41,7 @@ uint16_t canHandler::canReadFrame(can_frame &frame){
     return nbytes;
 }
 
-uint16_t canHandler::canWriteFrame(const can_frame &frame){
+int16_t canHandler::canWriteFrame(const can_frame &frame){
 
     int16_t nbytes = send(this->canSocket, &frame, sizeof(struct can_frame), 0); //need to fault handle empty socket
 
