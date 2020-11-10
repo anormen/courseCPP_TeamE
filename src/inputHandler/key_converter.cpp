@@ -36,9 +36,9 @@ UserReq keyConverter::readInputReq()
         required_action=UserReq::BRAKE_PED_UP;
     else if (key==260) // arrow left
         required_action=UserReq::BRAKE_PED_DOWN;
-    else if(key==43)
+    else if(key==43) // +
         required_action=UserReq::GEARLEV_UP;
-    else if(key==45)
+    else if(key==45) // -
         required_action=UserReq::GEARLEV_DOWN;
     else
         required_action=UserReq::UNDEFINED;
