@@ -9,20 +9,20 @@
 #include "frames.hpp"
 #include "key_converter.hpp"
 
-
 class Conversion{
 
 private:
-
    // Frame_data inputHandlerFrame;
     fr100 fr100_to_send;
     void AccPedUp();
     void AccPedDown();
     void BrakePedalUp();
     void BrakePedalDown();
+    void GearLeverUp();
+    void GearLeverDown();    
     void SetStartButton();
     void ReleaseStartButton();
-    void SetSimulationMode();
+    void SetSimulationMode();    
     
 public:
     Conversion();
