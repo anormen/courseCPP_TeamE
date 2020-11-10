@@ -8,7 +8,7 @@ Conversion::Conversion(){
     fr100_to_send.accelerator=0;
     fr100_to_send.startstop=(uint8_t)StartButtonSts::UNPRESSED;
     fr100_to_send.brake=0;
-    fr100_to_send.mode=(uint8_t)SimulationMode::ACTIVE;
+    fr100_to_send.mode=(uint8_t)SimulationMode::SLEEP;
 
     
 }
@@ -34,16 +34,27 @@ void Conversion::BrakePedalDown(){
     fr100_to_send.brake = 0; 
 }
 void Conversion::SetStartButton(){
-   fr100_to_send.startstop = (uint8_t)StartButtonSts::PRESSED;
+        fr100_to_send.startstop = (uint8_t)StartButtonSts::PRESSED;
 }
 void Conversion::ReleaseStartButton(){
-  fr100_to_send.startstop = (uint8_t)StartButtonSts::UNPRESSED;
+         fr100_to_send.startstop = (uint8_t)StartButtonSts::UNPRESSED;
 }
 void Conversion::SetSimulationMode(){
 
-    fr100_to_send.mode=(uint8_t)SimulationMode::ACTIVE;
-    // TBD What happens when OFF default on
-    //Do something
+    switch(fr100_to_send.mode)
+    {
+        case (uint8_t)SimulationMode::SLEEP:
+            fr100_to_send.mode=(uint8_t)SimulationMode::INACTIVE;
+            break;
+        case (uint8_t)SimulationMode::INACTIVE:
+            fr100_to_send.mode=(uint8_t)SimulationMode::ACTIVE;
+            break;
+        case (uint8_t)SimulationMode::ACTIVE:
+            fr100_to_send.mode=(uint8_t)SimulationMode::OFF;
+            break;     
+        default:
+            fr100_to_send.mode=(uint8_t)SimulationMode::SLEEP;          
+    }
 }
 
 void  Conversion::fillFrame(can_frame &_frame, UserReq _userReq){
