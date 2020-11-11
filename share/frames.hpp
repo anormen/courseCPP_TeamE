@@ -1,18 +1,23 @@
 #ifndef _FRAMES_H
 #define _FRAMES_H
 #include <cstdint>
+#include <vector>
+#include <string>
 
-enum class GearLeverPos : uint8_t {PARK = 0, REVERSE = 1, NEUTRAL = 2, DRIVE = 3};
-enum class StartButtonSts : uint8_t {UNPRESSED = 0, PRESSED = 1};
-enum class SimulationMode : uint8_t { SLEEP = 0, INACTIVE = 1, ACTIVE = 2 , OFF = 3};
-enum class DriverInformation : uint8_t { NO_MSG = 0, NO_BRAKE = 1, NOT_IN_P = 2, NOT_IN_P_IN_D = 3 };
+enum class GearLeverPos : uint8_t {PARK, REVERSE, NEUTRAL, DRIVE};
+enum class StartButtonSts : uint8_t {UNPRESSED, PRESSED};
+enum class SimulationMode : uint8_t { SLEEP, INACTIVE, ACTIVE, OFF};
+enum class DriverInformation : uint8_t { NO_MSG, NO_BRAKE, NOT_IN_P, NOT_IN_P_IN_D};
+static std::vector<std::string> messages = {"No message", "No Brake pressed", "Gear not in P" , "Gear in D, select P or hold for 5sec"};
+static std::vector<std::string> gears = {"P", "R", "N" , "D" , "1", "2", "3", "4", "5", "6" };
+static std::vector<std::string> modes = { "SLEEP", "INACTIVE", "ACTIVE", "OFF" };
 
-//Farme cycle times
+//frame cycle times
 const uint16_t fr100_updateRate = 200;
 const uint16_t fr200_updateRate = 200;
 const uint16_t fr300_updateRate = 200;
 
-//frme from inputhandler
+//frame from inputhandler
 struct fr100{
 //header
     uint32_t canid = 100;; 
