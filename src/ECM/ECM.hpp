@@ -9,10 +9,12 @@ class ECM
   public:
     ECM();
     ~ECM() = default;
-    void CalculateRPM(int acc_ped, bool eng_on);
+    void UpdateECM(int acc_ped, uint8_t startstop);
+    void CalculateRPM(int acc_ped);
     int GetRPM();
   private:
     int RPM;
+    bool eng_on;
     //TCM tcm;
 };
 
