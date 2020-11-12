@@ -12,7 +12,7 @@ displayHandler::displayHandler(){
     futureDisplay = finishedDisplay.get_future();
     futureReader = finishedReader.get_future();
 
-    std::thread reader( [this](){  //start can reader thread
+    std::thread reader( [&](){  //start can reader thread
 
         finishedReader.set_value_at_thread_exit();
         while(dispHndl.getValueMode() != SimulationMode::OFF){ //run as song as mode != off (3)
@@ -21,12 +21,12 @@ displayHandler::displayHandler(){
                 std::lock_guard<std::mutex> lock(guard); //block write to frame during display
                     dataHndl.processInput(dispHndl, frameGen);  
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(10)); 
+            std::this_thread::sleep_for(std::chrono::milliseconds(150)); 
         }
     });
     reader.detach();
 
-    std::thread display( [this](){
+    std::thread display( [&](){
 
         finishedDisplay.set_value_at_thread_exit();
         while(dispHndl.getValueMode() != SimulationMode::OFF){
@@ -34,7 +34,7 @@ displayHandler::displayHandler(){
                 std::lock_guard<std::mutex> lock(guard);
                     dispHndl.update();  
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(200));                   
+            std::this_thread::sleep_for(std::chrono::milliseconds(400));                   
         }
     });
     display.detach();
