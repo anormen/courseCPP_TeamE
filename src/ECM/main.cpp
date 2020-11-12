@@ -41,13 +41,13 @@ int main()
     
             if (mode == SimulationMode::ACTIVE)
             {
-                std::lock_guard<std::mutex> guard_read(msg_handler.data_read_mutex); // onödigt...? Vart ska den läggas?
                 {
+                std::lock_guard<std::mutex> guard_read(msg_handler.data_read_mutex); // onödigt...? Vart ska den läggas?
                 ecm.UpdateECM(data_read.accelerator, data_read.startstop);
                 }
                 
-                std::lock_guard<std::mutex> guard_write(msg_handler.data_write_mutex); // Onödigt...?
                 {
+                std::lock_guard<std::mutex> guard_write(msg_handler.data_write_mutex); // Onödigt...?
                 data_write.rpm = ecm.GetRPM(); // move somewhere else
                 }
                 std::cout << "ECM acc_ped = " << (int)data_read.accelerator << " RPM = " << data_write.rpm << " gear = " << tcm.GetGear() << std::endl;

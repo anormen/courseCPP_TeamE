@@ -4,6 +4,9 @@
 #include "../TCM/TCM.hpp"
 #include "frames.hpp"
 
+const int max_rpm=8000;
+const int shift_rpm=3200; // REMOVE LATER
+
 class ECM 
 {
   public:
@@ -15,6 +18,13 @@ class ECM
   private:
     int RPM;
     bool eng_on;
+    const int response_time=1000; // ms
+    int acc_inc_delta;
+    int acc_ped_stored;
+    bool increasing_rpm;
+    bool decreasing_rpm;
+    int gear; // delete later
+    int target_rpm;
     //TCM tcm;
 };
 
