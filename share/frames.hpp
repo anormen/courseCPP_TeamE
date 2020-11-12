@@ -8,8 +8,8 @@ enum class GearLeverPos : uint8_t {PARK, REVERSE, NEUTRAL, DRIVE};
 enum class StartButtonSts : uint8_t {UNPRESSED, PRESSED};
 enum class SimulationMode : uint8_t { SLEEP, INACTIVE, ACTIVE, OFF};
 enum class DriverInformation : uint8_t { NO_MSG, NO_BRAKE, NOT_IN_P, NOT_IN_P_IN_D};
-static std::vector<std::string> messages = {"No message", "No Brake pressed", "Gear not in P" , "Gear in D, select P or hold for 5sec"};
-static std::vector<std::string> gears = {"P", "R", "N" , "D" , "1", "2", "3", "4", "5", "6" };
+static std::vector<std::string> messages = {"No message", "No Brake pressed", "Gear not in P" , "Gear in D, select P or hold for 5sec", "", "", "", "", "", "", "", "" , "", "", "", ""};
+static std::vector<std::string> gears = {"P", "R", "N" , "D" , "1", "2", "3", "4", "5", "6", "7", "8", "9", "", "", "" };
 static std::vector<std::string> modes = { "SLEEP", "INACTIVE", "ACTIVE", "OFF" };
 
 //frame cycle times
