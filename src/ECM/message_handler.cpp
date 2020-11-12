@@ -24,12 +24,13 @@ void message_handler::fr200_output_thread(fr200 &frame200)
             }
             //std::lock_guard<std::mutex> guard(frame_write_mutex); //is it released in end of while? scope
             {
+            data_write = frame200;
             std::lock_guard<std::mutex> guard(data_write_mutex);
             memcpy(&frame_write, &data_write, 16);
             uint16_t b = can.canWriteFrame(frame_write);
-            frame200=data_write;
+            //frame200=data_write;
             }
-            //can.printFrame(frame_write);
+            can.printFrame(frame_write);
             
         }
     });
