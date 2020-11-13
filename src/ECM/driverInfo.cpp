@@ -7,7 +7,6 @@ void driverInfo::update(const fr100 &dataread, fr200 &datawrite){
     uint8_t brake = brakePosition(dataread);
     uint16_t rpm = rpmValue(datawrite);  
     uint8_t mode = modeStatus(dataread);
-
    
     if(startbutton == (uint8_t)StartButtonSts::PRESSED && mode == (uint8_t)SimulationMode::ACTIVE){ //handler active
         if (rpm > 0) //running
@@ -24,14 +23,13 @@ void driverInfo::update(const fr100 &dataread, fr200 &datawrite){
         }
     }
     
-    messageTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-startTime).count();
-    if(messageTime >= timeoutT || mode != (uint8_t)SimulationMode::ACTIVE) //message timeout or vehicle turned off 
+    uint16_t messageTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-startTime).count();
+    if(messageTime >= messageDuration || mode != (uint8_t)SimulationMode::ACTIVE) //message timeout or vehicle turned off 
         infoMsg = DriverInformation::NO_MSG;
 
     //debug message
     //std::cout << messages.at((uint8_t)infoMsg) << " T: "<< messageTime << " S: " << (int)startbutton << " BR: " 
     //   << (int)brake << " Gear: " << gears.at((uint8_t)gearleverpos) << " rpm: " << (int)rpm << std::endl; 
-
     updateInfoMsg(datawrite);
 };
 

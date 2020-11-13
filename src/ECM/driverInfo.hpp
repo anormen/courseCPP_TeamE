@@ -24,8 +24,7 @@ class driverInfo{
         void updateInfoMsg(fr200 &datawrite);
         DriverInformation infoMsg = DriverInformation::NO_MSG; //maintained by class
         std::chrono::steady_clock::time_point startTime;
-        uint16_t messageTime;
-        const uint16_t timeoutT = 2000;
+        const uint16_t messageDuration = 2000;
 };
 
 #endif
