@@ -3,19 +3,21 @@
 #include <chrono>
 #include <thread>  
 #include "can_class.h"
-#include "frames.hpp"
+//#include "frames.hpp"
 #include "conversion.hpp"
 #include "key_converter.hpp"
+
+namespace kc=key_conv;
 
 int main()
 {
     can_frame frame;
     canHandler can;
-    can.canInit();
+    can.canInit("vcan0");
 
     Conversion conv;
-    keyConverter keyConv;
-    UserReq userReq; //Make more local??
+    kc::keyConverter keyConv;
+    kc::UserReq userReq; //Make more local??
 
     while (1)
     {

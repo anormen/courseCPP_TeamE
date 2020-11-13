@@ -3,7 +3,7 @@ project(simulator)
 include_directories(share)
 add_executable(inputHandler src/inputHandler/main.cpp src/inputHandler/key_converter.cpp src/inputHandler/conversion.cpp share/can_class.cpp)
 target_link_libraries(inputHandler PRIVATE ncurses pthread) # should it be PRIVATE?
-add_executable(ECM src/ECM/main.cpp src/ECM/ECM.cpp share/can_class.cpp src/TCM/TCM.cpp src/ECM/message_handler.cpp src/ECM/calcFuel.cpp src/ECM/driverInfo.cpp) 
+add_executable(ECM src/ECM/main.cpp src/ECM/ECM.cpp share/can_class.cpp src/TCM/TCM.cpp src/ECM/message_handler.cpp src/ECM/calcFuel.cpp src/ECM/driverInfo.cpp share/frames.cpp) 
 target_link_libraries(ECM PRIVATE pthread)
 add_executable(displayHandler src/displayHandler/main.cpp src/displayHandler/display_class.cpp share/can_class.cpp src/displayHandler/display_handler.cpp src/displayHandler/data_class.cpp) 
 #set_target_properties(displayHandler PROPERTIES CXX_STANDARD 17)

@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <mutex>
 
 enum class GearLeverPos : uint8_t {PARK, REVERSE, NEUTRAL, DRIVE};
 enum class StartButtonSts : uint8_t {UNPRESSED, PRESSED};
@@ -77,4 +78,54 @@ struct fr300{
     uint8_t res4:8;     
 };
 
-#endif
+
+class frame_100
+{
+  public:
+    frame_100();
+    void init_frame();
+    SimulationMode get_mode();
+    GearLeverPos get_gearlever();
+    StartButtonSts get_startstop();
+    uint8_t get_updatebit();
+    uint8_t get_accelerator();
+    uint8_t get_brake();
+    fr100* get_frame_ptr();
+    uint8_t get_length();
+
+    void set_mode(SimulationMode &mode);
+    void set_gearlever(GearLeverPos &lever);
+    void set_startstop(StartButtonSts &sbs);
+    void set_updatebit(uint8_t &ub);
+    void set_accelerator(uint8_t &acc);
+    void set_brake(uint8_t &brk);
+    std::mutex fr100_mutex;
+  private:
+    fr100 frame;
+};
+
+class frame_200
+{
+  public:
+    frame_200();
+    void init_frame();
+    uint16_t get_rpm();
+    uint16_t get_fuel();
+    DriverInformation get_driverinfo();
+    uint8_t get_telltale();
+    uint8_t get_updatebit();
+    fr200* get_frame_ptr();
+    uint8_t get_length();
+
+    void set_rpm(uint16_t rpm);
+    void set_fuel(uint16_t fuel);
+    void set_driverinfor(DriverInformation di);
+    void set_telltale(uint8_t tt);
+    void set_updatebit(uint8_t ub);
+    std::mutex fr200_mutex;
+  private:
+    fr200 frame;
+};
+
+
+#endif //_FRAMES_H
