@@ -3,7 +3,7 @@
 #include <chrono>
 #include <thread>  
 #include "can_class.h"
-#include "frames.hpp"
+//#include "frames.hpp"
 #include "conversion.hpp"
 #include "key_converter.hpp"
 
@@ -11,7 +11,7 @@ int main()
 {
     can_frame frame;
     canHandler can;
-    can.canInit();
+    can.canInit("vcan0");
 
     Conversion conv;
     keyConverter keyConv;
