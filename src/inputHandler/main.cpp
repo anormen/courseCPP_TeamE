@@ -7,6 +7,8 @@
 #include "conversion.hpp"
 #include "key_converter.hpp"
 
+using namespace key_conv;
+
 int main()
 {
     can_frame frame;

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <curses.h>
 
+namespace key_conv {  // Is this a good idea?
+
 enum class UserReq { SIMULATION_MODE, STARTBUTTON, ACC_PED_UP, ACC_PED_DOWN, BRAKE_PED_UP, BRAKE_PED_DOWN, GEARLEV_UP, GEARLEV_DOWN, UNDEFINED };
 
 const struct req_key {
@@ -25,5 +27,7 @@ class keyConverter{
     UserReq required_action;
     int key;
 };
+
+} //namespace key_conv
 
 #endif //KEY_CONVERTER_HPP

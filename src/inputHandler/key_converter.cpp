@@ -1,5 +1,7 @@
 #include "key_converter.hpp"
 
+using namespace key_conv;
+
 keyConverter::keyConverter()
 {
     // Init ncurses key input

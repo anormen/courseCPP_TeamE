@@ -9,6 +9,8 @@
 #include "frames.hpp"
 #include "key_converter.hpp"
 
+using namespace key_conv;
+
 class Conversion{
 
 private:
