@@ -28,6 +28,10 @@ int main()
             std::cout << "ERROR sending can frame\n\r";
 
         std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate));
+
+        if(conv.GetSimulationMode() == SimulationMode::OFF)
+         //   std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            break;        
     }
 
     return 0;

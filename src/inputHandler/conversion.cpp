@@ -106,6 +106,7 @@ void Conversion::SetSimulationMode(){
         default:
             fr100_to_send.mode=(uint8_t)SimulationMode::SLEEP;          
     }
+    mode = (SimulationMode)fr100_to_send.mode;
 }
 
 void  Conversion::fillFrame(can_frame &_frame, kc::UserReq _userReq){

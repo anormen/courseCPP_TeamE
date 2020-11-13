@@ -77,19 +77,18 @@ void message_handler::fr100_input_thread(fr100 &frame100)
 void message_handler::init_fr200(fr200 &frame200)
 {
     frame200.rpm = 0;
-    frame200.fuel = 0;
+    frame200.fuelavg = 0;
+    frame200.fuelinst = 0;    
     frame200.telltale = 0;
-    frame200.updatebit = 0;
+    frame200.updatebit = 1;
     frame200.res0 = 0;
-    frame200.res1 = 0;
-    frame200.res2 = 0;
 }
 
 void message_handler::init_fr100(fr100 &frame100){
     frame100.mode=0;
     frame100.gearlever=0;
     frame100.startstop=0;
-    frame100.updatebit=0;
+    frame100.updatebit=1;
     frame100.accelerator=0;
     frame100.brake=0;
     frame100.candlc=0;
