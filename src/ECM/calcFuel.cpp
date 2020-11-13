@@ -10,12 +10,13 @@ calcFuel::calcFuel(){
         fuelAvgFilter.push_front(fA);    // defaut init 50km/h 5L/km100   
 }
 
-void calcFuel::update(){
+void calcFuel::update(const fr100 &dataread, fr200 &datawrite, const fr300 &dataread2){
 
-    uint16_t rpm = updateRpm();
-    uint16_t speed = updateVehicleSpeed();
-    uint8_t accelerator = updateAccelerator();
+    uint16_t rpm = updateRpm(datawrite);
+    uint16_t speed = updateVehicleSpeed(dataread2);
+    uint8_t accelerator = updateAccelerator(dataread);
     double sumOfiFuel=0, sumOfSpeed=0, sumOfFuel=0;
+    double rate = 0;
     //deside fuel rate
     if(rpm > 0) { //running
 
@@ -37,60 +38,64 @@ void calcFuel::update(){
             }
         }
         fuelticks += rate / 4.0; // main run 4 times per second 250ms
-    }
 
-    timeoutT = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-startTime).count();
-    if(timeoutT >= fuelInstFilterTime){
+        uint32_t filterDuration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-startTime).count();
+        if(filterDuration > fuelInstFilterTime){
 
-        startTime = std::chrono::steady_clock::now();
-        fuelInstFilter.pop_back();
-        fuelInstFilter.push_front((fuelticks-fuelticksPrev) * (1000.0/fuelInstFilterTime)); //fuelticks per sample
+            startTime = std::chrono::steady_clock::now();
+            fuelInstFilter.pop_back();
+            fuelInstFilter.push_front((fuelticks-fuelticksPrev) * (1000.0/fuelInstFilterTime)); //fuelticks per sample
 
-        for(auto i : fuelInstFilter) //sum elements
-                sumOfiFuel += i;
-        //calc average  -> l/h for stand still
-        fuelInst = (sumOfiFuel/fuelInstFilterSamples) * 3600; // AccumulatedSumOfSamples/NumberOfSamples * s/h 
+            for(auto i : fuelInstFilter) //sum elements
+                    sumOfiFuel += i;
+            //calc average  -> l/h for stand still
+            fuelInst = (sumOfiFuel/fuelInstFilterSamples) * 3600; // AccumulatedSumOfSamples/NumberOfSamples * s/h 
   
-        if(speed > 0){
+            if(speed > 0){
 
-            fuelAvgFilter.pop_back();
-            fA.vSpeed = speed;
-            fA.iFuel = (fuelticks-fuelticksPrev) * (1000.0/fuelInstFilterTime);
-            fuelAvgFilter.push_front(fA);
-            //calc average speed and injected fuel
-            for(auto i : fuelAvgFilter) {
-                sumOfSpeed += i.vSpeed;
-                sumOfFuel += i.iFuel;
+                fuelAvgFilter.pop_back();
+                fA.vSpeed = speed;
+                fA.iFuel = (fuelticks-fuelticksPrev) * (1000.0/fuelInstFilterTime);
+                fuelAvgFilter.push_front(fA);
+                //calc average speed and injected fuel
+                for(auto i : fuelAvgFilter) {
+                    sumOfSpeed += i.vSpeed;
+                    sumOfFuel += i.iFuel;
+                }
+                fuelAvg = ((sumOfFuel/fuelAvgFilterSamples) * 3600) / (sumOfSpeed/fuelAvgFilterSamples) * 100;
             }
-            fuelAvg = ((sumOfFuel/fuelInstFilterSamples) * 3600) / (sumOfSpeed/fuelInstFilterSamples) * 100;//(1000.0/3600.0) * 3600.0 / 10.0;
+            fuelticksPrev = fuelticks;
         }
-        fuelticksPrev = fuelticks;
     }
     //debug
-    std::cout << " ticks: " << fuelticks << " rate: " << rate << " avg: " << fuelAvg << " inst: " << fuelInst << std::endl;    
+    //std::cout << " ticks: " << fuelticks << " rate: " << rate << " avg: " << fuelAvg << " inst: " << fuelInst << std::endl;    
+    updateFuelAvg(datawrite);
+    updateFuelInst(datawrite); 
 };
 
-uint16_t calcFuel::updateRpm(){
+uint16_t calcFuel::updateRpm(fr200 &datawrite){
     //get value from internal ECM
-    return 4500;
+    return datawrite.rpm;
 };
         
-uint8_t calcFuel::updateAccelerator(){
+uint8_t calcFuel::updateAccelerator(const fr100 &dataread){
     //get value from fr100 uint8_t accelerator:8;
-    return 100;
+    return dataread.accelerator;
 };
         
-uint16_t calcFuel::updateVehicleSpeed(){
+uint16_t calcFuel::updateVehicleSpeed(const fr300 &dataread){
     //get value from fr300 uint16_t speed:16;
-    return 120;
+    return dataread.speed;
 };
 
-void calcFuel::updateFuelAvg(){
-    //send on can fr200 uint16_t fuel:16;
-    std::cout << "INST: " << fuelInst << std::endl; //debug
-};
-
-void calcFuel::updateFuelInst(){
-    //not sent yet
+void calcFuel::updateFuelAvg(fr200 &datawrite){
+    //send on can fr200 uint16_t fuelavg:16;
+    datawrite.fuelavg = (uint16_t)(fuelAvg*100); //multiply for can integer sending 
     std::cout << "AVG: " << fuelAvg << std::endl; //debug
+};
+
+void calcFuel::updateFuelInst(fr200 &datawrite){
+    //send on can fr200 uint16_t fuelinst:16;
+    datawrite.fuelinst = (uint16_t)(fuelInst*100); //multiply for can integer sending
+    std::cout << "INST: " << fuelInst << std::endl; //debug
 };

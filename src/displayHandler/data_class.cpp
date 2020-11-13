@@ -22,7 +22,8 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
                 case 200: //ecm
                     memcpy(&frame200, &frameGen, sizeof(frame200));  
                     dHndl.setValueRpm(frame200.rpm);
-                    dHndl.setValueFuelConsumption(frame200.fuel);
+                    dHndl.setValueFuelConsumptionAvg(frame200.fuelavg);
+                    dHndl.setValueFuelConsumptionInst(frame200.fuelinst);                    
                     dHndl.setValueDriverInfo((DriverInformation)frame200.driverinfo);
                     dHndl.setValueTelltale(frame200.telltale);
                     dHndl.setValueECMUB(frame200.updatebit);
