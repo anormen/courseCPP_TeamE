@@ -15,34 +15,25 @@ keyConverter::keyConverter()
 UserReq keyConverter::readInputReq()
 {
     this->key = getch();
-    //this->required_action = static_cast<UserReq>(key);
 
-    // Maybe define map somewhere
-    //std::map<int,UserReq> keyconv_map;
-    //keyconv_map.insert(std::pair<int,UserReq>(259,UserReq::ACC_PED_UP));
-    //keyconv_map.insert(std::pair<int,UserReq>(258,UserReq::ACC_PED_DOWN));
-
-
-    // Should perhaps define key->req pairs/conversion somewhere else, not hardcode i .cpp file
-    if(key==259) // arrow up
+    if(key==key_req_map.acc_ped_up) 
         required_action=UserReq::ACC_PED_UP;
-    else if (key==258) // arrow down
+    else if (key==key_req_map.acc_ped_down) 
         required_action=UserReq::ACC_PED_DOWN;
-    else if (key==115) // s
+    else if (key==key_req_map.startbutton) 
         required_action=UserReq::STARTBUTTON;
-    else if (key==109) // m
+    else if (key==key_req_map.simulation_mode) 
         required_action=UserReq::SIMULATION_MODE;
-    else if (key==261) // arrow right
+    else if (key==key_req_map.brake_ped_up) 
         required_action=UserReq::BRAKE_PED_UP;
-    else if (key==260) // arrow left
+    else if (key==key_req_map.brake_ped_down) 
         required_action=UserReq::BRAKE_PED_DOWN;
-    else if(key==43) // +
+    else if(key==key_req_map.gearlev_up) 
         required_action=UserReq::GEARLEV_UP;
-    else if(key==45) // -
+    else if(key==key_req_map.gearlev_down) 
         required_action=UserReq::GEARLEV_DOWN;
     else
         required_action=UserReq::UNDEFINED;
     
-
     return required_action;
 }
