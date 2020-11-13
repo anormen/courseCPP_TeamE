@@ -108,31 +108,31 @@ void Conversion::SetSimulationMode(){
     }
 }
 
-void  Conversion::fillFrame(can_frame &_frame, UserReq _userReq){
+void  Conversion::fillFrame(can_frame &_frame, kc::UserReq _userReq){
    
     switch (_userReq){
-        case UserReq::SIMULATION_MODE: // m
+        case kc::UserReq::SIMULATION_MODE: // m
             SetSimulationMode();
             break;      
-        case  UserReq::ACC_PED_UP: // Arrow UP
+        case  kc::UserReq::ACC_PED_UP: // Arrow UP
             AccPedUp();
             break;
-        case  UserReq::ACC_PED_DOWN: //Arrow Down
+        case  kc::UserReq::ACC_PED_DOWN: //Arrow Down
             AccPedDown();
             break;
-        case UserReq::STARTBUTTON: // s
+        case kc::UserReq::STARTBUTTON: // s
             SetStartButton();
             break;
-        case UserReq::BRAKE_PED_UP: //
+        case kc::UserReq::BRAKE_PED_UP: //
             BrakePedalUp();
             break;
-        case UserReq::BRAKE_PED_DOWN: //
+        case kc::UserReq::BRAKE_PED_DOWN: //
             BrakePedalDown();
             break;
-        case UserReq::GEARLEV_UP:
+        case kc::UserReq::GEARLEV_UP:
             GearLeverUp();
             break;
-        case UserReq::GEARLEV_DOWN:
+        case kc::UserReq::GEARLEV_DOWN:
             GearLeverDown();
             break;
         default:  

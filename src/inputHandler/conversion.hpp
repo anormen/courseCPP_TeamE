@@ -9,7 +9,7 @@
 #include "frames.hpp"
 #include "key_converter.hpp"
 
-using namespace key_conv;
+namespace kc=key_conv;
 
 class Conversion{
 
@@ -28,7 +28,7 @@ private:
     
 public:
     Conversion();
-    void fillFrame(can_frame &_frame, UserReq _userReq);
+    void fillFrame(can_frame &_frame, kc::UserReq _userReq);
    ~Conversion();
 };
 

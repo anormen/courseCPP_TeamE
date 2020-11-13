@@ -7,7 +7,7 @@
 #include "conversion.hpp"
 #include "key_converter.hpp"
 
-using namespace key_conv;
+namespace kc=key_conv;
 
 int main()
 {
@@ -16,8 +16,8 @@ int main()
     can.canInit("vcan0");
 
     Conversion conv;
-    keyConverter keyConv;
-    UserReq userReq; //Make more local??
+    kc::keyConverter keyConv;
+    kc::UserReq userReq; //Make more local??
 
     while (1)
     {
