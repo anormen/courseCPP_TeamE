@@ -17,12 +17,12 @@ void ECM::CalculateRPM(int acc_ped)
 
     if (this->RPM >= shift_rpm)
     {
-        RPM = RPM * ((gear_ratio - 1) / gear_ratio);
+        RPM = RPM * ((gear_ratio - 1) / gear_ratio); //
         gear_ratio = gear_ratio - 1;
         target_rpm -= 750;
     }
 
-    std::cout << "target_rpm = " << target_rpm << std::endl;
+    std::cout << "RPM = " << this->RPM << " target_rpm = " << target_rpm << std::endl;
     std::cout << "acc_ped = " << acc_ped << " acc_ped_stored = " << acc_ped_stored << std::endl;
     if (acc_ped != acc_ped_stored)
     {
@@ -43,7 +43,7 @@ void ECM::CalculateRPM(int acc_ped)
         {
             this->acc_inc_delta += fr200_updateRate;
             std::cout << "acc_inc_delta = " << acc_inc_delta << std::endl;
-            std::cout << "RPM = " << this->RPM << " target_rpm = " << target_rpm << std::endl;
+            
             if (this->RPM >= target_rpm) // || this->RPM >= max_rpm)
             {
                 increasing_rpm = false;
@@ -77,11 +77,11 @@ void ECM::CalculateRPM(int acc_ped)
     std::cout << "\n\n";
 }
 
-void ECM::UpdateECM(int acc_ped, uint8_t startstop)
+void ECM::UpdateECM(int acc_ped, StartButtonSts startstop)
 {
-    if (startstop == 1)
+    if (startstop == StartButtonSts::PRESSED)
         this->eng_on = !eng_on;
-
+    //tcm->GetGear();
     this->CalculateRPM(acc_ped);
 }
 

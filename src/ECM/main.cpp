@@ -9,51 +9,74 @@
 
 int main()
 {
-    fr100 data_read;
-    fr200 data_write;
+    canHandler can;
+    can.canInit("vcan0");
+    frame_100 data_read;
+    frame_200 data_write;
+    can_frame frame_read, frame_write;
 
     message_handler msg_handler;
-    ECM ecm = ECM();
-    TCM tcm = TCM();
+    ECM ecm;
+    TCM tcm;
 
-    SimulationMode mode;
+    std::thread IO_thread([&]() {
+        while (true)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate));
+            std::cout << "read frame\n";
+            can.canReadFrame(frame_read);
+            can.printFrame(frame_read);
+            
+            if (frame_read.can_dlc > 0)
+            {
+                    std::lock_guard<std::mutex> guard(data_read.fr100_mutex);
+                    memcpy(data_read.get_frame_ptr(), &frame_read, 16);
+            }
 
-    msg_handler.init_fr100(data_read);
-    msg_handler.init_fr200(data_write);
+            if (data_read.get_mode() == SimulationMode::OFF)
+            {
+                std::cout << "Exit IO thread\n";
+                break;
+            }
 
-    msg_handler.fr100_input_thread(data_read);
-    msg_handler.fr200_output_thread(data_write);
+            {
+                std::cout << "write frame\n";
+                std::lock_guard<std::mutex> guard(data_write.fr200_mutex);
+                memcpy(&frame_write, data_write.get_frame_ptr(), 16);
+                uint16_t b = can.canWriteFrame(frame_write);
+                can.printFrame(frame_write);
+            }
+
+            std::cout << std::endl;
+        }
+    });
 
     while (true)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(fr200_updateRate));
-        
-        if (data_read.candlc > 0)
-        {
-            mode = static_cast<SimulationMode>(data_read.mode);
 
-            if (mode == SimulationMode::OFF)
+        if (data_read.get_length() > 0)
+        {
+
+            if (data_read.get_mode() == SimulationMode::OFF)
             {
-                // Wait for threads to exit
-                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                IO_thread.join();
                 break;
             }
-    
-            if (mode == SimulationMode::ACTIVE)
+
+            if (data_read.get_mode() == SimulationMode::ACTIVE)
             {
                 {
-                std::lock_guard<std::mutex> guard_read(msg_handler.data_read_mutex); // onödigt...? Vart ska den läggas?
-                ecm.UpdateECM(data_read.accelerator, data_read.startstop);
+                    std::lock_guard<std::mutex> guard_read(data_read.fr100_mutex); // onödigt...? Vart ska den läggas?
+                    ecm.UpdateECM(data_read.get_accelerator(), data_read.get_startstop());
                 }
-                
+
                 {
-                std::lock_guard<std::mutex> guard_write(msg_handler.data_write_mutex); // Onödigt...?
-                data_write.rpm = ecm.GetRPM(); // move somewhere else
+                    std::lock_guard<std::mutex> guard_write(data_write.fr200_mutex); // Onödigt...?
+                    data_write.set_rpm(ecm.GetRPM());  // move somewhere else...
                 }
-                std::cout << "ECM acc_ped = " << (int)data_read.accelerator << " RPM = " << data_write.rpm << " gear = " << tcm.GetGear() << std::endl;
             }
         }
-        
     }
     return 0;
 }
