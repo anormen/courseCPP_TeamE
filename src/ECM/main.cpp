@@ -30,7 +30,7 @@ int main()
             if (frame_read.can_dlc > 0)
             {
                     std::lock_guard<std::mutex> guard(data_read.fr100_mutex);
-                    memcpy(data_read.get_frame_ptr(), &frame_read, 16);
+                    memcpy(data_read.get_frame_ptr(), &frame_read, sizeof(frame_read));
             }
 
             if (data_read.get_mode() == SimulationMode::OFF)
@@ -42,7 +42,7 @@ int main()
             {
                 std::cout << "write frame\n";
                 std::lock_guard<std::mutex> guard(data_write.fr200_mutex);
-                memcpy(&frame_write, data_write.get_frame_ptr(), 16);
+                memcpy(&frame_write, data_write.get_frame_ptr(), sizeof(frame_write));
                 uint16_t b = can.canWriteFrame(frame_write);
                 can.printFrame(frame_write);
             }

@@ -24,13 +24,12 @@ int main()
         userReq = keyConv.readInputReq();
         conv.fillFrame(frame, userReq);
         uint16_t b = can.canWriteFrame(frame);
-        if(b!=16)
+        if(b!=sizeof(frame))
             std::cout << "ERROR sending can frame\n\r";
 
         std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate));
 
         if(conv.GetSimulationMode() == SimulationMode::OFF)
-         //   std::this_thread::sleep_for(std::chrono::milliseconds(500));
             break;        
     }
 

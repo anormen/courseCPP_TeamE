@@ -140,7 +140,7 @@ void  Conversion::fillFrame(can_frame &_frame, kc::UserReq _userReq){
             ReleaseStartButton();   // NOT OK SOLUTION NEED IMPROVMENT      
     }
     //std::cout << "&data_to_send = " << &data_to_send << " &data_to_send+6 " << &data_to_send+6 << std::endl;
-    memcpy(&_frame,&fr100_to_send,16);
+    memcpy(&_frame,&fr100_to_send,sizeof(fr100_to_send));
 }
 
 Conversion::~Conversion(){}
