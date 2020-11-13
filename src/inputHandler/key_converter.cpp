@@ -1,8 +1,8 @@
 #include "key_converter.hpp"
 
-namespace kc=key_conv;
+namespace key_conv {  // Is this a good idea?
 
-kc::keyConverter::keyConverter()
+keyConverter::keyConverter()
 {
     // Init ncurses key input
     initscr();
@@ -14,7 +14,7 @@ kc::keyConverter::keyConverter()
     this->required_action = UserReq::UNDEFINED;
 }
 
-kc::UserReq kc::keyConverter::readInputReq()
+UserReq keyConverter::readInputReq()
 {
     this->key = getch();
 
@@ -39,3 +39,5 @@ kc::UserReq kc::keyConverter::readInputReq()
     
     return required_action;
 }
+
+} // namespace key_converter
