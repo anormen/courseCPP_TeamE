@@ -77,9 +77,9 @@ void ECM::CalculateRPM(int acc_ped)
     std::cout << "\n\n";
 }
 
-void ECM::UpdateECM(int acc_ped, StartButtonSts startstop)
+void ECM::UpdateECM(int acc_ped, StartButtonSts startstop, DriverInformation info)
 {
-    if (startstop == StartButtonSts::PRESSED)
+    if (startstop == StartButtonSts::PRESSED && info == DriverInformation::NO_MSG)
         this->eng_on = !eng_on;
     //tcm->GetGear();
     this->CalculateRPM(acc_ped);

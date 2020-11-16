@@ -111,8 +111,8 @@ class frame_200
     frame_200();
     void init_frame();
     uint16_t get_rpm();
-    uint16_t get_instfuel();
-    uint16_t get_avgfuel();
+    uint16_t get_fuelinst();
+    uint16_t get_fuelavg();
     DriverInformation get_driverinfo();
     uint8_t get_telltale();
     uint8_t get_updatebit();
@@ -120,8 +120,8 @@ class frame_200
     uint8_t get_length();
 
     void set_rpm(uint16_t rpm);
-    void set_instfuel(uint16_t fuel);
-    void set_avgfuel(uint16_t fuel);
+    void set_fuelinst(double fuelinst);
+    void set_fuelavg(double fuelavg);
     void set_driverinfor(DriverInformation di);
     void set_telltale(uint8_t tt);
     void set_updatebit(uint8_t ub);

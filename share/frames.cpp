@@ -50,8 +50,8 @@ void frame_200::init_frame()
     std::cout << "frame 200 initialized\n";
 }
 uint16_t frame_200::get_rpm() { return this->frame.rpm; }
-uint16_t frame_200::get_instfuel() { return this->frame.fuelinst; }
-uint16_t frame_200::get_avgfuel() { return this->frame.fuelavg; }
+uint16_t frame_200::get_fuelinst() { return this->frame.fuelinst; }
+uint16_t frame_200::get_fuelavg() { return this->frame.fuelavg; }
 DriverInformation frame_200::get_driverinfo() { return static_cast<DriverInformation>(this->frame.driverinfo); }
 uint8_t frame_200::get_telltale() { return this->frame.telltale; }
 uint8_t frame_200::get_updatebit() { return this->frame.updatebit; }
@@ -59,8 +59,8 @@ fr200 *frame_200::get_frame_ptr() { return &this->frame; };
 uint8_t frame_200::get_length() { return this->frame.candlc; };
 
 void frame_200::set_rpm(uint16_t rpm) { this->frame.rpm = rpm; }
-void frame_200::set_instfuel(uint16_t fuel) { this->frame.fuelinst = fuel; }
-void frame_200::set_avgfuel(uint16_t fuel) { this->frame.fuelavg = fuel; }
+void frame_200::set_fuelinst(double fuelinst) { this->frame.fuelinst = (uint16_t)(fuelinst * 100); }
+void frame_200::set_fuelavg(double fuelavg) { this->frame.fuelavg = (uint16_t)(fuelavg * 100) ; }
 void frame_200::set_driverinfor(DriverInformation di) { this->frame.driverinfo = static_cast<uint8_t>(di); }
 void frame_200::set_telltale(uint8_t tt) { this->frame.telltale = tt; }
 void frame_200::set_updatebit(uint8_t ub) { this->frame.updatebit = ub; }
