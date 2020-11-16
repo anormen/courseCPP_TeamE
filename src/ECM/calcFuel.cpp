@@ -10,9 +10,9 @@ calcFuel::calcFuel(){
         fuelAvgFilter.push_front(fA);    // defaut init 50km/h 5L/km100   
 }
 
-void calcFuel::CalculateFuel(frame_100 &fr100, frame_200 &fr200, frame_300 &fr300){
+void calcFuel::CalculateFuel(frame_100 &fr100, uint16_t &rpm, frame_300 &fr300){
 
-    uint16_t rpm = fr200.get_rpm();
+    //uint16_t rpm = fr200.get_rpm();
     uint16_t speed = fr300.get_speed();
     uint8_t accelerator = fr100.get_accelerator();
     double sumOfiFuel=0, sumOfSpeed=0, sumOfFuel=0;

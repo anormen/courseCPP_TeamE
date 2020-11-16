@@ -78,17 +78,19 @@ int main()
             {
                 {
                     std::lock_guard<std::mutex> guard_read(data_100.fr100_mutex); // onödigt...? Vart ska den läggas?
-                    di.update(data_100, data_200);
-                    cf.CalculateFuel(data_100, data_200, data_300);
-                    ecm.UpdateECM(data_100.get_accelerator(), data_100.get_startstop(), data_200.get_driverinfo());
+                    //di.update(data_100, data_200);
+                    //cf.CalculateFuel(data_100, data_200, data_300);
+                    //ecm.UpdateECM(data_100.get_accelerator(), data_100.get_startstop(), data_200.get_driverinfo());
+                    ecm.Update(data_100,data_300);
 
                 }
 
                 {
                     std::lock_guard<std::mutex> guard_write(data_200.fr200_mutex); // Onödigt...?
-                    data_200.set_fuelavg(cf.getFuelAvg());
-                    data_200.set_fuelinst(cf.getFuelInst());                    
-                    data_200.set_rpm(ecm.GetRPM());  // move somewhere else...
+                    ecm.Write(data_200);
+                    //data_200.set_fuelavg(cf.getFuelAvg());
+                    //data_200.set_fuelinst(cf.getFuelInst());                    
+                    //data_200.set_rpm(ecm.GetRPM());  // move somewhere else...
                 }
             }
 

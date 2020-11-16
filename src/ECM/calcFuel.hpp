@@ -11,7 +11,7 @@ class calcFuel{
 
     public:
         calcFuel();
-        void CalculateFuel(frame_100 &fr100, frame_200 &fr200, frame_300 &fr300);
+        void CalculateFuel(frame_100 &fr100, uint16_t &rpm, frame_300 &fr300);
         void set_Fuel(frame_200 &fr200);
         double getFuelInst() { return fuelInst; };
         double getFuelAvg() { return fuelAvg; };
