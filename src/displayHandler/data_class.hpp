@@ -12,9 +12,9 @@ class dataLayer{
         void processInput(display &dHndl, const can_frame &frameGen);
         ~dataLayer(){};
     private:
-        fr100 frame100;
-        fr200 frame200;
-        fr300 frame300;
+        frame_100 fr100;
+        frame_200 fr200;
+        frame_300 fr300;
 };
 
 #endif

@@ -10,29 +10,28 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
             switch(frameGen.can_id)
             {       
                 case 100: //inpur handler
-                    memcpy(&frame100, &frameGen, sizeof(frame100));   
-                    dHndl.setValueAcc(frame100.accelerator);
-                    dHndl.setValueAcc(frame100.accelerator);
-                    dHndl.setValueBrake(frame100.brake);  
-                    dHndl.setValueMode((SimulationMode)frame100.mode);
-                    dHndl.setValueStartStop((StartButtonSts)frame100.startstop);   
-                    dHndl.setValueGearLever((GearLeverPos)frame100.gearlever); 
-                    dHndl.setValueInputUB(frame100.updatebit);                                                                             
+                    memcpy(fr100.get_frame_ptr(), &frameGen, sizeof(frameGen));   
+                    dHndl.setValueAcc(fr100.get_accelerator());
+                    dHndl.setValueBrake(fr100.get_brake());  
+                    dHndl.setValueMode(fr100.get_mode());
+                    dHndl.setValueStartStop(fr100.get_startstop());   
+                    dHndl.setValueGearLever(fr100.get_gearlever()); 
+                    dHndl.setValueInputUB(fr100.get_updatebit());                                                                             
                     break;
                 case 200: //ecm
-                    memcpy(&frame200, &frameGen, sizeof(frame200));  
-                    dHndl.setValueRpm(frame200.rpm);
-                    dHndl.setValueFuelConsumptionAvg(frame200.fuelavg);
-                    dHndl.setValueFuelConsumptionInst(frame200.fuelinst);                    
-                    dHndl.setValueDriverInfo((DriverInformation)frame200.driverinfo);
-                    dHndl.setValueTelltale(frame200.telltale);
-                    dHndl.setValueECMUB(frame200.updatebit);
+                    memcpy(fr200.get_frame_ptr(), &frameGen, sizeof(frameGen));  
+                    dHndl.setValueRpm(fr200.get_rpm());
+                    dHndl.setValueFuelConsumptionAvg(fr200.get_fuelavg());
+                    dHndl.setValueFuelConsumptionInst(fr200.get_fuelinst());                    
+                    dHndl.setValueDriverInfo(fr200.get_driverinfo());
+                    dHndl.setValueTelltale(fr200.get_telltale());
+                    dHndl.setValueECMUB(fr200.get_updatebit());
                     break;
                 case 300: //tcm
-                    memcpy(&frame300, &frameGen, sizeof(frame300));  
-                    dHndl.setValueVehicleSpeed(frame300.speed);
-                    dHndl.setValueGearActual(frame300.gearactual);
-                    dHndl.setValueTCMUB(frame300.updatebit);                                        
+                    memcpy(fr300.get_frame_ptr(), &frameGen, sizeof(frameGen));  
+                    dHndl.setValueVehicleSpeed(fr300.get_speed());
+                    dHndl.setValueGearActual(fr300.get_gearactual());
+                    dHndl.setValueTCMUB(fr300.get_updatebit());                                        
                     break;
                 default:
                     std::cout << "Invalid can frame id" << std::endl;

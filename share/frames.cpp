@@ -50,10 +50,10 @@ void frame_200::init_frame()
     std::cout << "frame 200 initialized\n";
 }
 uint16_t frame_200::get_rpm() { return this->frame.rpm; }
-uint16_t frame_200::get_fuelinst() { return this->frame.fuelinst; }
-uint16_t frame_200::get_fuelavg() { return this->frame.fuelavg; }
+double frame_200::get_fuelinst() { return (double)(this->frame.fuelinst / 100.0); }
+double frame_200::get_fuelavg() { return (double)(this->frame.fuelavg / 100.0); }
 DriverInformation frame_200::get_driverinfo() { return static_cast<DriverInformation>(this->frame.driverinfo); }
-uint8_t frame_200::get_telltale() { return this->frame.telltale; }
+Telltale frame_200::get_telltale() { return static_cast<Telltale>(this->frame.telltale); }
 uint8_t frame_200::get_updatebit() { return this->frame.updatebit; }
 fr200 *frame_200::get_frame_ptr() { return &this->frame; };
 uint8_t frame_200::get_length() { return this->frame.candlc; };

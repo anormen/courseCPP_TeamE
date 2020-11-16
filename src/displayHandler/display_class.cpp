@@ -23,8 +23,8 @@ void display::update()
     std::cout << std::dec << std::setw(4) << std::setfill('0') << "VehicleSpeed:    " << (int)vehiclespeed  << " km/h" << std::endl; 
     std::cout << std::dec << std::setw(4) << std::setfill('0') << "DriverInfo msg   " << messages.at((uint8_t)driverinfo) << "" << std::endl;     
     std::cout << std::dec << std::setw(2) << std::setfill('0') << "Telltale:        " << telltales.at((uint8_t)telltale) << "" << std::endl;     
-    std::cout << std::dec << std::setw(4) << std::setfill('0') << "Avg Fuel con:    " << (float)fuelconsumavg / 100.0 << " l/100km" << std::endl;    
-    std::cout << std::dec << std::setw(4) << std::setfill('0') << "Inst Fuel con:   " << (float)fuelconsuminst / 100.0 << " l/h" << std::endl;      
+    std::cout << std::dec << std::setw(4) << std::setfill('0') << "Avg Fuel con:    " << (float)fuelconsumavg << " l/100km" << std::endl;    
+    std::cout << std::dec << std::setw(4) << std::setfill('0') << "Inst Fuel con:   " << (float)fuelconsuminst << " l/h" << std::endl;      
     std::cout << std::dec << std::setw(1) << std::setfill('0') << "Input UB:        " << (int)inputUb       << " " << std::endl; 
     std::cout << std::dec << std::setw(1) << std::setfill('0') << "ECM UB:          " << (int)ecmUb         << " " << std::endl;     
     std::cout << std::dec << std::setw(1) << std::setfill('0') << "TCM UB:          " << (int)tcmUb         << " " << std::endl; 
@@ -34,11 +34,11 @@ void display::update()
 void display::updateTelltale(){
 
     if(!inputUb)
-        telltale = (uint8_t)Telltale::INPUT;
+        telltale = Telltale::INPUT;
     else if (!ecmUb)
-        telltale = (uint8_t)Telltale::ECM;
+        telltale = Telltale::ECM;
     else if (!tcmUb)
-        telltale = (uint8_t)Telltale::TCM;
+        telltale = Telltale::TCM;
     else
-        telltale = (uint8_t)Telltale::PRESENT;
+        telltale = Telltale::PRESENT;
 }

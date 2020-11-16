@@ -6,6 +6,6 @@ add_executable(inputHandler src/inputHandler/main.cpp src/inputHandler/key_conve
 target_link_libraries(inputHandler PRIVATE ncurses pthread canIO) # should it be PRIVATE?
 add_executable(ECM src/ECM/main.cpp src/ECM/ECM.cpp src/TCM/TCM.cpp src/ECM/message_handler.cpp src/ECM/calcFuel.cpp src/ECM/driverInfo.cpp share/frames.cpp) 
 target_link_libraries(ECM PRIVATE pthread canIO)
-add_executable(displayHandler src/displayHandler/main.cpp src/displayHandler/display_class.cpp src/displayHandler/display_handler.cpp src/displayHandler/data_class.cpp) 
-#set_target_properties(displayHandler PROPERTIES CXX_STANDARD 17)
+add_executable(displayHandler src/displayHandler/main.cpp src/displayHandler/display_class.cpp src/displayHandler/display_handler.cpp src/displayHandler/data_class.cpp share/frames.cpp) 
 target_link_libraries(displayHandler PRIVATE pthread canIO)
+#set_target_properties(displayHandler PROPERTIES CXX_STANDARD 17)
