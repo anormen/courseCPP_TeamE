@@ -11,6 +11,7 @@ void display::initDisplay()
 void display::update()
 { 
     updateTelltale();
+    std::cout << "\033c \033[0;32m" ;  //http://ascii-table.com/ansi-escape-sequences.php
     std::cout << "----------------------------------------------------------------" << std::endl;    
     std::cout << std::dec << std::setw(3) << std::setfill('0') << "Accelerator:     " << (int)accelerator   << " %" << std::endl;
     std::cout << std::dec << std::setw(3) << std::setfill('0') << "Brake:           " << (int)brake         << " %" << std::endl;
