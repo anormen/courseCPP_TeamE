@@ -78,7 +78,6 @@ struct fr300{
     uint8_t res4:8;     
 };
 
-
 class frame_100
 {
   public:
@@ -111,10 +110,10 @@ class frame_200
     frame_200();
     void init_frame();
     uint16_t get_rpm();
-    uint16_t get_fuelinst();
-    uint16_t get_fuelavg();
+    double get_fuelinst();
+    double get_fuelavg();
     DriverInformation get_driverinfo();
-    uint8_t get_telltale();
+    Telltale get_telltale();
     uint8_t get_updatebit();
     fr200* get_frame_ptr();
     uint8_t get_length();

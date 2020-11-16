@@ -18,9 +18,9 @@ class display{
         void setValueDriverInfo(DriverInformation _driverinfo){  driverinfo = _driverinfo; };
         void setValueGearActual(int _gearactual){  gearactual = _gearactual; };        
         void setValueVehicleSpeed(float _vehiclespeed){  vehiclespeed = _vehiclespeed; }; 
-        void setValueFuelConsumptionAvg(float _fuelconsumavg){  fuelconsumavg = _fuelconsumavg; }; 
-        void setValueFuelConsumptionInst(float _fuelconsuminst){  fuelconsuminst = _fuelconsuminst; };         
-        void setValueTelltale(float _telltale){  telltale = _telltale; };         
+        void setValueFuelConsumptionAvg(double _fuelconsumavg){  fuelconsumavg = _fuelconsumavg; }; 
+        void setValueFuelConsumptionInst(double _fuelconsuminst){  fuelconsuminst = _fuelconsuminst; };         
+        void setValueTelltale(Telltale _telltale){  telltale = _telltale; };         
         void setValueInputUB(bool _inputUb){ inputUb = _inputUb; };
         void setValueECMUB(bool _ecmUb){  ecmUb = _ecmUb; };
         void setValueTCMUB(bool _tcmUb){  tcmUb = _tcmUb; };                               
@@ -38,7 +38,7 @@ class display{
         float vehiclespeed = 0;
         double fuelconsumavg = 0; 
         double fuelconsuminst = 0;         
-        uint8_t telltale = 0;
+        Telltale telltale = Telltale::PRESENT;
         bool inputUb = 0;     
         bool ecmUb = 0;
         bool tcmUb = 0;         
