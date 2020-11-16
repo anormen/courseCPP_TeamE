@@ -10,11 +10,11 @@ calcFuel::calcFuel(){
         fuelAvgFilter.push_front(fA);    // defaut init 50km/h 5L/km100   
 }
 
-void calcFuel::update(const fr100 &dataread, fr200 &datawrite, const fr300 &dataread2){
+void calcFuel::CalculateFuel(frame_100 &fr100, frame_200 &fr200, frame_300 &fr300){
 
-    uint16_t rpm = updateRpm(datawrite);
-    uint16_t speed = updateVehicleSpeed(dataread2);
-    uint8_t accelerator = updateAccelerator(dataread);
+    uint16_t rpm = fr200.get_rpm();
+    uint16_t speed = fr300.get_speed();
+    uint8_t accelerator = fr100.get_accelerator();
     double sumOfiFuel=0, sumOfSpeed=0, sumOfFuel=0;
     double rate = 0;
     //deside fuel rate
@@ -68,34 +68,5 @@ void calcFuel::update(const fr100 &dataread, fr200 &datawrite, const fr300 &data
         }
     }
     //debug
-    //std::cout << " ticks: " << fuelticks << " rate: " << rate << " avg: " << fuelAvg << " inst: " << fuelInst << std::endl;    
-    updateFuelAvg(datawrite);
-    updateFuelInst(datawrite); 
-};
-
-uint16_t calcFuel::updateRpm(fr200 &datawrite){
-    //get value from internal ECM
-    return datawrite.rpm;
-};
-        
-uint8_t calcFuel::updateAccelerator(const fr100 &dataread){
-    //get value from fr100 uint8_t accelerator:8;
-    return dataread.accelerator;
-};
-        
-uint16_t calcFuel::updateVehicleSpeed(const fr300 &dataread){
-    //get value from fr300 uint16_t speed:16;
-    return dataread.speed;
-};
-
-void calcFuel::updateFuelAvg(fr200 &datawrite){
-    //send on can fr200 uint16_t fuelavg:16;
-    datawrite.fuelavg = (uint16_t)(fuelAvg*100); //multiply for can integer sending 
-    std::cout << "AVG: " << fuelAvg << std::endl; //debug
-};
-
-void calcFuel::updateFuelInst(fr200 &datawrite){
-    //send on can fr200 uint16_t fuelinst:16;
-    datawrite.fuelinst = (uint16_t)(fuelInst*100); //multiply for can integer sending
-    std::cout << "INST: " << fuelInst << std::endl; //debug
-};
+    //std::cout << " ticks: " << fuelticks << " rate: " << rate << " avg: " << fuelAvg << " inst: " << fuelInst << std::endl;   
+} 

@@ -3,6 +3,7 @@
 
 #include "../TCM/TCM.hpp"
 #include "frames.hpp"
+#include "calcFuel.hpp"
 
 const int max_rpm=8000;
 const int shift_rpm=3200; // REMOVE LATER
@@ -12,10 +13,11 @@ class ECM
   public:
     ECM();
     ~ECM() = default;
-    void UpdateECM(int acc_ped, StartButtonSts startstop);
+    void UpdateECM(int acc_ped, StartButtonSts startstop, DriverInformation info);
     void CalculateRPM(int acc_ped);
     int GetRPM();
   private:
+   // calcFuel cf;
     int RPM;
     bool eng_on;
     const int response_time=1000; // ms

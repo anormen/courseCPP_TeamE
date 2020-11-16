@@ -13,16 +13,8 @@ class driverInfo{
 
     public:
         driverInfo(){};
-        void update(const fr100 &dataread, fr200 &datawrite);
-        DriverInformation getDriverInfoMsg(){ return infoMsg; }; //if need to fetch status
+        void update(frame_100 &fr100, frame_200 &fr200);
     private:
-        uint8_t gearLeverPos(const fr100 &dataread); //fetch values
-        uint8_t brakePosition(const fr100 &dataread);
-        uint8_t modeStatus(const fr100 &dataread);
-        uint8_t startButtonStatus(const fr100 &dataread);
-        uint16_t rpmValue(fr200 &datawrite);
-        void updateInfoMsg(fr200 &datawrite);
-        DriverInformation infoMsg = DriverInformation::NO_MSG; //maintained by class
         std::chrono::steady_clock::time_point startTime;
         const uint16_t messageDuration = 2000;
 };

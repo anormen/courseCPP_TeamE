@@ -104,13 +104,15 @@ class frame_100
     fr100 frame;
 };
 
+
 class frame_200
 {
   public:
     frame_200();
     void init_frame();
     uint16_t get_rpm();
-    uint16_t get_fuel();
+    uint16_t get_fuelinst();
+    uint16_t get_fuelavg();
     DriverInformation get_driverinfo();
     uint8_t get_telltale();
     uint8_t get_updatebit();
@@ -118,7 +120,8 @@ class frame_200
     uint8_t get_length();
 
     void set_rpm(uint16_t rpm);
-    void set_fuel(uint16_t fuel);
+    void set_fuelinst(double fuelinst);
+    void set_fuelavg(double fuelavg);
     void set_driverinfor(DriverInformation di);
     void set_telltale(uint8_t tt);
     void set_updatebit(uint8_t ub);
@@ -126,6 +129,27 @@ class frame_200
   private:
     fr200 frame;
 };
+
+class frame_300
+{
+  public:
+    frame_300();
+    void init_frame();
+    uint16_t get_speed();
+    uint8_t get_gearactual();
+
+    uint8_t get_updatebit();
+    fr300* get_frame_ptr();
+    uint8_t get_length();
+
+    void set_speed(uint16_t spd);
+    void set_gearactual(uint8_t gearact);
+    void set_updatebit(uint8_t ub);
+    std::mutex fr300_mutex;
+  private:
+    fr300 frame;
+};
+
 
 
 #endif //_FRAMES_H

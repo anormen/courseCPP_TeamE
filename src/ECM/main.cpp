@@ -6,14 +6,19 @@
 #include "../TCM/TCM.hpp"
 #include "frames.hpp"
 #include "message_handler.hpp"
+#include "driverInfo.hpp"
+#include "calcFuel.hpp"
 
 int main()
 {
     canHandler can;
+    driverInfo di;
+    calcFuel cf;
     can.canInit("vcan0");
-    frame_100 data_read;
-    frame_200 data_write;
-    can_frame frame_read, frame_write;
+    frame_100 data_100;
+    frame_200 data_200;
+    frame_300 data_300;    
+    can_frame frame;
 
     message_handler msg_handler;
     ECM ecm;
@@ -24,16 +29,21 @@ int main()
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate));
             std::cout << "read frame\n";
-            can.canReadFrame(frame_read);
-            can.printFrame(frame_read);
+            can.canReadFrame(frame);
+            can.printFrame(frame);
             
-            if (frame_read.can_dlc > 0)
+            if (frame.can_dlc > 0)
             {
-                    std::lock_guard<std::mutex> guard(data_read.fr100_mutex);
-                    memcpy(data_read.get_frame_ptr(), &frame_read, sizeof(frame_read));
+                    std::lock_guard<std::mutex> guard(data_100.fr100_mutex);
+                    if (frame.can_id = 100)
+                        memcpy(data_100.get_frame_ptr(), &frame, sizeof(frame));                        
+                    else if (frame.can_id = 300)
+                        memcpy(data_300.get_frame_ptr(), &frame, sizeof(frame));
+                    //else
+                        //do nothing
             }
 
-            if (data_read.get_mode() == SimulationMode::OFF)
+            if (data_100.get_mode() == SimulationMode::OFF)
             {
                 std::cout << "Exit IO thread\n";
                 break;
@@ -41,10 +51,10 @@ int main()
 
             {
                 std::cout << "write frame\n";
-                std::lock_guard<std::mutex> guard(data_write.fr200_mutex);
-                memcpy(&frame_write, data_write.get_frame_ptr(), sizeof(frame_write));
-                uint16_t b = can.canWriteFrame(frame_write);
-                can.printFrame(frame_write);
+                std::lock_guard<std::mutex> guard(data_200.fr200_mutex);
+                memcpy(&frame, data_200.get_frame_ptr(), sizeof(frame));
+                uint16_t b = can.canWriteFrame(frame);
+                can.printFrame(frame);
             }
 
             std::cout << std::endl;
@@ -55,27 +65,33 @@ int main()
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(fr200_updateRate));
 
-        if (data_read.get_length() > 0)
+        if (data_100.get_length() > 0)
         {
 
-            if (data_read.get_mode() == SimulationMode::OFF)
+            if (data_100.get_mode() == SimulationMode::OFF)
             {
                 IO_thread.join();
                 break;
             }
 
-            if (data_read.get_mode() == SimulationMode::ACTIVE)
+            if (data_100.get_mode() == SimulationMode::ACTIVE)
             {
                 {
-                    std::lock_guard<std::mutex> guard_read(data_read.fr100_mutex); // onödigt...? Vart ska den läggas?
-                    ecm.UpdateECM(data_read.get_accelerator(), data_read.get_startstop());
+                    std::lock_guard<std::mutex> guard_read(data_100.fr100_mutex); // onödigt...? Vart ska den läggas?
+                    di.update(data_100, data_200);
+                    cf.CalculateFuel(data_100, data_200, data_300);
+                    ecm.UpdateECM(data_100.get_accelerator(), data_100.get_startstop(), data_200.get_driverinfo());
+
                 }
 
                 {
-                    std::lock_guard<std::mutex> guard_write(data_write.fr200_mutex); // Onödigt...?
-                    data_write.set_rpm(ecm.GetRPM());  // move somewhere else...
+                    std::lock_guard<std::mutex> guard_write(data_200.fr200_mutex); // Onödigt...?
+                    data_200.set_fuelavg(cf.getFuelAvg());
+                    data_200.set_fuelinst(cf.getFuelInst());                    
+                    data_200.set_rpm(ecm.GetRPM());  // move somewhere else...
                 }
             }
+
         }
     }
     return 0;

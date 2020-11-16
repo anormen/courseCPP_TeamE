@@ -11,19 +11,15 @@ class calcFuel{
 
     public:
         calcFuel();
-        void update(const fr100 &dataread, fr200 &datawrite ,const fr300 &dataread2);
-        uint16_t getFuelInst() { return fuelInst; };
-        uint16_t getFuelAvg() { return fuelAvg; };
+        void CalculateFuel(frame_100 &fr100, frame_200 &fr200, frame_300 &fr300);
+        void set_Fuel(frame_200 &fr200);
+        double getFuelInst() { return fuelInst; };
+        double getFuelAvg() { return fuelAvg; };
     private:
         struct fuelAvgCon{
             double vSpeed = 50.0;
             double iFuel = 0.001;
-        }fA;       
-        uint16_t updateRpm(fr200 &datawrite);
-        uint8_t updateAccelerator(const fr100 &dataread);
-        uint16_t updateVehicleSpeed(const fr300 &dataread2);  
-        void updateFuelAvg(fr200 &datawrite);
-        void updateFuelInst(fr200 &datawrite);         
+        }fA;                
         double fuelAvg = 0; //kept by class
         double fuelInst = 0; //kept by class
         double fuelticks = 0;
