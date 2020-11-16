@@ -1,13 +1,14 @@
 #ifndef CALCRPM_HPP
 #define CLACRPM_HPP
 
+#include<iostream>
+#include "frames.hpp"
 
 class calcRPM {
   public:
-    calcRPM();
-    int CalculateRPM(int acc_ped, StartButtonSts startstop, DriverInformation info);
+    uint16_t CalculateRPM(int acc_ped, StartButtonSts startstop, DriverInformation info);
   private:
-    int rpm;
+    uint16_t rpm;
     bool eng_on;
     const int response_time=1000; // ms
     int acc_inc_delta;

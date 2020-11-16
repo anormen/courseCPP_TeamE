@@ -1,7 +1,7 @@
 #include<iostream>
 #include "calcRPM.hpp"
 #include "frames.hpp"
-
+/*
 calcRPM::calcRPM()
 {
     //this->RPM=900;
@@ -11,8 +11,8 @@ calcRPM::calcRPM()
     this->gear = 0;
     this->target_rpm = 0;
 }
-
-int calcRPM::CalculateRPM(int acc_ped, StartButtonSts startstop, DriverInformation info)
+*/
+uint16_t calcRPM::CalculateRPM(int acc_ped, StartButtonSts startstop, DriverInformation info)
 {
     float gear_ratio = 4;
 

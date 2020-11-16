@@ -14,19 +14,8 @@ const int shift_rpm=3200; // REMOVE LATER
 class ECM
 {
   public:
-    void Update(frame_100 &frm_100, frame_300 &frm_300){
-
-
-        rpm = rpm_class.CalculateRPM(frm_100.get_accelerator(), frm_100.get_startstop(), infoMsg);
-        fuel_class.CalculateFuel(frm_100, rpm, frm_300);
-        di.update(frm_100, rpm, infoMsg);
-        //info = di.getDriverInfoMsg();
-    }
-    void Write(frame_200 &frm_200){
-        frm_200.set_rpm(rpm);
-        fuel_class.set_Fuel(frm_200);
-        frm_200.set_driverinfor(infoMsg);
-    };
+    void Update(frame_100 &frm_100, frame_300 &frm_300);
+    void Write(frame_200 &frm_200);
   private:
     uint16_t rpm;
     DriverInformation infoMsg;
