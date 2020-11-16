@@ -2,7 +2,7 @@
 
 message_handler::message_handler()
 {
-    this->can.canInit();
+    this->can.canInit("vcan0");
     this->init_fr100(this->data_read);
     this->init_fr200(this->data_write);
     this->exit_future = this->exit.get_future();
@@ -24,7 +24,7 @@ void message_handler::fr200_output_thread(fr200 &frame200)
             }
             //std::lock_guard<std::mutex> guard(frame_write_mutex); //is it released in end of while? scope
             {
-            data_write = frame200;
+            this->data_write = frame200;
             std::lock_guard<std::mutex> guard(data_write_mutex);
             memcpy(&frame_write, &data_write, 16);
             uint16_t b = can.canWriteFrame(frame_write);
@@ -77,19 +77,18 @@ void message_handler::fr100_input_thread(fr100 &frame100)
 void message_handler::init_fr200(fr200 &frame200)
 {
     frame200.rpm = 0;
-    frame200.fuel = 0;
+    frame200.fuelavg = 0;
+    frame200.fuelinst = 0;    
     frame200.telltale = 0;
-    frame200.updatebit = 0;
+    frame200.updatebit = 1;
     frame200.res0 = 0;
-    frame200.res1 = 0;
-    frame200.res2 = 0;
 }
 
 void message_handler::init_fr100(fr100 &frame100){
     frame100.mode=0;
     frame100.gearlever=0;
     frame100.startstop=0;
-    frame100.updatebit=0;
+    frame100.updatebit=1;
     frame100.accelerator=0;
     frame100.brake=0;
     frame100.candlc=0;

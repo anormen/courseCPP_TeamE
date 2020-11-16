@@ -3,14 +3,18 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <mutex>
 
 enum class GearLeverPos : uint8_t {PARK, REVERSE, NEUTRAL, DRIVE};
 enum class StartButtonSts : uint8_t {UNPRESSED, PRESSED};
 enum class SimulationMode : uint8_t { SLEEP, INACTIVE, ACTIVE, OFF};
 enum class DriverInformation : uint8_t { NO_MSG, NO_BRAKE, NOT_IN_P, NOT_IN_P_IN_D};
-static std::vector<std::string> messages = {"No message", "No Brake pressed", "Gear not in P" , "Gear in D, select P or hold for 5sec", "", "", "", "", "", "", "", "" , "", "", "", ""};
+enum class Telltale : uint8_t { PRESENT, ECM, TCM, INPUT};
+
+static std::vector<std::string> messages = {"No message", "No Brake pressed", "Gear not in P" , "Gear in D, select P", "", "", "", "", "", "", "", "" , "", "", "", ""};
 static std::vector<std::string> gears = {"P", "R", "N" , "D" , "1", "2", "3", "4", "5", "6", "7", "8", "9", "", "", "" };
 static std::vector<std::string> modes = { "SLEEP", "INACTIVE", "ACTIVE", "OFF" };
+static std::vector<std::string> telltales = { "OK", "MISSING ECM", "MISSING TCM", "MISSING INPUT" };
 
 //frame cycle times
 const uint16_t fr100_updateRate = 200;
@@ -48,13 +52,12 @@ struct fr200{
     uint8_t canres1 = 0;
 //data
     uint16_t rpm:16;
-    uint16_t fuel:16;
+    uint16_t fuelinst:16; //*100
+    uint16_t fuelavg:16; //*100
     uint8_t driverinfo:4;
     uint8_t telltale:3;
     uint8_t updatebit:1;
-    uint8_t res0:8;
-    uint8_t res1:8;
-    uint8_t res2:8;     
+    uint8_t res0:8;   
 };
 //frame from TCM
 struct fr300{
@@ -65,7 +68,7 @@ struct fr300{
     uint8_t canres0 = 0;
     uint8_t canres1 = 0;
 //data
-    uint16_t speed:16;
+    uint16_t speed:16; //*10
     uint8_t gearactual:7;
     uint8_t updatebit:1;
     uint8_t res0:8;
@@ -75,4 +78,54 @@ struct fr300{
     uint8_t res4:8;     
 };
 
-#endif
+
+class frame_100
+{
+  public:
+    frame_100();
+    void init_frame();
+    SimulationMode get_mode();
+    GearLeverPos get_gearlever();
+    StartButtonSts get_startstop();
+    uint8_t get_updatebit();
+    uint8_t get_accelerator();
+    uint8_t get_brake();
+    fr100* get_frame_ptr();
+    uint8_t get_length();
+
+    void set_mode(SimulationMode &mode);
+    void set_gearlever(GearLeverPos &lever);
+    void set_startstop(StartButtonSts &sbs);
+    void set_updatebit(uint8_t &ub);
+    void set_accelerator(uint8_t &acc);
+    void set_brake(uint8_t &brk);
+    std::mutex fr100_mutex;
+  private:
+    fr100 frame;
+};
+
+class frame_200
+{
+  public:
+    frame_200();
+    void init_frame();
+    uint16_t get_rpm();
+    uint16_t get_fuel();
+    DriverInformation get_driverinfo();
+    uint8_t get_telltale();
+    uint8_t get_updatebit();
+    fr200* get_frame_ptr();
+    uint8_t get_length();
+
+    void set_rpm(uint16_t rpm);
+    void set_fuel(uint16_t fuel);
+    void set_driverinfor(DriverInformation di);
+    void set_telltale(uint8_t tt);
+    void set_updatebit(uint8_t ub);
+    std::mutex fr200_mutex;
+  private:
+    fr200 frame;
+};
+
+
+#endif //_FRAMES_H

@@ -18,7 +18,7 @@ class canHandler{
 
     public:
         canHandler(){ startTime = std::chrono::steady_clock::now();};
-        void canInit();
+        void canInit(const char *ifname);
         int16_t canReadFrame(can_frame &frame);
         int16_t canWriteFrame(const can_frame &frame);
         void printFrame(const can_frame &frame);
@@ -26,7 +26,6 @@ class canHandler{
     private:       
         uint16_t canSocket;
         std::chrono::time_point<std::chrono::steady_clock> startTime;
-        const char *ifname = "vcan0";
 };
 
 #endif

@@ -18,7 +18,8 @@ class display{
         void setValueDriverInfo(DriverInformation _driverinfo){  driverinfo = _driverinfo; };
         void setValueGearActual(int _gearactual){  gearactual = _gearactual; };        
         void setValueVehicleSpeed(float _vehiclespeed){  vehiclespeed = _vehiclespeed; }; 
-        void setValueFuelConsumption(float _fuelconsumption){  fuelconsumption = _fuelconsumption; }; 
+        void setValueFuelConsumptionAvg(float _fuelconsumavg){  fuelconsumavg = _fuelconsumavg; }; 
+        void setValueFuelConsumptionInst(float _fuelconsuminst){  fuelconsuminst = _fuelconsuminst; };         
         void setValueTelltale(float _telltale){  telltale = _telltale; };         
         void setValueInputUB(bool _inputUb){ inputUb = _inputUb; };
         void setValueECMUB(bool _ecmUb){  ecmUb = _ecmUb; };
@@ -27,15 +28,17 @@ class display{
     private:
         int accelerator = 0;
         int rpm = 0;
-        int brake = 0;    
+        int brake = 0;
+        void updateTelltale();    
         SimulationMode mode = SimulationMode::SLEEP;
         StartButtonSts startstop = StartButtonSts::UNPRESSED;         
         GearLeverPos gearlever = GearLeverPos::PARK; 
         DriverInformation driverinfo = DriverInformation::NO_MSG;
         int gearactual = 0;     
         float vehiclespeed = 0;
-        float fuelconsumption = 0; 
-        int telltale = 0;
+        double fuelconsumavg = 0; 
+        double fuelconsuminst = 0;         
+        uint8_t telltale = 0;
         bool inputUb = 0;     
         bool ecmUb = 0;
         bool tcmUb = 0;         

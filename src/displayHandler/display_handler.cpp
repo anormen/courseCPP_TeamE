@@ -7,7 +7,7 @@ std::mutex guard;
 displayHandler::displayHandler(){
 
     memset(&frameGen,0,sizeof(frameGen)); //clear generic can frame
-    canHndl.canInit(); //init can comm (get socket) 
+    canHndl.canInit("vcan0"); //init can comm (get socket) 
     dispHndl.initDisplay(); //fake
     futureDisplay = finishedDisplay.get_future();
     futureReader = finishedReader.get_future();
@@ -21,7 +21,7 @@ displayHandler::displayHandler(){
                 std::lock_guard<std::mutex> lock(guard); //block write to frame during display
                     dataHndl.processInput(dispHndl, frameGen);  
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(150)); 
+            std::this_thread::sleep_for(std::chrono::milliseconds(50)); 
         }
     });
     reader.detach();
