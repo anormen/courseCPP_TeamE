@@ -8,12 +8,14 @@ ECM::ECM()
 
 void ECM::Update(frame_100 &frm_100, frame_300 &frm_300, int _gearRatio)
 {
+
+    di.update(frm_100, rpm, infoMsg);
     if (frm_100.get_startstop() == StartButtonSts::PRESSED && infoMsg == DriverInformation::NO_MSG)
         this->eng_on = !eng_on;
 
     std::cout << "eng_on = " << eng_on << "\n";
 
-    di.update(frm_100, rpm, infoMsg);
+    
     rpm = rpm_class.CalculateRPM(frm_100.get_accelerator(), _gearRatio, eng_on);
     fuel_class.CalculateFuel(frm_100, rpm, frm_300);
     CalculateTemp();
