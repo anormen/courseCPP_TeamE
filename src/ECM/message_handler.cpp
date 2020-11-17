@@ -81,7 +81,7 @@ void message_handler::init_fr200(fr200 &frame200)
     frame200.fuelinst = 0;    
     frame200.telltale = 0;
     frame200.updatebit = 1;
-    frame200.res0 = 0;
+    frame200.temp = 0;
 }
 
 void message_handler::init_fr100(fr100 &frame100){

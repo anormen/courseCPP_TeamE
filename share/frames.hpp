@@ -57,7 +57,7 @@ struct fr200{
     uint8_t driverinfo:4;
     uint8_t telltale:3;
     uint8_t updatebit:1;
-    uint8_t res0:8;   
+    uint8_t temp:8;   
 };
 //frame from TCM
 struct fr300{

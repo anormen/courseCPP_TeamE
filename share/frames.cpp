@@ -46,7 +46,7 @@ void frame_200::init_frame()
     frame.driverinfo = 0;
     frame.telltale = 0;
     frame.updatebit = 1;
-    frame.res0 = 0;
+    frame.temp = 0;
     std::cout << "frame 200 initialized\n";
 }
 uint16_t frame_200::get_rpm() { return this->frame.rpm; }

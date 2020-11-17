@@ -2,11 +2,12 @@
 #define CLACRPM_HPP
 
 #include<iostream>
-#include "frames.hpp"
+//#include "frames.hpp"
 
 class calcRPM {
   public:
-    uint16_t CalculateRPM(int acc_ped, StartButtonSts startstop, DriverInformation info);
+    calcRPM();
+    uint16_t CalculateRPM(int acc_ped, int _gearRatio, bool eng_on);
   private:
     uint16_t rpm;
     bool eng_on;

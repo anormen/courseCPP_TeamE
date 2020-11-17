@@ -1,23 +1,25 @@
 #include<iostream>
 #include "calcRPM.hpp"
-#include "frames.hpp"
-/*
+//#include "frames.hpp"
+
 calcRPM::calcRPM()
 {
+    this->acc_inc_delta = 0;
+/*
     //this->RPM=900;
     this->eng_on = false;
     this->acc_inc_delta = 0;
     this->acc_ped_stored = 0;
     this->gear = 0;
-    this->target_rpm = 0;
+    this->target_rpm = 0; */
 }
-*/
-uint16_t calcRPM::CalculateRPM(int acc_ped, StartButtonSts startstop, DriverInformation info)
+
+uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
 {
     float gear_ratio = 4;
 
-    if (startstop == StartButtonSts::PRESSED && info == DriverInformation::NO_MSG)
-        this->eng_on = !eng_on;
+    //if (startstop == StartButtonSts::PRESSED && info == DriverInformation::NO_MSG)
+    //    this->eng_on = !eng_on;
 
     if (this->rpm >= 3000)
     {
@@ -38,14 +40,14 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, StartButtonSts startstop, DriverInfo
     std::cout << "increasing_rpm = " << increasing_rpm << std::endl;
     std::cout << "decreasing_rpm = " << decreasing_rpm << std::endl;
     std::cout << "eng_on = " << eng_on << std::endl;
-    if (this->eng_on == true)
+    if (eng_on == true)
     {
         if (this->rpm < 900)
             this->rpm = 900;
 
         if (increasing_rpm)
         {
-            this->acc_inc_delta += fr200_updateRate;
+            this->acc_inc_delta += 100; // not hard code, use some update rate
             std::cout << "acc_inc_delta = " << acc_inc_delta << std::endl;
             
             if (this->rpm >= target_rpm) // || this->RPM >= max_rpm)

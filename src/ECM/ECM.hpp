@@ -15,15 +15,19 @@ const int shift_rpm=3200; // REMOVE LATER
 class ECM
 {
   public:
+    ECM();
     void Update(frame_100 &frm_100, frame_300 &frm_300, int _gearRatio);
     void Write(frame_200 &frm_200);
     uint16_t get_rpm();
   private:
     uint16_t rpm;
+    uint8_t temp, counter;
     DriverInformation infoMsg;
     calcRPM rpm_class;
     calcFuel fuel_class;
     driverInfo di;
+    bool eng_on;
+    void CalculateTemp();
 };
 
 #endif //ECM_HPP
