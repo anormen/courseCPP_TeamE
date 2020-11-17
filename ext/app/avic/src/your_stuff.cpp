@@ -2,6 +2,8 @@
 #include <thread>
 #include <iostream>
 #include <cstring>
+#include <QtCore/QObject>
+#include <QtCore/QVariant>
 #include "your_stuff.h"
 #include "canio/can_common.h"
 #include "frames.hpp"
@@ -15,6 +17,7 @@ const canid_t ICONZ = 0x213;
 
 void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     fr200 frm_200;
+    fr100 frm_100;
 
     switch (_frame->can_id) {
     case CAN::MSG::GAUGES_ID: {
@@ -29,6 +32,15 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     case 200: {
         memcpy(&frm_200,_frame,sizeof(struct fr200));
         this->InstrumentCluster.setRPM(static_cast<double>(frm_200.rpm ));
+        this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_200.fuelinst/10 ));
+        this->InstrumentCluster.setTxt(QString::fromStdString(messages.at(frm_200.driverinfo)));
+        break;
+    }
+    case 100: {
+        memcpy(&frm_100,_frame,sizeof(struct fr100));
+        this->InstrumentCluster.setGearPindle(static_cast<char>(frm_100.gearlever));
+        this->InstrumentCluster.setGear(static_cast<char>(frm_100.gearlever));
+
         break;
     }
     default:

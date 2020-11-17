@@ -35,6 +35,7 @@ public:
     inline void setFuelGauges(const double &_f) {ValueSource->setProperty("fuel",QVariant(_f/0xFF));}
     inline void setTemperatureGauges(const double &_t) {ValueSource->setProperty("temperature",QVariant(_t/0xFF));}
     inline void setOilTemperatureGauges(const double&_t) {ValueSource->setProperty("oil_temp",QVariant(_t/0xFF));}
+    inline void setTxt(const QString &_s) {ValueSource->setProperty("txt",QVariant(_s));}
 
 private:
     unsigned short iconZ;
