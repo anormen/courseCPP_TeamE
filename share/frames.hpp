@@ -92,12 +92,12 @@ class frame_100
     fr100* get_frame_ptr();
     uint8_t get_length();
 
-    void set_mode(SimulationMode &mode);
-    void set_gearlever(GearLeverPos &lever);
-    void set_startstop(StartButtonSts &sbs);
-    void set_updatebit(uint8_t &ub);
-    void set_accelerator(uint8_t &acc);
-    void set_brake(uint8_t &brk);
+    void set_mode(const SimulationMode &mode);
+    void set_gearlever(const GearLeverPos &lever);
+    void set_startstop(const StartButtonSts &sbs);
+    void set_updatebit(const uint8_t &ub);
+    void set_accelerator(const uint8_t &acc);
+    void set_brake(const uint8_t &brk);
     std::mutex fr100_mutex;
   private:
     fr100 frame;
@@ -118,12 +118,12 @@ class frame_200
     fr200* get_frame_ptr();
     uint8_t get_length();
 
-    void set_rpm(uint16_t rpm);
+    void set_rpm(const uint16_t rpm);
     void set_fuelinst(double fuelinst);
     void set_fuelavg(double fuelavg);
-    void set_driverinfor(DriverInformation di);
-    void set_telltale(uint8_t tt);
-    void set_updatebit(uint8_t ub);
+    void set_driverinfor(const DriverInformation di);
+    void set_telltale(const uint8_t tt);
+    void set_updatebit(const uint8_t &ub);
     std::mutex fr200_mutex;
   private:
     fr200 frame;
@@ -141,9 +141,9 @@ class frame_300
     fr300* get_frame_ptr();
     uint8_t get_length();
 
-    void set_speed(uint16_t spd);
-    void set_gearactual(uint8_t gearact);
-    void set_updatebit(uint8_t ub);
+    void set_speed(const uint16_t spd);
+    void set_gearactual(const uint8_t gearact);
+    void set_updatebit(const uint8_t &ub);
     std::mutex fr300_mutex;
   private:
     fr300 frame;

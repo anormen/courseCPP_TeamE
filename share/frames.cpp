@@ -28,12 +28,12 @@ uint8_t frame_100::get_brake() { return this->frame.brake; }
 fr100 *frame_100::get_frame_ptr() { return &this->frame; };
 uint8_t frame_100::get_length() { return this->frame.candlc; };
 
-void frame_100::set_mode(SimulationMode &mode) { this->frame.mode = static_cast<uint8_t>(mode); }
-void frame_100::set_gearlever(GearLeverPos &lever) { this->frame.gearlever = static_cast<uint8_t>(lever); }
-void frame_100::set_startstop(StartButtonSts &sbs) { this->frame.gearlever = static_cast<uint8_t>(sbs); }
-void frame_100::set_updatebit(uint8_t &ub) { this->frame.updatebit = ub; }
-void frame_100::set_accelerator(uint8_t &acc) { this->frame.accelerator = acc; }
-void frame_100::set_brake(uint8_t &brk) { this->frame.brake = brk; }
+void frame_100::set_mode(const SimulationMode &mode) { this->frame.mode = static_cast<uint8_t>(mode); }
+void frame_100::set_gearlever(const GearLeverPos &lever) { this->frame.gearlever = static_cast<uint8_t>(lever); }
+void frame_100::set_startstop(const StartButtonSts &sbs) { this->frame.gearlever = static_cast<uint8_t>(sbs); }
+void frame_100::set_updatebit(const uint8_t &ub) { this->frame.updatebit = ub; }
+void frame_100::set_accelerator(const uint8_t &acc) { this->frame.accelerator = acc; }
+void frame_100::set_brake(const uint8_t &brk) { this->frame.brake = brk; }
 
 // Frame 200
 
@@ -58,12 +58,12 @@ uint8_t frame_200::get_updatebit() { return this->frame.updatebit; }
 fr200 *frame_200::get_frame_ptr() { return &this->frame; };
 uint8_t frame_200::get_length() { return this->frame.candlc; };
 
-void frame_200::set_rpm(uint16_t rpm) { this->frame.rpm = rpm; }
-void frame_200::set_fuelinst(double fuelinst) { this->frame.fuelinst = (uint16_t)(fuelinst * 100); }
-void frame_200::set_fuelavg(double fuelavg) { this->frame.fuelavg = (uint16_t)(fuelavg * 100) ; }
-void frame_200::set_driverinfor(DriverInformation di) { this->frame.driverinfo = static_cast<uint8_t>(di); }
-void frame_200::set_telltale(uint8_t tt) { this->frame.telltale = tt; }
-void frame_200::set_updatebit(uint8_t ub) { this->frame.updatebit = ub; }
+void frame_200::set_rpm(const uint16_t rpm) { this->frame.rpm = rpm; }
+void frame_200::set_fuelinst(const double fuelinst) { this->frame.fuelinst = (uint16_t)(fuelinst * 100); }
+void frame_200::set_fuelavg(const double fuelavg) { this->frame.fuelavg = (uint16_t)(fuelavg * 100) ; }
+void frame_200::set_driverinfor(const DriverInformation di) { this->frame.driverinfo = static_cast<uint8_t>(di); }
+void frame_200::set_telltale(const uint8_t tt) { this->frame.telltale = tt; }
+void frame_200::set_updatebit(const uint8_t &ub) { this->frame.updatebit = ub; }
 
 // Frame 300
 
@@ -87,6 +87,6 @@ uint8_t frame_300::get_updatebit(){return this->frame.updatebit;}
 fr300 *frame_300::get_frame_ptr(){return &this->frame;}
 uint8_t frame_300::get_length(){return this->frame.candlc;}
 
-void frame_300::set_speed(uint16_t spd){this->frame.speed=spd;}
-void frame_300::set_gearactual(uint8_t gearact){this->frame.gearactual=gearact;}
-void frame_300::set_updatebit(uint8_t ub){this->frame.updatebit=ub;}
+void frame_300::set_speed(const uint16_t spd){this->frame.speed=spd;}
+void frame_300::set_gearactual(const uint8_t gearact){this->frame.gearactual=gearact;}
+void frame_300::set_updatebit(const uint8_t &ub){this->frame.updatebit=ub;}
