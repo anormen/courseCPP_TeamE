@@ -1,6 +1,6 @@
 #include "ECM.hpp"
 
-void ECM::Update(frame_100 &frm_100, frame_300 &frm_300)
+void ECM::Update(frame_100 &frm_100, frame_300 &frm_300, int _gearRatio)
 {
 
     di.update(frm_100, rpm, infoMsg);
@@ -16,4 +16,10 @@ void ECM::Write(frame_200 &frm_200)
     frm_200.set_fuelavg(fuel_class.getFuelAvg());
     frm_200.set_fuelinst(fuel_class.getFuelInst());
     frm_200.set_driverinfor(infoMsg);
+} 
+
+// Temportrily needed for eunning gearbox within ECM
+uint16_t ECM::get_rpm()
+{
+    return this->rpm;
 };
