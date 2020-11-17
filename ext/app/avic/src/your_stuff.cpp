@@ -1,7 +1,6 @@
 //#include <chrono>
 #include <thread>
 #include <iostream>
-#include <cstring>
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 #include "your_stuff.h"
@@ -10,33 +9,43 @@
 
 void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
    
-    fr300 frm_300;
-    fr200 frm_200;
-    fr100 frm_100;
-    _icons icon = {0};
+    fr300 frm_300 = {0};
+    fr200 frm_200 = {0};
+    fr100 frm_100 = {0};
+
+    std::ostringstream tempString;
 
     switch (_frame->can_id) {
     case 200: {
         memcpy(&frm_200,_frame,sizeof(struct fr200));
         this->InstrumentCluster.setRPM(static_cast<double>(frm_200.rpm ));
-        this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_200.fuelinst/10 ));
-        this->InstrumentCluster.setTxt(QString::fromStdString(messages.at(frm_200.driverinfo)));
-        //this->InstrumentCluster.set(QString::fromStdString(messages.at(frm_200.driverinfo)));        
-        std::cout << "static_cast<double>(frm_200.temp) = " << static_cast<double>(frm_200.temp) << std::endl;
+        //this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_200.fuelinst/10 ));
+
+        tempString << messages.at(frm_200.driverinfo) << "\n\rFuel consumption: " << std::fixed << std::setprecision(1) ;
+        frm_300.speed > 0 ? tempString << (frm_200.fuelavg/100.0) << " l/100km" : tempString << (frm_200.fuelinst/100.0) << " l/h";
+
+        this->InstrumentCluster.setTxt(QString::fromStdString(tempString.str()));    
         this->InstrumentCluster.setTemperatureGauges(static_cast<double>(frm_200.temp));
+
+        if(frm_200.updatebit)
+            aliveTimeECM->start(1000);
         break;
     }
     case 100: {
         memcpy(&frm_100,_frame,sizeof(struct fr100));
         this->InstrumentCluster.setGear(QString::fromStdString(gears.at(frm_100.gearlever)));
-        frm_100.brake > 0 ? icon.hand_break = false :icon.hand_break = true;
-        this->InstrumentCluster.setIcon(&icon);
+        frm_100.brake > 0 ? this->icon.hand_break = false : this->icon.hand_break = true;
+        this->InstrumentCluster.setIcon(&this->icon);
         break;
     }
     case 300: {
         memcpy(&frm_300,_frame,sizeof(struct fr300));
         this->InstrumentCluster.setGearPindle(static_cast<char>(frm_300.gearactual));
         this->InstrumentCluster.setSpeed(static_cast<double>(frm_300.speed));
+        this->speed = frm_300.speed;
+
+        if(frm_300.updatebit)
+            aliveTimeTCM->start(1000);
         break;
     }    
     default:
@@ -62,17 +71,25 @@ void yourStuff::readMyEngineFrame(const unsigned char * const _data) {
 
 
 
+
+
 /******************************* ANYTHING BELOW THIS LINE IS JUST BORING STUFF *******************************/
 
 yourStuff::yourStuff(const std::string &_ifName, QObject *_vs) {
+
     if(!(this->CANReader.open(_ifName))) exit(-1);//emit die();
     this->InstrumentCluster.init(_vs);
     this->startTimer(1);
+    aliveTimeTCM = new QTimer(this);
+    aliveTimeECM = new QTimer(this);    
+    connect(aliveTimeECM, &QTimer::timeout, [this] (){ this->icon.engine_check = true; this->InstrumentCluster.setIcon(&this->icon);});
+    connect(aliveTimeTCM, &QTimer::timeout, [this] (){ this->icon.engine_check = true; this->InstrumentCluster.setIcon(&this->icon);});    
 }
 
 bool yourStuff::run() {
     bool ret = true;
-    canfd_frame frame;    
+    canfd_frame frame; 
+   
     CANOpener::ReadStatus status = this->CANReader.read(&frame);    
 
     if (status == CANOpener::ReadStatus::ERROR) ret = false;
