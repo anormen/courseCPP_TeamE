@@ -44,9 +44,7 @@ void display::updateTelltale(){
 
     //evaluate and zero
     if(inputUb && ecmUb && tcmUb)
-    {
         updateTimeout = 0;
-    }
     else
         updateTimeout += fr100_updateRate * 3;
 }

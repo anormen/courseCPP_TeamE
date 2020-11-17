@@ -12,14 +12,14 @@ class calcFuel{
     public:
         calcFuel();
         void CalculateFuel(frame_100 &fr100, uint16_t &rpm, frame_300 &fr300);
-        //void set_Fuel(frame_200 &fr200);
         double getFuelInst() { return fuelInst; };
         double getFuelAvg() { return fuelAvg; };
     private:
         struct fuelAvgCon{
             double vSpeed = 50.0;
             double iFuel = 0.001;
-        }fA;                
+        }fA;      
+        double CalculateRate(uint8_t &accelerator, uint16_t &rpm, uint16_t &speed);                 
         double fuelAvg = 0; //kept by class
         double fuelInst = 0; //kept by class
         double fuelticks = 0;

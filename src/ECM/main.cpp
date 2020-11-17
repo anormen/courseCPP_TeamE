@@ -12,13 +12,12 @@
 int main()
 {
     canHandler can;
-    driverInfo di;
-    calcFuel cf;
     can.canInit("vcan0");
     frame_100 data_100;
     frame_200 data_200;
     frame_300 data_300;    
     can_frame frame;
+    uint8_t sendRate = 0;
 
     ECM ecm;
     TCM tcm;
@@ -47,7 +46,7 @@ int main()
                 std::cout << "Exit IO thread\n";
                 break;
             }
-
+            if(sendRate > 4)
             {
                 std::cout << "write frame\n";
                 std::lock_guard<std::mutex> guard(data_200.fr200_mutex);
@@ -55,8 +54,8 @@ int main()
                 uint16_t b = can.canWriteFrame(frame);
                 can.printFrame(frame);
             }
-
-            std::cout << std::endl;
+            else
+                sendRate++;
         }
     });
 
@@ -81,7 +80,6 @@ int main()
                     //cf.CalculateFuel(data_100, data_200, data_300);
                     //ecm.UpdateECM(data_100.get_accelerator(), data_100.get_startstop(), data_200.get_driverinfo());
                     ecm.Update(data_100,data_300,1);
-
                 }
 
                 {

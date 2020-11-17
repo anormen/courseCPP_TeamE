@@ -32,7 +32,5 @@ int main()
         if(conv.GetSimulationMode() == SimulationMode::OFF)
             break;        
     }
-
     return 0;
-
 }
