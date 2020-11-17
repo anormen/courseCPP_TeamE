@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5.1)
 project(simulator)
 include_directories(share)
 add_library(canIO share/can_class.cpp)
-add_executable(inputHandler src/inputHandler/main.cpp src/inputHandler/key_converter.cpp src/inputHandler/conversion.cpp)
+add_executable(inputHandler src/inputHandler/main.cpp src/inputHandler/key_converter.cpp src/inputHandler/conversion.cpp share/frames.cpp)
 target_link_libraries(inputHandler PRIVATE ncurses pthread canIO) # should it be PRIVATE?
 add_executable(ECM src/ECM/main.cpp src/ECM/ECM.cpp src/TCM/TCM.cpp src/TCM/gearbox.cpp src/ECM/message_handler.cpp src/ECM/calcFuel.cpp src/ECM/driverInfo.cpp 
                 src/ECM/calcRPM.cpp share/frames.cpp) 

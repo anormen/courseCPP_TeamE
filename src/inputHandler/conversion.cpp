@@ -1,112 +1,106 @@
 #include "conversion.hpp"
 
 Conversion::Conversion(){
-
-    fr100_to_send.accelerator= 0x0;
-    fr100_to_send.startstop= (uint8_t)StartButtonSts::UNPRESSED;
-    fr100_to_send.brake= 0x0;
-    fr100_to_send.mode= (uint8_t)SimulationMode::SLEEP;
-    fr100_to_send.gearlever= (uint8_t)GearLeverPos::PARK;
-    fr100_to_send.updatebit = 0x1;
-    fr100_to_send.res0 = 0x0;
-    fr100_to_send.res1 = 0x0;  
-    fr100_to_send.res2 = 0x0;   
-    fr100_to_send.res3 = 0x0;       
+    // Empty
 }
-
 void Conversion::AccPedUp(){
-    fr100_to_send.accelerator = fr100_to_send.accelerator + 10;
-    if (fr100_to_send.accelerator > 100) { 
-        fr100_to_send.accelerator = 100;
-    }
+    uint8_t acc = this->fr100_to_send.get_accelerator() + 10;
+    if(acc > 100)
+        acc = 100;
+    fr100_to_send.set_accelerator(acc);
 }
-void Conversion::AccPedDown(){      
-    if (fr100_to_send.accelerator >10) { 
-        fr100_to_send.accelerator = fr100_to_send.accelerator - 10;
+void Conversion::AccPedDown(){     
+    uint8_t acc = this->fr100_to_send.get_accelerator() - 10; 
+    if (acc >10) { 
+        acc = acc - 10;
     }
     else {
-        fr100_to_send.accelerator = 0;
+        acc = 0;
     }
+    fr100_to_send.set_accelerator(acc);
 }
 void Conversion::BrakePedalUp(){
-    fr100_to_send.brake = fr100_to_send.brake + 10;
-    if (fr100_to_send.brake > 100) { 
-        fr100_to_send.brake = 100;
+    uint8_t brk = this->fr100_to_send.get_brake() + 10;
+    if (brk > 100) { 
+        brk = 100;
     }
+    fr100_to_send.set_brake(brk);
 }
 void Conversion::BrakePedalDown(){
-    if (fr100_to_send.brake >10) { 
-        fr100_to_send.brake = fr100_to_send.brake - 10;
+    uint8_t brk = this->fr100_to_send.get_brake() - 10;
+    if (brk >10) { 
+        brk = brk - 10;
     }
     else {
-        fr100_to_send.brake = 0;
+        brk = 0;
     }
+    this->fr100_to_send.set_brake(brk);
 }
 void Conversion::SetStartButton(){
-        fr100_to_send.startstop = (uint8_t)StartButtonSts::PRESSED;
+        this->fr100_to_send.set_startstop(StartButtonSts::PRESSED);
 }
 void Conversion::ReleaseStartButton(){
-         fr100_to_send.startstop = (uint8_t)StartButtonSts::UNPRESSED;
+         this->fr100_to_send.set_startstop(StartButtonSts::UNPRESSED);
 }
 void Conversion::GearLeverUp(){
 
-        switch(fr100_to_send.gearlever)
+        switch(this->fr100_to_send.get_gearlever())
         {
-            case (uint8_t)GearLeverPos::PARK:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::REVERSE;
+            case GearLeverPos::PARK:
+                this->fr100_to_send.set_gearlever(GearLeverPos::REVERSE);
                 break;
-            case (uint8_t)GearLeverPos::REVERSE:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::NEUTRAL;
+            case GearLeverPos::REVERSE:
+                this->fr100_to_send.set_gearlever(GearLeverPos::NEUTRAL);
                 break;      
-            case (uint8_t)GearLeverPos::NEUTRAL:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::DRIVE;
+            case GearLeverPos::NEUTRAL:
+                this->fr100_to_send.set_gearlever(GearLeverPos::DRIVE);
                 break;    
-            case (uint8_t)GearLeverPos::DRIVE:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::DRIVE;
+            case GearLeverPos::DRIVE:
+                this->fr100_to_send.set_gearlever(GearLeverPos::DRIVE);
                 break;                       
             default:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::PARK;
+                this->fr100_to_send.set_gearlever(GearLeverPos::PARK);
         }
 }
 
 void Conversion::GearLeverDown(){
 
-        switch(fr100_to_send.gearlever)
+        switch(this->fr100_to_send.get_gearlever())
         {
-            case (uint8_t)GearLeverPos::PARK:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::PARK;
+            case GearLeverPos::PARK:
+                this->fr100_to_send.set_gearlever(GearLeverPos::PARK);
                 break;
-            case (uint8_t)GearLeverPos::REVERSE:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::PARK;
+            case GearLeverPos::REVERSE:
+                this->fr100_to_send.set_gearlever(GearLeverPos::PARK);
                 break;      
-            case (uint8_t)GearLeverPos::NEUTRAL:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::REVERSE;
+            case GearLeverPos::NEUTRAL:
+                this->fr100_to_send.set_gearlever(GearLeverPos::REVERSE);
                 break;    
-            case (uint8_t)GearLeverPos::DRIVE:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::NEUTRAL;
+            case GearLeverPos::DRIVE:
+                this->fr100_to_send.set_gearlever(GearLeverPos::NEUTRAL);
                 break;                       
             default:
-                fr100_to_send.gearlever = (uint8_t)GearLeverPos::PARK;
+                this->fr100_to_send.set_gearlever(GearLeverPos::PARK);
         }
 }
 
 void Conversion::SetSimulationMode(){
 
-    switch(fr100_to_send.mode)
+    switch(this->fr100_to_send.get_mode())
     {
-        case (uint8_t)SimulationMode::SLEEP:
-            fr100_to_send.mode=(uint8_t)SimulationMode::INACTIVE;
+        case SimulationMode::SLEEP:
+            this->fr100_to_send.set_mode(SimulationMode::INACTIVE);
             break;
-        case (uint8_t)SimulationMode::INACTIVE:
-            fr100_to_send.mode=(uint8_t)SimulationMode::ACTIVE;
+        case SimulationMode::INACTIVE:
+            this->fr100_to_send.set_mode(SimulationMode::ACTIVE);
             break;
-        case (uint8_t)SimulationMode::ACTIVE:
-            fr100_to_send.mode=(uint8_t)SimulationMode::OFF;
+        case SimulationMode::ACTIVE:
+            this->fr100_to_send.set_mode(SimulationMode::OFF);
             break;     
         default:
-            fr100_to_send.mode=(uint8_t)SimulationMode::SLEEP;          
+            this->fr100_to_send.set_mode(SimulationMode::SLEEP);          
     }
-    mode = (SimulationMode)fr100_to_send.mode;
+    //mode = fr100_to_send.get_mode();
 }
 
 void  Conversion::fillFrame(can_frame &_frame, kc::UserReq _userReq){
@@ -140,7 +134,7 @@ void  Conversion::fillFrame(can_frame &_frame, kc::UserReq _userReq){
             ReleaseStartButton();   // NOT OK SOLUTION NEED IMPROVMENT      
     }
     //std::cout << "&data_to_send = " << &data_to_send << " &data_to_send+6 " << &data_to_send+6 << std::endl;
-    memcpy(&_frame,&fr100_to_send,sizeof(fr100_to_send));
+    memcpy(&_frame,fr100_to_send.get_frame_ptr(),sizeof(_frame));
 }
 
 Conversion::~Conversion(){}

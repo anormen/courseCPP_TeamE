@@ -17,9 +17,9 @@ static std::vector<std::string> modes = { "SLEEP", "INACTIVE", "ACTIVE", "OFF" }
 static std::vector<std::string> telltales = { "OK", "MISSING ECM", "MISSING TCM", "MISSING INPUT" };
 
 //frame cycle times
-const uint16_t fr100_updateRate = 200;
-const uint16_t fr200_updateRate = 200;
-const uint16_t fr300_updateRate = 200;
+const uint16_t fr100_updateRate = 100;
+const uint16_t fr200_updateRate = 100;
+const uint16_t fr300_updateRate = 100;
 
 //frame from inputhandler
 struct fr100{

@@ -30,7 +30,7 @@ uint8_t frame_100::get_length() { return this->frame.candlc; };
 
 void frame_100::set_mode(const SimulationMode &mode) { this->frame.mode = static_cast<uint8_t>(mode); }
 void frame_100::set_gearlever(const GearLeverPos &lever) { this->frame.gearlever = static_cast<uint8_t>(lever); }
-void frame_100::set_startstop(const StartButtonSts &sbs) { this->frame.gearlever = static_cast<uint8_t>(sbs); }
+void frame_100::set_startstop(const StartButtonSts &sbs) { this->frame.startstop = static_cast<uint8_t>(sbs); }
 void frame_100::set_updatebit(const uint8_t &ub) { this->frame.updatebit = ub; }
 void frame_100::set_accelerator(const uint8_t &acc) { this->frame.accelerator = acc; }
 void frame_100::set_brake(const uint8_t &brk) { this->frame.brake = brk; }

@@ -81,7 +81,7 @@ int main()
                     //di.update(data_100, data_200);
                     //cf.CalculateFuel(data_100, data_200, data_300);
                     //ecm.UpdateECM(data_100.get_accelerator(), data_100.get_startstop(), data_200.get_driverinfo());
-                    ecm.Update(data_100,data_300);
+                    ecm.Update(data_100,data_300,1);
 
                 }
 
