@@ -8,41 +8,35 @@
 #include "canio/can_common.h"
 #include "frames.hpp"
 
-namespace CANID {
-const canid_t ENGINE_AND_GEARBOX = 0x123;
-const canid_t ICONZ = 0x213;
-}
-
-
-
 void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
+   
+    fr300 frm_300;
     fr200 frm_200;
     fr100 frm_100;
+    _icons icon = {0};
 
     switch (_frame->can_id) {
-    case CAN::MSG::GAUGES_ID: {
-        const struct CAN::MSG::Gauges_t::_inner* s = reinterpret_cast<const struct CAN::MSG::Gauges_t::_inner* >((_frame->data));
-
-        this->InstrumentCluster.setFuelGauges(s->G_FUEL);
-        this->InstrumentCluster.setTemperatureGauges(s->G_TEMP);
-        this->InstrumentCluster.setOilTemperatureGauges(s->G_OILT);
-        CAN::MSG::printGauges(s);
-    }
-        break;
     case 200: {
         memcpy(&frm_200,_frame,sizeof(struct fr200));
         this->InstrumentCluster.setRPM(static_cast<double>(frm_200.rpm ));
         this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_200.fuelinst/10 ));
         this->InstrumentCluster.setTxt(QString::fromStdString(messages.at(frm_200.driverinfo)));
+        //this->InstrumentCluster.set(QString::fromStdString(messages.at(frm_200.driverinfo)));        
         break;
     }
     case 100: {
         memcpy(&frm_100,_frame,sizeof(struct fr100));
-        this->InstrumentCluster.setGearPindle(static_cast<char>(frm_100.gearlever));
-        this->InstrumentCluster.setGear(static_cast<char>(frm_100.gearlever));
-
+        this->InstrumentCluster.setGear(QString::fromStdString(gears.at(frm_100.gearlever)));
+        frm_100.brake > 0 ? icon.hand_break = false :icon.hand_break = true;
+        this->InstrumentCluster.setIcon(&icon);
         break;
     }
+    case 300: {
+        memcpy(&frm_300,_frame,sizeof(struct fr300));
+        this->InstrumentCluster.setGearPindle(static_cast<char>(frm_300.gearactual));
+        this->InstrumentCluster.setSpeed(static_cast<double>(frm_300.speed));
+        break;
+    }    
     default:
         break;
     }

@@ -27,7 +27,7 @@ int main()
         if(b!=sizeof(frame))
             std::cout << "ERROR sending can frame\n\r";
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate));
+        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate*3));
 
         if(conv.GetSimulationMode() == SimulationMode::OFF)
             break;        

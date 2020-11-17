@@ -69,20 +69,7 @@ Item {
     Behavior on oil_temp { NumberAnimation { duration: 500 } }
     property string gear: "0"
     property int pindle_int: 0
-    property string prindle:  {
-        var g;//??
-        if (pindle_int == 0) {
-            return "P";
-        } else if (pindle_int == 1) {
-            return "N";
-        } else if (pindle_int == 2) {
-            return "R";
-        } else if (pindle_int == 3) {
-            return "D";
-        } else if (pindle_int == 4) {
-            return "M";
-        }
-    }
+    property string prindle:  ""
     property bool start: false
     property bool left_blinker: false
     property bool engine_check: false
@@ -95,8 +82,7 @@ Item {
     property bool hand_break: false
     property bool right_blinker: false
     property bool startUp: false
-    property string txt: "Nothing"
-
+    property string txt: "" //default text
 
     function randomDirection() {
         return Math.random() > 0.5 ? Qt.LeftArrow : Qt.RightArrow;

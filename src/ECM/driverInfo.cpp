@@ -11,7 +11,7 @@ void driverInfo::update(frame_100 &fr100, uint16_t &rpm, DriverInformation &info
     //DriverInformation infoMsg = fr200.get_driverinfo();
    
     if(startbutton == StartButtonSts::PRESSED && mode == SimulationMode::ACTIVE){ //handler active
-        if (rpm > 0) //running
+        if (rpm > 0 && gearleverpos != GearLeverPos::PARK) //running
             infoMsg = DriverInformation::NOT_IN_P_IN_D;
         else if(brake == 0) //not pressed
             infoMsg = DriverInformation::NO_BRAKE;

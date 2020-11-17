@@ -16,7 +16,7 @@ ApplicationWindow {
     flags: Qt.FramelessWindowHint
     style: ApplicationWindowStyle {
         background: Rectangle {
-            color: "#ffffff"
+            color: "#000000"
         }
     }
 
@@ -154,8 +154,6 @@ ApplicationWindow {
                 radius: height / 5
                 color: "#656565"
 
-
-
                 Text {
                     id: prindle
                     anchors.verticalCenter: parent.verticalCenter
@@ -174,8 +172,6 @@ ApplicationWindow {
                 height: parent.height
                 radius: height / 5
                 color: "#656565"
-
-
 
                 Text {
                     id: gear
@@ -418,7 +414,7 @@ ApplicationWindow {
             text: valueSource.txt
             width: 441
             height: 98
-            font.pixelSize: 12
+            font.pixelSize: 30
 
         }
     }

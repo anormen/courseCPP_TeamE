@@ -33,12 +33,20 @@ void display::update()
 
 void display::updateTelltale(){
 
-    if(!inputUb)
+    if(updateTimeout > fr100_updateRate *3 && inputUb == 0)
         telltale = Telltale::INPUT;
-    else if (!ecmUb)
+    else if (updateTimeout > fr100_updateRate *3 && ecmUb == 0)
         telltale = Telltale::ECM;
-    else if (!tcmUb)
+    else if (updateTimeout > fr100_updateRate *3 && tcmUb == 0)
         telltale = Telltale::TCM;
     else
         telltale = Telltale::PRESENT;
+
+    //evaluate and zero
+    if(inputUb && ecmUb && tcmUb)
+    {
+        updateTimeout = 0;
+    }
+    else
+        updateTimeout += fr100_updateRate * 3;
 }

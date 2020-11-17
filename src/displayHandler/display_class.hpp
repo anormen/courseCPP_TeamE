@@ -29,7 +29,8 @@ class display{
         int accelerator = 0;
         int rpm = 0;
         int brake = 0;
-        void updateTelltale();    
+        void updateTelltale();  
+        uint16_t updateTimeout = 0;  
         SimulationMode mode = SimulationMode::SLEEP;
         StartButtonSts startstop = StartButtonSts::UNPRESSED;         
         GearLeverPos gearlever = GearLeverPos::PARK; 

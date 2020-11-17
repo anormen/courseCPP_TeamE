@@ -5,7 +5,7 @@
 
 void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
 
-        if(frameGen.can_dlc > 0)
+        if(frameGen.can_dlc > 0 && frameGen.can_id != 0)
         {
             switch(frameGen.can_id)
             {       
@@ -16,7 +16,8 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
                     dHndl.setValueMode(fr100.get_mode());
                     dHndl.setValueStartStop(fr100.get_startstop());   
                     dHndl.setValueGearLever(fr100.get_gearlever()); 
-                    dHndl.setValueInputUB(fr100.get_updatebit());                                                                             
+                    dHndl.setValueInputUB(fr100.get_updatebit());    
+                    fr100.set_updatebit(0);                                                 
                     break;
                 case 200: //ecm
                     memcpy(fr200.get_frame_ptr(), &frameGen, sizeof(frameGen));  
@@ -26,12 +27,14 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
                     dHndl.setValueDriverInfo(fr200.get_driverinfo());
                     dHndl.setValueTelltale(fr200.get_telltale());
                     dHndl.setValueECMUB(fr200.get_updatebit());
+                    fr200.set_updatebit(0); 
                     break;
                 case 300: //tcm
                     memcpy(fr300.get_frame_ptr(), &frameGen, sizeof(frameGen));  
                     dHndl.setValueVehicleSpeed(fr300.get_speed());
                     dHndl.setValueGearActual(fr300.get_gearactual());
-                    dHndl.setValueTCMUB(fr300.get_updatebit());                                        
+                    dHndl.setValueTCMUB(fr300.get_updatebit()); 
+                    fr300.set_updatebit(0);                                        
                     break;
                 default:
                     std::cout << "Invalid can frame id" << std::endl;
@@ -39,6 +42,5 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
         }
         else
             std::cout << "Can data read buffer is empty" << std::endl;
-
     return;
 };
