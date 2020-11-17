@@ -57,6 +57,7 @@ Telltale frame_200::get_telltale() { return static_cast<Telltale>(this->frame.te
 uint8_t frame_200::get_updatebit() { return this->frame.updatebit; }
 fr200 *frame_200::get_frame_ptr() { return &this->frame; };
 uint8_t frame_200::get_length() { return this->frame.candlc; };
+uint8_t frame_200::get_temp() { return this->frame.temp; };
 
 void frame_200::set_rpm(const uint16_t rpm) { this->frame.rpm = rpm; }
 void frame_200::set_fuelinst(const double fuelinst) { this->frame.fuelinst = (uint16_t)(fuelinst * 100); }
@@ -64,6 +65,7 @@ void frame_200::set_fuelavg(const double fuelavg) { this->frame.fuelavg = (uint1
 void frame_200::set_driverinfor(const DriverInformation di) { this->frame.driverinfo = static_cast<uint8_t>(di); }
 void frame_200::set_telltale(const uint8_t tt) { this->frame.telltale = tt; }
 void frame_200::set_updatebit(const uint8_t &ub) { this->frame.updatebit = ub; }
+void frame_200::set_temp(const uint8_t &tmp) { this->frame.temp = tmp; }
 
 // Frame 300
 

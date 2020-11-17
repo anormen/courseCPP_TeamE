@@ -22,6 +22,8 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_200.fuelinst/10 ));
         this->InstrumentCluster.setTxt(QString::fromStdString(messages.at(frm_200.driverinfo)));
         //this->InstrumentCluster.set(QString::fromStdString(messages.at(frm_200.driverinfo)));        
+        std::cout << "static_cast<double>(frm_200.temp) = " << static_cast<double>(frm_200.temp) << std::endl;
+        this->InstrumentCluster.setTemperatureGauges(static_cast<double>(frm_200.temp));
         break;
     }
     case 100: {

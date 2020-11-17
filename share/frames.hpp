@@ -17,9 +17,9 @@ static std::vector<std::string> modes = { "SLEEP", "INACTIVE", "ACTIVE", "OFF" }
 static std::vector<std::string> telltales = { "OK", "MISSING ECM", "MISSING TCM", "MISSING INPUT" };
 
 //frame cycle times
-const uint16_t fr100_updateRate = 100;
-const uint16_t fr200_updateRate = 100;
-const uint16_t fr300_updateRate = 100;
+const uint16_t fr100_updateRate = 50;
+const uint16_t fr200_updateRate = 50;
+const uint16_t fr300_updateRate = 50;
 
 //frame from inputhandler
 struct fr100{
@@ -117,6 +117,7 @@ class frame_200
     uint8_t get_updatebit();
     fr200* get_frame_ptr();
     uint8_t get_length();
+    uint8_t get_temp();
 
     void set_rpm(const uint16_t rpm);
     void set_fuelinst(double fuelinst);
@@ -124,6 +125,7 @@ class frame_200
     void set_driverinfor(const DriverInformation di);
     void set_telltale(const uint8_t tt);
     void set_updatebit(const uint8_t &ub);
+    void set_temp(const uint8_t &ub);
     std::mutex fr200_mutex;
   private:
     fr200 frame;

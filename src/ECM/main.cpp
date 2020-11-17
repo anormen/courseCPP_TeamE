@@ -20,7 +20,7 @@ int main()
     frame_300 data_300;    
     can_frame frame;
 
-    message_handler msg_handler;
+    //message_handler msg_handler;
     ECM ecm;
     TCM tcm;
 
