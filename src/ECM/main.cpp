@@ -2,10 +2,10 @@
 #include <unistd.h>
 #include <mutex>
 #include <future>
+#include "can_class.h"
 #include "ECM.hpp"
 #include "../TCM/TCM.hpp"
 #include "frames.hpp"
-#include "message_handler.hpp"
 #include "driverInfo.hpp"
 #include "calcFuel.hpp"
 
@@ -20,7 +20,6 @@ int main()
     frame_300 data_300;    
     can_frame frame;
 
-    //message_handler msg_handler;
     ECM ecm;
     TCM tcm;
 
