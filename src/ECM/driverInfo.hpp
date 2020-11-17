@@ -13,7 +13,6 @@ class driverInfo{
 
     public:
         driverInfo(){};
-        //void update(frame_100 &fr100, frame_200 &fr200);
         void update(frame_100 &fr100, uint16_t &rpm, DriverInformation &infoMsg);
     private:
         std::chrono::steady_clock::time_point startTime;

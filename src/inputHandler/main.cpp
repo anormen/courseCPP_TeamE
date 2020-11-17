@@ -2,8 +2,7 @@
 #include <curses.h>
 #include <chrono>
 #include <thread>  
-#include "can_class.h"
-//#include "frames.hpp"
+#include "../../share/can_class.hpp"
 #include "conversion.hpp"
 #include "key_converter.hpp"
 
@@ -15,21 +14,21 @@ int main()
     canHandler can;
     can.canInit("vcan0");
 
-    Conversion conv;
+    Conversion convert;
     kc::keyConverter keyConv;
     kc::UserReq userReq; //Make more local??
 
     while (1)
     {
         userReq = keyConv.readInputReq();
-        conv.fillFrame(frame, userReq);
+        convert.fillFrame(frame, userReq);
         uint16_t b = can.canWriteFrame(frame);
-        if(b!=sizeof(frame))
+        if(b != sizeof(frame))
             std::cout << "ERROR sending can frame\n\r";
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate*3));
+        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate*3)); //slowdown sending
 
-        if(conv.GetSimulationMode() == SimulationMode::OFF)
+        if(convert.GetSimulationMode() == SimulationMode::OFF)
             break;        
     }
     return 0;

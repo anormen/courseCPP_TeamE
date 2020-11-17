@@ -1,4 +1,4 @@
-#include "can_class.h"
+#include "can_class.hpp"
 
 void canHandler::canInit(const char * ifname){
 
