@@ -1,11 +1,13 @@
-#include<iostream>
+#include <iostream>
 #include "calcRPM.hpp"
 //#include "frames.hpp"
 
 calcRPM::calcRPM()
 {
     this->acc_inc_delta = 0;
-/*
+    this->target_rpm = 0;
+    this->oldGearratio = 10;
+    /*
     //this->RPM=900;
     this->eng_on = false;
     this->acc_inc_delta = 0;
@@ -16,28 +18,42 @@ calcRPM::calcRPM()
 
 uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
 {
-   
-    
 
-    //if (startstop == StartButtonSts::PRESSED && info == DriverInformation::NO_MSG)
-    //    this->eng_on = !eng_on;
+    std::cout << "_gearRatio = " << _gearRatio << "\n";
 
- //   if (this->rpm >= 3000)
- //   {
- //       rpm = rpm * ((gear_ratio - 1) / gear_ratio); //
- //       gear_ratio = gear_ratio - 1;
- //       target_rpm -= 750;
- //   }
-   if (oldGearratio =! _gearRatio)
-   {
-       
-       if (_gearRatio > 10) //protect from 0
-       {
-            rpm = rpm * (oldGearratio/_gearRatio);
-            target_rpm -= 750;
-            oldGearratio = _gearRatio;
+    if (acc_ped == 10)
+        target_rpm = 2500;
+    else if (acc_ped == 20)
+        target_rpm = 3000;
+    else if (acc_ped == 30)
+        target_rpm = 3500;
+    else if (acc_ped == 40)
+        target_rpm = 4000;
+    else if (acc_ped == 50)
+        target_rpm = 4500;
+    else if (acc_ped == 60)
+        target_rpm = 5000;
+    else if (acc_ped == 70)
+        target_rpm = 5500;
+    else if (acc_ped == 80)
+        target_rpm = 6000;
+    else if (acc_ped == 90)
+        target_rpm = 6500;
+    else if (acc_ped == 45)
+        target_rpm = 7000;
+
+    std::cout << "_gearRatio = " << _gearRatio << " oldGearratio = " <<  oldGearratio << "\n";
+
+    if (oldGearratio != _gearRatio)
+    {
+
+        if (_gearRatio >= 10) //protect from 0
+        {
+            this->rpm = (double)this->rpm * ((double)this->oldGearratio / (double)_gearRatio);
+            //this->rpm -=100;
+            this->oldGearratio = _gearRatio;
         }
-   }
+    }
 
     std::cout << "RPM = " << this->rpm << " target_rpm = " << target_rpm << std::endl;
     std::cout << "acc_ped = " << acc_ped << " acc_ped_stored = " << acc_ped_stored << std::endl;
@@ -45,13 +61,12 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
     {
         increasing_rpm = acc_ped > acc_ped_stored;
         decreasing_rpm = acc_ped < acc_ped_stored;
-        target_rpm = acc_ped * 20 * _gearRatio / 2; // should be based on acc_ped. gear?
     }
 
     std::cout << "increasing_rpm = " << increasing_rpm << std::endl;
     std::cout << "decreasing_rpm = " << decreasing_rpm << std::endl;
     std::cout << "eng_on = " << eng_on << std::endl;
-    if (eng_on == true)m
+    if (eng_on == true)
     {
         if (this->rpm < 900)
             this->rpm = 900;
@@ -60,20 +75,21 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
         {
             this->acc_inc_delta += 100; // not hard code, use some update rate
             std::cout << "acc_inc_delta = " << acc_inc_delta << std::endl;
-            
+
             if (this->rpm >= target_rpm) // || this->RPM >= max_rpm)
             {
                 increasing_rpm = false;
                 acc_inc_delta = 0;
             }
-
-            if (acc_inc_delta > response_time)
-                this->rpm += 100 * acc_ped / 20;
+            this->rpm += 10;
+            //if (acc_inc_delta > response_time)
+            //    this->rpm += 10;
+                //this->rpm += 20 * acc_ped / 20;
         }
 
         if (decreasing_rpm)
         {
-            this->rpm -= 75 * 40 / 50; // how should we calculate decrease rate?
+            this->rpm -= 10; // how should we calculate decrease rate?
             if (this->rpm < 900)
             {
                 this->rpm = 900;
