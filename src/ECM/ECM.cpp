@@ -32,7 +32,7 @@ void ECM::Write(frame_200 &frm_200)
     frm_200.set_updatebit(1);
 }
 
-// Temportrily needed for eunning gearbox within ECM
+// Temportrily needed for running gearbox within ECM
 uint16_t ECM::get_rpm()
 {
     return this->rpm;
