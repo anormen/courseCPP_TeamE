@@ -10,7 +10,6 @@ void display::initDisplay()
 
 void display::update()
 { 
-    updateTelltale();
     std::cout << "\033c \033[0;32m" ;  //http://ascii-table.com/ansi-escape-sequences.php
     std::cout << "----------------------------------------------------------------" << std::endl;    
     std::cout << std::dec << std::setw(3) << std::setfill('0') << "Accelerator:     " << (int)accelerator   << " %" << std::endl;
@@ -30,22 +29,19 @@ void display::update()
     std::cout << std::dec << std::setw(1) << std::setfill('0') << "ECM UB:          " << (int)ecmUb         << " " << std::endl;     
     std::cout << std::dec << std::setw(1) << std::setfill('0') << "TCM UB:          " << (int)tcmUb         << " " << std::endl; 
     std::cout << "----------------------------------------------------------------" << std::endl;
+    updateTelltale();    
 }
 
 void display::updateTelltale(){
 
-    if(updateTimeout > fr100_updateRate *3 && inputUb == 0)
+    if(!inputUb)
         telltale = Telltale::INPUT;
-    else if (updateTimeout > fr100_updateRate *3 && ecmUb == 0)
+    else if(!ecmUb)
         telltale = Telltale::ECM;
-    else if (updateTimeout > fr100_updateRate *3 && tcmUb == 0)
-        telltale = Telltale::TCM;
+    else if(!tcmUb)
+        telltale = Telltale::TCM;                        
     else
         telltale = Telltale::PRESENT;
 
-    //evaluate and zero
-    if(inputUb && ecmUb && tcmUb)
-        updateTimeout = 0;
-    else
-        updateTimeout += fr100_updateRate * 3;
+    ecmUb=0; tcmUb=0; inputUb=0;
 }

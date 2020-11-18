@@ -9,7 +9,7 @@ void frame_100::init_frame()
     this->frame.mode = 0;
     this->frame.gearlever = 0;
     this->frame.startstop = 0;
-    this->frame.updatebit = 1;
+    this->frame.updatebit = 0;
     this->frame.accelerator = 0;
     this->frame.brake = 0;
     this->frame.res0 = 0;
@@ -17,7 +17,7 @@ void frame_100::init_frame()
     this->frame.res2 = 0;
     this->frame.res3 = 0;
     this->frame.res4 = 0;
-    std::cout << "frame 100 initialized\n";
+    //std::cout << "frame 100 initialized\n";
 }
 SimulationMode frame_100::get_mode() { return static_cast<SimulationMode>(this->frame.mode); }
 GearLeverPos frame_100::get_gearlever() { return static_cast<GearLeverPos>(this->frame.gearlever); }
@@ -45,9 +45,9 @@ void frame_200::init_frame()
     frame.fuelinst = 0;
     frame.driverinfo = 0;
     frame.telltale = 0;
-    frame.updatebit = 1;
+    frame.updatebit = 0;
     frame.temp = 0;
-    std::cout << "frame 200 initialized\n";
+    //std::cout << "frame 200 initialized\n";
 }
 uint16_t frame_200::get_rpm() { return this->frame.rpm; }
 double frame_200::get_fuelinst() { return (double)(this->frame.fuelinst / 100.0); }
@@ -79,8 +79,8 @@ void frame_300::init_frame()
     frame.res2 = 0;
     frame.res3 = 0;
     frame.res4 = 0;
-    frame.updatebit = 1;
-    std::cout << "frame 300 initialized\n";
+    frame.updatebit = 0;
+    //std::cout << "frame 300 initialized\n";
 }
 uint16_t frame_300::get_speed(){return this->frame.speed;}
 uint8_t frame_300::get_gearactual(){return this->frame.gearactual;}

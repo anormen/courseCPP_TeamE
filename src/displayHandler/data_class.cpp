@@ -5,6 +5,10 @@
 
 void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
 
+        frame_100 fr100;
+        frame_200 fr200;
+        frame_300 fr300;
+
         if(frameGen.can_dlc > 0 && frameGen.can_id != 0)
         {
             switch(frameGen.can_id)
@@ -16,8 +20,7 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
                     dHndl.setValueMode(fr100.get_mode());
                     dHndl.setValueStartStop(fr100.get_startstop());   
                     dHndl.setValueGearLever(fr100.get_gearlever()); 
-                    dHndl.setValueInputUB(fr100.get_updatebit());    
-                    fr100.set_updatebit(0);                                                 
+                    dHndl.setValueInputUB(fr100.get_updatebit());                                                    
                     break;
                 case 200: //ecm
                     memcpy(fr200.get_frame_ptr(), &frameGen, sizeof(frameGen));  
@@ -27,15 +30,13 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
                     dHndl.setValueDriverInfo(fr200.get_driverinfo());
                     dHndl.setValueTelltale(fr200.get_telltale());
                     dHndl.setValueECMUB(fr200.get_updatebit());
-                    fr200.set_updatebit(0); 
                     break;
                 case 300: //tcm
                     memcpy(fr300.get_frame_ptr(), &frameGen, sizeof(frameGen));  
                     dHndl.setValueVehicleSpeed(fr300.get_speed());
                     dHndl.setValueGearActual(fr300.get_gearactual());
                     dHndl.setValueGearRatio(fr300.get_gearratio());                    
-                    dHndl.setValueTCMUB(fr300.get_updatebit()); 
-                    fr300.set_updatebit(0);                                        
+                    dHndl.setValueTCMUB(fr300.get_updatebit());                                        
                     break;
                 default:
                     std::cout << "Invalid can frame id" << std::endl;

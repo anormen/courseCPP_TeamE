@@ -2,7 +2,7 @@
 #include <curses.h>
 #include <chrono>
 #include <thread>  
-#include "../../share/can_class.hpp"
+#include "can_class.hpp"
 #include "conversion.hpp"
 #include "key_converter.hpp"
 
@@ -13,23 +13,33 @@ int main()
     can_frame frame;
     canHandler can;
     can.canInit("vcan0");
+    bool isRun = true;
 
-    Conversion convert;
-    kc::keyConverter keyConv;
+    Conversion canConvert;
+    kc::keyConverter keyConvert;
     kc::UserReq userReq; //Make more local??
 
-    while (1)
+    while (isRun)
     {
-        userReq = keyConv.readInputReq();
-        convert.fillFrame(frame, userReq);
-        uint16_t b = can.canWriteFrame(frame);
-        if(b != sizeof(frame))
-            std::cout << "ERROR sending can frame\n\r";
+        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate)); //slowdown sending
+        userReq = keyConvert.readInputReq();
+        canConvert.fillFrame(frame, userReq); 
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate*3)); //slowdown sending
-
-        if(convert.GetSimulationMode() == SimulationMode::OFF)
-            break;        
+        switch (canConvert.GetSimulationMode())
+        {
+            case SimulationMode::OFF:
+                can.canWriteFrame(frame);
+                isRun = false;
+                break; 
+            case SimulationMode::SLEEP:
+                break;
+            case SimulationMode::INACTIVE:
+            case SimulationMode::ACTIVE:
+                can.canWriteFrame(frame); 
+                break;
+            default:
+                std::cout << "Unhandled mode" << std::endl;
+        }
     }
     return 0;
 }
