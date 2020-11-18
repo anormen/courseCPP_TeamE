@@ -3,7 +3,7 @@
 
 #include "display_class.hpp"
 #include "frames.hpp"
-#include "can_class.h"
+#include "can_class.hpp"
 #include "data_class.hpp"
 #include <future>
 

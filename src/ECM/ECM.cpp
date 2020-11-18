@@ -29,6 +29,7 @@ void ECM::Write(frame_200 &frm_200)
     frm_200.set_fuelinst(fuel_class.getFuelInst());
     frm_200.set_driverinfor(infoMsg);
     frm_200.set_temp(this->temp);
+    frm_200.set_updatebit(1);
 }
 
 // Temportrily needed for eunning gearbox within ECM

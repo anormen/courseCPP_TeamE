@@ -2,6 +2,10 @@
 #define YOUR_STUFF_H
 #include "can_opener.h"
 #include "cluster_updater.h"
+#include <string>
+#include <QTimer>
+
+#include <iomanip>
 
 class yourStuff : public QObject {
     Q_OBJECT
@@ -11,12 +15,15 @@ public:
 
 
 
-
 private:
     bool run();
     void YouHaveJustRecievedACANFrame(const canfd_frame * const _frame);
     void readMyEngineFrame(const unsigned char * const _data);
     void timerEvent(QTimerEvent*) override;
+    uint16_t speed = 0;
+    _icons icon = {0};
+    QTimer* aliveTimeTCM;
+    QTimer* aliveTimeECM;
 
 //signals:
 //    void die();
