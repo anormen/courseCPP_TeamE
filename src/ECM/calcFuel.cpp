@@ -12,7 +12,6 @@ calcFuel::calcFuel(){
 
 void calcFuel::CalculateFuel(frame_100 &fr100, uint16_t &rpm, frame_300 &fr300){
 
-    //uint16_t rpm = fr200.get_rpm();
     uint16_t speed = fr300.get_speed();
     uint8_t accelerator = fr100.get_accelerator();
     double sumOfiFuel=0, sumOfSpeed=0, sumOfFuel=0;
@@ -54,7 +53,7 @@ void calcFuel::CalculateFuel(frame_100 &fr100, uint16_t &rpm, frame_300 &fr300){
         }
     }
     //debug
-    std::cout << " ticks: " << fuelticks << " rate: " << rate << " avg: " << fuelAvg << " inst: " << fuelInst << std::endl;   
+    std::cout << " ticks: " << fuelticks << " rate: " << rate << " avg: " << fuelAvg << " inst: " << fuelInst << " speed: " << speed << std::endl;   
 } 
 
 double calcFuel::CalculateRate(uint8_t &accelerator, uint16_t &rpm, uint16_t &speed){
@@ -79,7 +78,8 @@ double calcFuel::CalculateRate(uint8_t &accelerator, uint16_t &rpm, uint16_t &sp
             rate = baseRate * rpm; //0.9l/h @ 750 rpm @ 250ms update
         }
     }
-    rate = rate / 4.0; // main run 4 times per second 250ms
+    //rate = rate / 4.0; // main run 4 times per second 250ms
+    rate = rate / updateRate; // main run 4 times per second 250ms
 
     return rate;
 }

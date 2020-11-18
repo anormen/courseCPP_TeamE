@@ -19,10 +19,9 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     case 200: {
         memcpy(&frm_200,_frame,sizeof(struct fr200));
         this->InstrumentCluster.setRPM(static_cast<double>(frm_200.rpm ));
-        //this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_200.fuelinst/10 ));
 
         tempString << messages.at(frm_200.driverinfo) << "\n\rFuel consumption: " << std::fixed << std::setprecision(1) ;
-        frm_300.speed > 0 ? tempString << (frm_200.fuelavg/100.0) << " l/100km" : tempString << (frm_200.fuelinst/100.0) << " l/h";
+        this->speed > 0 ? tempString << (frm_200.fuelavg/100.0) << " l/100km" : tempString << (frm_200.fuelinst/100.0) << " l/h";
 
         this->InstrumentCluster.setTxt(QString::fromStdString(tempString.str()));    
         this->InstrumentCluster.setTemperatureGauges(static_cast<double>(frm_200.temp));
@@ -34,6 +33,7 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     case 100: {
         memcpy(&frm_100,_frame,sizeof(struct fr100));
         this->InstrumentCluster.setGear(QString::fromStdString(gears.at(frm_100.gearlever)));
+        this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_100.accelerator));        
         frm_100.brake > 0 ? this->icon.hand_break = false : this->icon.hand_break = true;
         this->InstrumentCluster.setIcon(&this->icon);
         break;

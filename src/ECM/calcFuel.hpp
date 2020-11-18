@@ -32,6 +32,7 @@ class calcFuel{
         std::deque<struct fuelAvgCon> fuelAvgFilter;
         uint16_t fuelAvgFilterDistance = 1000;
         double fuelAvgFilterSamples = 10; 
+        double updateRate = 20.0;  // times per second
 };
 
 #endif
