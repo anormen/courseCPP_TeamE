@@ -5,7 +5,7 @@ void canHandler::canInit(const char * ifname){
     struct sockaddr_can addr;
     struct timeval timeout;
     timeout.tv_sec = 0;
-    timeout.tv_usec = 5000;
+    timeout.tv_usec = 500;
 
     struct ifreq ifr;
     this->canSocket = socket(PF_CAN, SOCK_RAW, CAN_RAW); //open socket of type can
@@ -15,7 +15,7 @@ void canHandler::canInit(const char * ifname){
     memcpy(ifr.ifr_name, ifname, sizeof(ifname));
     ioctl(this->canSocket, SIOCGIFINDEX, &ifr);
     //fcntl(this->canSocket, F_SETFL, O_NONBLOCK); //used if NON_BLOCKING_READ
-    setsockopt(this->canSocket, SOCK_RAW, SO_RCVTIMEO, &timeout, sizeof(timeout));
+    setsockopt(this->canSocket, CAN_RAW, SO_RCVTIMEO, &timeout, sizeof(timeout));
 
     addr.can_family = AF_CAN;
     addr.can_ifindex = ifr.ifr_ifindex;
