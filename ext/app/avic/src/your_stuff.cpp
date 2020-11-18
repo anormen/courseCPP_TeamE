@@ -7,11 +7,12 @@
 #include "canio/can_common.h"
 #include "frames.hpp"
 
-void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
+bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
    
     fr300 frm_300 = {0};
     fr200 frm_200 = {0};
     fr100 frm_100 = {0};
+    bool isRun = true;
 
     std::ostringstream tempString;
 
@@ -20,8 +21,11 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         memcpy(&frm_200,_frame,sizeof(struct fr200));
         this->InstrumentCluster.setRPM(static_cast<double>(frm_200.rpm ));
 
-        tempString << messages.at(frm_200.driverinfo) << "\n\rFuel consumption: " << std::fixed << std::setprecision(1) ;
+        tempString << messages.at(frm_200.driverinfo);
+        if(frm_200.rpm > 0){
+            tempString << "\n\rFuel consumption: " << std::fixed << std::setprecision(1) ;
         this->speed > 0 ? tempString << (frm_200.fuelavg/100.0) << " l/100km" : tempString << (frm_200.fuelinst/100.0) << " l/h";
+        }
 
         this->InstrumentCluster.setTxt(QString::fromStdString(tempString.str()));    
         this->InstrumentCluster.setTemperatureGauges(static_cast<double>(frm_200.temp));
@@ -45,13 +49,17 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
             this->icon.oil_check = 1;
             this->icon.battery = 1;
             this->icon.engine_check = 1;
+            this->icon.abs = 1;
             this->InstrumentCluster.setIcon(&this->icon);
-            QTimer::singleShot(2000, this, [this](){ 
+            QTimer::singleShot(2000, this, [this](){  //bus read delay for start anim
                 this->isRunning = true; 
                 this->InstrumentCluster.setIcon(&this->icon); 
-                this->icon.oil_check = 0; this->icon.battery = 0; this->icon.engine_check = 0; 
+                this->icon.oil_check = 0; this->icon.battery = 0; this->icon.engine_check = 0; this->icon.abs = 0; 
                 }); 
-        }   
+        }
+
+        ((SimulationMode)frm_100.mode == SimulationMode::OFF) ? isRun = false : isRun = true;
+
        break;
     }
     case 300: {
@@ -70,7 +78,7 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     default:
         break;
     }
-
+    return isRun;
 }
 
 void yourStuff::startUp(unsigned char &_data) {
@@ -119,7 +127,7 @@ bool yourStuff::run() {
     else if (status == CANOpener::ReadStatus::OK) {
         this->Counter = 0;
         if(this->isRunning || this->isStart)
-            this->YouHaveJustRecievedACANFrame(&frame);
+             ret = this->YouHaveJustRecievedACANFrame(&frame);
     }
     //if (this->Counter > 200) ret = false;
     return ret;

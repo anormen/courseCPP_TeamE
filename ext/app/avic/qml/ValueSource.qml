@@ -62,20 +62,11 @@ Item {
 
     property real temperature: 0
     property real oil_temp: 0
-<<<<<<< HEAD
-    Behavior on kph { NumberAnimation { duration: 500 } }
-    Behavior on rpmHezar { NumberAnimation { duration: 200 } }
-    Behavior on temperature { NumberAnimation { duration: 1/*500*/ } }
-    Behavior on fuel { NumberAnimation { duration: 1/*500*/ } }
-    Behavior on oil_temp { NumberAnimation { duration: 1/*500*/ } }
-
-=======
     Behavior on kph { NumberAnimation { duration: 200 } }
-    Behavior on rpm { NumberAnimation { duration: 200 } }
+    Behavior on rpmHezar { NumberAnimation { duration: 200 } }
     Behavior on temperature { NumberAnimation { duration: 500 } }
     Behavior on fuel { NumberAnimation { duration: 500 } }
     Behavior on oil_temp { NumberAnimation { duration: 500 } }
->>>>>>> 4e8b8df4f1afd9ce03f79a2ffb86b31a4b82509c
     property string gear: "0"
     property int pindle_int: 0
     property string prindle: ""

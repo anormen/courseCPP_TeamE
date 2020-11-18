@@ -7,8 +7,10 @@ void driverInfo::update(frame_100 &fr100, uint16_t &rpm, DriverInformation &info
     uint8_t brake = fr100.get_brake();
     SimulationMode mode = fr100.get_mode();
   
-    if(startbutton == StartButtonSts::PRESSED && mode == SimulationMode::ACTIVE){ //handler active
-        if (rpm > 0 && gearleverpos != GearLeverPos::PARK) //running
+    if(startbutton == StartButtonSts::PRESSED){ //handler active
+        if(mode != SimulationMode::ACTIVE)
+            infoMsg = DriverInformation::NO_KEY;
+        else if (rpm > 0 && gearleverpos != GearLeverPos::PARK) //running
             infoMsg = DriverInformation::NOT_IN_P_IN_D;
         else if(brake == 0) //not pressed
             infoMsg = DriverInformation::NO_BRAKE;

@@ -17,7 +17,7 @@ public:
 
 private:
     bool run();
-    void YouHaveJustRecievedACANFrame(const canfd_frame * const _frame);
+    bool YouHaveJustRecievedACANFrame(const canfd_frame * const _frame);
     void startUp(unsigned char &_data);
     void timerEvent(QTimerEvent*) override;
     uint16_t speed = 0;
