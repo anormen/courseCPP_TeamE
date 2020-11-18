@@ -21,6 +21,7 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
 
     std::cout << "_gearRatio = " << _gearRatio << "\n";
 
+    // No magic values move to header
     if (acc_ped == 0)
         target_rpm = 900;
     else if (acc_ped == 10)
@@ -83,7 +84,7 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
                 increasing_rpm = false;
                 acc_inc_delta = 0;
             }
-            this->rpm += 20;
+            this->rpm += acc_ped;
             //if (acc_inc_delta > response_time)
             //    this->rpm += 10;
                 //this->rpm += 20 * acc_ped / 20;
@@ -91,7 +92,7 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
 
         if (decreasing_rpm)
         {
-            this->rpm -= 20; // how should we calculate decrease rate?
+            this->rpm -= 60; // how should we calculate decrease rate?
             if (this->rpm < 900)
             {
                 this->rpm = 900;

@@ -70,7 +70,7 @@ int main()
         }
 
         if (data_100.get_mode() == SimulationMode::ACTIVE)
-        {
+        {   std::cout << "\033c \033[0;32m" ; // clear screen
             {
                 std::lock_guard<std::mutex> guard_read(data_100.fr100_mutex); // onödigt...? Vart ska den läggas?
                 //di.update(data_100, data_200);
@@ -80,7 +80,7 @@ int main()
 
                 
             }
-
+            
             {
                 std::lock_guard<std::mutex> guard_write(data_200.fr200_mutex); // Onödigt...?
                 ecm.Write(data_200);
