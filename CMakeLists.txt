@@ -27,4 +27,4 @@ target_link_libraries(TCM PRIVATE pthread canIO)
 
 #set_target_properties(displayHandler PROPERTIES CXX_STANDARD 17)
 add_subdirectory(ext)
-add_subdirectory(test)
+#add_subdirectory(test)
