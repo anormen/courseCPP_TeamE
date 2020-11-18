@@ -53,25 +53,25 @@ void Gearbox::selectGear(const int accPedal, const int _engRpm) {
                 targetGear = 2;}
         else if(currentGear == 2)
         {
-            if (_engRpm < (gearMapUpShift12[accPedIndex]* (gearRatioFact[1]/gearRatioFact[2])))
+            if (_engRpm < ((double)gearMapUpShift12[accPedIndex]* ((double)gearRatioFact[1]/(double)gearRatioFact[2])))
                 targetGear = 1;
             else if (_engRpm > gearMapUpShift23[accPedIndex])
                 targetGear = 3;
         }
         else if (currentGear == 3 ){
-            if (_engRpm < (gearMapUpShift23[accPedIndex]* (gearRatioFact[2]/gearRatioFact[3])))
+            if (_engRpm < ((double)gearMapUpShift23[accPedIndex]* ((double)gearRatioFact[2]/(double)gearRatioFact[3])))
                 targetGear = 2;
             else if (_engRpm > gearMapUpShift34[accPedIndex])
                 targetGear = 4;
         } 
             else if(currentGear == 4 ){
-            if (_engRpm < (gearMapUpShift34[accPedIndex]* (gearRatioFact[3]/gearRatioFact[4])))
+            if (_engRpm < ((double)gearMapUpShift34[accPedIndex]* ((double)gearRatioFact[3]/(double)gearRatioFact[4])))
                 targetGear = 3;
             else if (_engRpm > gearMapUpShift45[accPedIndex])
                 targetGear = 5;
         }
         else  /* currentGear == 5*/
-            if (_engRpm < (gearMapUpShift45[accPedIndex]* (gearRatioFact[4]/gearRatioFact[5])))
+            if (_engRpm < ((double)gearMapUpShift45[accPedIndex]* ((double)gearRatioFact[4]/(double)gearRatioFact[5])))
                 targetGear = 4;
 
     if (targetGear != currentGear)
