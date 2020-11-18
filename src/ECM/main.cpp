@@ -33,9 +33,9 @@ int main()
             if (frame.can_dlc > 0)
             {
                 std::lock_guard<std::mutex> guard(data_100.fr100_mutex);
-                if (frame.can_id = 100)
+                if (frame.can_id == 100)
                     memcpy(data_100.get_frame_ptr(), &frame, sizeof(frame));
-                else if (frame.can_id = 300)
+                else if (frame.can_id == 300)
                     memcpy(data_300.get_frame_ptr(), &frame, sizeof(frame));
                 //else
                 //do nothing
