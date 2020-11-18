@@ -8,9 +8,9 @@ set(ECM_DIR "${PROJECT_SRC_DIR}/ECM")
 set(TCM_DIR "${PROJECT_SRC_DIR}/TCM")
 set(SHARE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/share")
 
+include_directories(${SHARE_DIR})
 
-include_directories(share)
-add_library(canIO share/can_class.cpp)
+add_library(canIO ${SHARE_DIR}/can_class.cpp)
 add_executable(inputHandler ${INPUT_HANDLER_DIR}/main.cpp ${INPUT_HANDLER_DIR}/key_converter.cpp ${INPUT_HANDLER_DIR}/conversion.cpp ${SHARE_DIR}/frames.cpp)
 target_link_libraries(inputHandler PRIVATE ncurses pthread canIO) # should it be PRIVATE?
 
