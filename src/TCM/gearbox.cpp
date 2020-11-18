@@ -9,15 +9,28 @@
 
 // VehicleSpeed (km/h) = egRPM ( round per minut)* gearRatio (total with scaling 1000) * 
 //wheelRadiusCircumferance in m 60 for rpm
-int Gearbox::getVehicleSpeed(int _engRpm)
+int Gearbox::getVehicleSpeed(int _accPed, int _engRpm)
 {
-    int vehicleSpeed = (_engRpm * getGearRatio(_engRpm) * wheelCircumference)*6/(10000);
+    int vehicleSpeed;
+
+    if ((_engRpm <900)&& (_accPed ==0)) 
+    {
+        vehicleSpeed = 0;
+    }
+    else {
+        vehicleSpeed = (_engRpm * getGearRatio(_engRpm) * wheelCircumference)*6/(10000);
+    }
     return ( vehicleSpeed);
 }
 // GearRation 
 int Gearbox::getGearRatio (int _engRpm)
 {  
     return ( gearRatioFact[targetGear]);
+}
+
+int Gearbox::getGear ()
+{  
+    return (currentGear);
 }
 
 void Gearbox::selectGear(const int accPedal, const int _engRpm) {
