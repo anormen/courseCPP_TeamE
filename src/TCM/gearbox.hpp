@@ -27,6 +27,7 @@ private:
     int currentGear;
     int targetGear;
     int lastVehicleSpeed = 0;
+    int multiShiftDelay = 100;
 
 public:
     Gearbox();
@@ -40,7 +41,7 @@ public:
     int getGearRatio (int _engRpm);
     int getGear();
 
-    void selectGear(const int &accPedal, const int &_engRpm);
+    void selectGear(const int accPedal, const int _engRpm);
 
 };
 

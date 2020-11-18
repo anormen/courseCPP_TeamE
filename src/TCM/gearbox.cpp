@@ -41,42 +41,46 @@ int Gearbox::getGear()
     return (currentGear);
 }
 
-void Gearbox::selectGear(const int &accPedal, const int &_engRpm)
-{
-    int accPedIndex = int(accPedal / 10);
-
-    if (currentGear == 1)
-    {
-        if ((_engRpm > gearMapUpShift12[accPedIndex]))
-            targetGear = 2;
-    }
-    else if (currentGear == 2)
-    {
-        if (_engRpm < (gearMapUpShift12[accPedIndex] - gearChangeHyst)) // 20% 
-            targetGear = 1;
-        else if (_engRpm > gearMapUpShift23[accPedIndex]) // 20% ger 2900
-            targetGear = 3;
-    }
-    else if (currentGear == 3)
-    {
-        if (_engRpm < (gearMapUpShift23[accPedIndex] - gearChangeHyst))
-            targetGear = 2;
-        else if (_engRpm > gearMapUpShift34[accPedIndex]) // 20% ger 3600
-            targetGear = 4;
-    }
-    else if (currentGear == 4)
-    {
-        if (_engRpm < (gearMapUpShift34[accPedIndex] - gearChangeHyst))
-            targetGear = 3;
-        else if (_engRpm > gearMapUpShift45[accPedIndex])
-            targetGear = 5;
-    }
-    else if(currentGear == 5) {
-        if (_engRpm < (gearMapUpShift45[accPedIndex] - gearChangeHyst)){
-            targetGear = 4;
+void Gearbox::selectGear(const int accPedal, const int _engRpm) {
+    int accPedIndex = int (accPedal/10);
+    
+    if (multiShiftDelay < 20){
+        multiShiftDelay++;
+    }       
+    else {   
+        if (currentGear == 1){
+            if ((_engRpm > gearMapUpShift12[accPedIndex]))
+                targetGear = 2;}
+        else if(currentGear == 2)
+        {
+            if (_engRpm < (gearMapUpShift12[accPedIndex]* (gearRatioFact[1]/gearRatioFact[2])))
+                targetGear = 1;
+            else if (_engRpm > gearMapUpShift23[accPedIndex])
+                targetGear = 3;
         }
+        else if (currentGear == 3 ){
+            if (_engRpm < (gearMapUpShift23[accPedIndex]* (gearRatioFact[2]/gearRatioFact[3])))
+                targetGear = 2;
+            else if (_engRpm > gearMapUpShift34[accPedIndex])
+                targetGear = 4;
+        } 
+            else if(currentGear == 4 ){
+            if (_engRpm < (gearMapUpShift34[accPedIndex]* (gearRatioFact[3]/gearRatioFact[4])))
+                targetGear = 3;
+            else if (_engRpm > gearMapUpShift45[accPedIndex])
+                targetGear = 5;
+        }
+        else  /* currentGear == 5*/
+            if (_engRpm < (gearMapUpShift45[accPedIndex]* (gearRatioFact[4]/gearRatioFact[5])))
+                targetGear = 4;
+
+    if (targetGear != currentGear)
+        multiShiftDelay = 0;      
+    
     }
-    std::cout << currentGear << " " << targetGear << "print in selectGear\n\r";
+    std::cout << multiShiftDelay <<  "multi" << targetGear << std::endl;       
+    
+    std::cout << currentGear << " " << targetGear  << "print in selectGear\n\r";
     currentGear = targetGear;
 }
 
