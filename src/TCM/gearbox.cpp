@@ -13,12 +13,19 @@ int Gearbox::getVehicleSpeed(const int _accPed, const int _engRpm)
 {
     int vehicleSpeed;
 
-    if ((_engRpm <900)&& (_accPed ==0)) 
+    std::cout << vehicleSpeed << "  " << lastVehicleSpeed << " " << _engRpm << std::endl;
+
+    if ((_engRpm <=900)&& (_accPed == 0)) 
     {
-        vehicleSpeed = 0;
+        if (this->lastVehicleSpeed >0)
+            this->lastVehicleSpeed--;
+
+        vehicleSpeed = this->lastVehicleSpeed;
     }
+    //else if (geae)  PARK and NEUTTRALm
     else {
         vehicleSpeed = (_engRpm * getGearRatio(_engRpm) * wheelCircumference)*6/(10000);
+        lastVehicleSpeed = vehicleSpeed;
     }
     return ( vehicleSpeed);
 }

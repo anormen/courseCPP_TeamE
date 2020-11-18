@@ -18,6 +18,7 @@ private:
 
     int currentGear;
     int targetGear;
+    int lastVehicleSpeed = 0;
 
 public:
     Gearbox();
