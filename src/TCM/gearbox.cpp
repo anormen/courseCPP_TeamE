@@ -24,29 +24,29 @@ void Gearbox::selectGear(const int accPedal, const int _engRpm) {
     int accPedIndex = int (accPedal/10);
 
     if (currentGear == 1){
-        if ((gearMapUpShift12[accPedIndex] < _engRpm))
+        if ((_engRpm > gearMapUpShift12[accPedIndex]))
             targetGear = 2;}
     else if(currentGear == 2)
     {
-        if ((gearMapUpShift12[accPedIndex] + gearChangeHyst) > _engRpm)
+        if (_engRpm < (gearMapUpShift12[accPedIndex] - gearChangeHyst))
             targetGear = 1;
-        else if (gearMapUpShift23[accPedIndex] < _engRpm)
+        else if (_engRpm > gearMapUpShift23[accPedIndex])
             targetGear = 3;
     }
     else if (currentGear == 3 ){
-        if ((gearMapUpShift12[accPedIndex] + gearChangeHyst) > _engRpm)
+        if (_engRpm < (gearMapUpShift23[accPedIndex] - gearChangeHyst))
             targetGear = 2;
-        else if (gearMapUpShift23[accPedIndex] < _engRpm)
+        else if (_engRpm > gearMapUpShift34[accPedIndex] < _engRpm)
             targetGear = 4;
     } 
         else if(currentGear == 4 ){
-        if ((gearMapUpShift12[accPedIndex] + gearChangeHyst) > _engRpm)
+        if (_engRpm < (gearMapUpShift34[accPedIndex] - gearChangeHyst))
             targetGear = 3;
-        else if (gearMapUpShift23[accPedIndex] < _engRpm)
+        else if (_engRpm > gearMapUpShift45[accPedIndex])
             targetGear = 5;
-
-    }else  /* currentGear == 5*/
-        if ((gearMapUpShift12[accPedIndex] + gearChangeHyst) > _engRpm)
+    }
+    else  /* currentGear == 5*/
+        if (_engRpm < (gearMapUpShift45[accPedIndex] - gearChangeHyst))
             targetGear = 4;
     
     std::cout << currentGear << " " << targetGear  << "print in selectGear\n\r";

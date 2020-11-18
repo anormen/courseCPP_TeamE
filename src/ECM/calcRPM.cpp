@@ -17,16 +17,23 @@ calcRPM::calcRPM()
 uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
 {
     float gear_ratio = 4;
+    int oldGearratio = 1;
 
     //if (startstop == StartButtonSts::PRESSED && info == DriverInformation::NO_MSG)
     //    this->eng_on = !eng_on;
 
-    if (this->rpm >= 3000)
-    {
-        rpm = rpm * ((gear_ratio - 1) / gear_ratio); //
-        gear_ratio = gear_ratio - 1;
-        target_rpm -= 750;
-    }
+ //   if (this->rpm >= 3000)
+ //   {
+ //       rpm = rpm * ((gear_ratio - 1) / gear_ratio); //
+ //       gear_ratio = gear_ratio - 1;
+ //       target_rpm -= 750;
+ //   }
+   if (oldGearratio =! _gearRatio)
+   {
+       rpm = rpm * (oldGearratio/_gearRatio);
+       target_rpm -= 750;
+       oldGearratio = _gearRatio;
+   }
 
     std::cout << "RPM = " << this->rpm << " target_rpm = " << target_rpm << std::endl;
     std::cout << "acc_ped = " << acc_ped << " acc_ped_stored = " << acc_ped_stored << std::endl;

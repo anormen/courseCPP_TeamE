@@ -5,6 +5,7 @@
 #include "can_class.hpp"
 #include "ECM.hpp"
 #include "../TCM/TCM.hpp"
+#include "../TCM/gearbox.hpp"
 #include "frames.hpp"
 
 int main()
@@ -19,6 +20,7 @@ int main()
 
     ECM ecm;
     TCM tcm;
+    Gearbox gearbox;
 
     std::thread IO_thread([&]() {
         while (true)
@@ -74,7 +76,12 @@ int main()
                 //di.update(data_100, data_200);
                 //cf.CalculateFuel(data_100, data_200, data_300);
                 //ecm.UpdateECM(data_100.get_accelerator(), data_100.get_startstop(), data_200.get_driverinfo());
-                ecm.Update(data_100,data_300,1);
+                gearbox.selectGear(data_100.get_accelerator(), ecm.get_rpm());
+                ecm.Update(data_100,data_300, gearbox.getGearRatio(ecm.get_rpm()));
+                gearbox.getVehicleSpeed( ecm.get_rpm());
+
+ 
+                
             }
 
             {
