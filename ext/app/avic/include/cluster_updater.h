@@ -31,7 +31,7 @@ public:
     inline void setGear(const QString &_s) {ValueSource->setProperty("prindle",QVariant(_s));}
     inline void setRPM(const double &_s) {ValueSource->setProperty("rpmHezar",QVariant(_s));}
     inline void setSpeed(const double &_s) {ValueSource->setProperty("kph",QVariant(_s));}
-    inline void setGearPindle(const char &_p) {ValueSource->setProperty("pindle",QVariant(_p));}
+    inline void setGearPindle(const char &_p) {ValueSource->setProperty("gear",QVariant(_p));}
     inline void setFuelGauges(const double &_f) {ValueSource->setProperty("fuel",QVariant(_f/0xFF));}
     inline void setTemperatureGauges(const double &_t) {ValueSource->setProperty("temperature",QVariant(_t/0xFF));}
     inline void setOilTemperatureGauges(const double&_t) {ValueSource->setProperty("oil_temp",QVariant(_t/0xFF));}

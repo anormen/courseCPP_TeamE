@@ -20,6 +20,7 @@ void display::update()
     std::cout << std::dec << std::setw(1) << std::setfill('0') << "StartStop:       " << (int)startstop     << " " << std::endl; 
     std::cout << std::dec << std::setw(1) << std::setfill('0') << "GearLever:       " << gears.at((uint8_t)gearlever) << "" << std::endl; 
     std::cout << std::dec << std::setw(1) << std::setfill('0') << "GearActual:      " << (int)gearactual    << "" << std::endl;  
+    std::cout << std::dec << std::setw(2) << std::setfill('0') << "GearRatio:       " << (int)gearratio    << "" << std::endl;  
     std::cout << std::dec << std::setw(4) << std::setfill('0') << "VehicleSpeed:    " << (int)vehiclespeed  << " km/h" << std::endl; 
     std::cout << std::dec << std::setw(4) << std::setfill('0') << "DriverInfo msg   " << messages.at((uint8_t)driverinfo) << "" << std::endl;     
     std::cout << std::dec << std::setw(2) << std::setfill('0') << "Telltale:        " << telltales.at((uint8_t)telltale) << "" << std::endl;     
