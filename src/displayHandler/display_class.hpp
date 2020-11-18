@@ -20,7 +20,8 @@ class display{
         void setValueVehicleSpeed(float _vehiclespeed){  vehiclespeed = _vehiclespeed; }; 
         void setValueFuelConsumptionAvg(double _fuelconsumavg){  fuelconsumavg = _fuelconsumavg; }; 
         void setValueFuelConsumptionInst(double _fuelconsuminst){  fuelconsuminst = _fuelconsuminst; };         
-        void setValueTelltale(Telltale _telltale){  telltale = _telltale; };         
+        void setValueTelltale(Telltale _telltale){  telltale = _telltale; };   
+        void setValueGearRatio(int _gearratio){  gearratio = _gearratio; };                
         void setValueInputUB(bool _inputUb){ inputUb = _inputUb; };
         void setValueECMUB(bool _ecmUb){  ecmUb = _ecmUb; };
         void setValueTCMUB(bool _tcmUb){  tcmUb = _tcmUb; };                               
@@ -35,7 +36,8 @@ class display{
         StartButtonSts startstop = StartButtonSts::UNPRESSED;         
         GearLeverPos gearlever = GearLeverPos::PARK; 
         DriverInformation driverinfo = DriverInformation::NO_MSG;
-        int gearactual = 0;     
+        int gearactual = 0; 
+        int gearratio = 0;    
         float vehiclespeed = 0;
         double fuelconsumavg = 0; 
         double fuelconsuminst = 0;         

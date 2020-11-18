@@ -33,6 +33,7 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
                     memcpy(fr300.get_frame_ptr(), &frameGen, sizeof(frameGen));  
                     dHndl.setValueVehicleSpeed(fr300.get_speed());
                     dHndl.setValueGearActual(fr300.get_gearactual());
+                    dHndl.setValueGearRatio(fr300.get_gearratio());                    
                     dHndl.setValueTCMUB(fr300.get_updatebit()); 
                     fr300.set_updatebit(0);                                        
                     break;
