@@ -78,9 +78,7 @@ int main()
                 //ecm.UpdateECM(data_100.get_accelerator(), data_100.get_startstop(), data_200.get_driverinfo());
                 gearbox.selectGear(data_100.get_accelerator(), ecm.get_rpm());
                 ecm.Update(data_100,data_300, gearbox.getGearRatio(ecm.get_rpm()));
-                gearbox.getVehicleSpeed( ecm.get_rpm());
 
- 
                 
             }
 

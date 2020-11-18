@@ -78,7 +78,7 @@ int main()
 
             {
                 std::lock_guard<std::mutex> guard_write(data_300.fr300_mutex); // Onödigt...?
-                tcm.Write(data_200, data_300);
+                tcm.Write(data_100, data_200, data_300);
             }
         }
     }
