@@ -18,12 +18,15 @@ public:
 private:
     bool run();
     void YouHaveJustRecievedACANFrame(const canfd_frame * const _frame);
-    void readMyEngineFrame(const unsigned char * const _data);
+    void startUp(unsigned char &_data);
     void timerEvent(QTimerEvent*) override;
     uint16_t speed = 0;
     _icons icon = {0};
     QTimer* aliveTimeTCM;
     QTimer* aliveTimeECM;
+    bool isRunning = false;
+    bool isStart = true;
+
 
 //signals:
 //    void die();

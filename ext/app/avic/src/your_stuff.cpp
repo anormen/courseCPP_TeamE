@@ -39,7 +39,20 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_100.accelerator));        
         frm_100.brake > 0 ? this->icon.hand_break = false : this->icon.hand_break = true;
         this->InstrumentCluster.setIcon(&this->icon);
-        break;
+        if((SimulationMode)frm_100.mode == SimulationMode::ACTIVE && this->isStart == true){
+            this->isStart = false; 
+            this->InstrumentCluster.ignite(true);
+            this->icon.oil_check = 1;
+            this->icon.battery = 1;
+            this->icon.engine_check = 1;
+            this->InstrumentCluster.setIcon(&this->icon);
+            QTimer::singleShot(2000, this, [this](){ 
+                this->isRunning = true; 
+                this->InstrumentCluster.setIcon(&this->icon); 
+                this->icon.oil_check = 0; this->icon.battery = 0; this->icon.engine_check = 0; 
+                }); 
+        }   
+       break;
     }
     case 300: {
         memcpy(&frm_300,_frame,sizeof(struct fr300));
@@ -60,8 +73,8 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
 
 }
 
-void yourStuff::readMyEngineFrame(const unsigned char * const _data) {
-    this->InstrumentCluster.setSpeed(static_cast<double>(_data[0]));
+void yourStuff::startUp(unsigned char &_data) {
+    //this->InstrumentCluster.ignite(false);
 }
 
 
@@ -87,7 +100,7 @@ yourStuff::yourStuff(const std::string &_ifName, QObject *_vs) {
     this->InstrumentCluster.init(_vs);
     this->startTimer(1);
     aliveTimeTCM = new QTimer(this);
-    aliveTimeECM = new QTimer(this);    
+    aliveTimeECM = new QTimer(this);   
     connect(aliveTimeECM, &QTimer::timeout, [this] (){ this->icon.engine_check = true; this->InstrumentCluster.setIcon(&this->icon);});
     connect(aliveTimeTCM, &QTimer::timeout, [this] (){ this->icon.engine_check = true; this->InstrumentCluster.setIcon(&this->icon);});    
 }
@@ -105,7 +118,8 @@ bool yourStuff::run() {
 
     else if (status == CANOpener::ReadStatus::OK) {
         this->Counter = 0;
-        this->YouHaveJustRecievedACANFrame(&frame);
+        if(this->isRunning || this->isStart)
+            this->YouHaveJustRecievedACANFrame(&frame);
     }
     //if (this->Counter > 200) ret = false;
     return ret;

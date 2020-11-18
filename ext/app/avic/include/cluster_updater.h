@@ -23,7 +23,8 @@ class ClusterUpdater/* : public QObject*/ {
 public:
     ClusterUpdater() = default;
     inline void init(QObject*_){this->ValueSource=_;}
-
+    
+    QObject *ValueSource;
 
 public:
     void setIcon(const _icons *_i);
@@ -36,10 +37,11 @@ public:
     inline void setTemperatureGauges(const double &_t) {ValueSource->setProperty("temperature",QVariant(_t/0xFF));}
     inline void setOilTemperatureGauges(const double&_t) {ValueSource->setProperty("oil_temp",QVariant(_t/0xFF));}
     inline void setTxt(const QString &_s) {ValueSource->setProperty("txt",QVariant(_s));}
+    /** 0: off 1: on **/
+    inline void ignite(const int &_t) {ValueSource->setProperty("startUp",QVariant(_t));}    
 
 private:
     unsigned short iconZ;
-    QObject *ValueSource;
 };
 
 #endif // CLUSTERUPDATE_H

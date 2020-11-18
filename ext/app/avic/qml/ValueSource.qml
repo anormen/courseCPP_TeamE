@@ -63,14 +63,22 @@ Item {
     property real temperature: 0
     property real oil_temp: 0
     Behavior on kph { NumberAnimation { duration: 500 } }
-    Behavior on rpm { NumberAnimation { duration: 200 } }
-    Behavior on temperature { NumberAnimation { duration: 500 } }
-    Behavior on fuel { NumberAnimation { duration: 500 } }
-    Behavior on oil_temp { NumberAnimation { duration: 500 } }
+    Behavior on rpmHezar { NumberAnimation { duration: 200 } }
+    Behavior on temperature { NumberAnimation { duration: 1/*500*/ } }
+    Behavior on fuel { NumberAnimation { duration: 1/*500*/ } }
+    Behavior on oil_temp { NumberAnimation { duration: 1/*500*/ } }
+
     property string gear: "0"
     property int pindle_int: 0
-    property string prindle:  ""
-    property bool start: false
+    property string prindle: ""
+    property bool startDemo: 
+    {
+        if (startUp) 
+            return true;
+        else 
+            return false;
+    }
+
     property bool left_blinker: false
     property bool engine_check: false
     property bool oil_check: false
@@ -82,9 +90,48 @@ Item {
     property bool hand_break: false
     property bool right_blinker: false
     property bool startUp: false
-    property string txt: "" //default text
+    property string txt: ""
 
-    function randomDirection() {
-        return Math.random() > 0.5 ? Qt.LeftArrow : Qt.RightArrow;
-    }
+    SequentialAnimation {
+        running: startUp  
+        ParallelAnimation {
+            NumberAnimation {
+                target: valueSource
+                property: "kph"
+                easing.type: Easing.InOutQuad
+                from: 0
+                to: 250
+                duration: 700
+            }
+            NumberAnimation {
+                target: valueSource
+                property: "rpmHezar"
+                easing.type: Easing.InOutQuad
+                from: 0
+                to: 9000
+                duration: 700
+            }  
+        }
+        PauseAnimation {
+            duration: 300
+        }
+        ParallelAnimation {
+            NumberAnimation {
+                target: valueSource
+                property: "kph"
+                easing.type: Easing.InOutSine
+                from: 250
+                to: 0
+                duration: 700
+            }
+            NumberAnimation {
+                target: valueSource
+                property: "rpmHezar"
+                easing.type: Easing.InOutSine
+                from: 9000
+                to: 0
+                duration: 700
+            }     
+        }  
+    }   
 }

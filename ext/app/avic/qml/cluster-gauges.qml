@@ -1,11 +1,8 @@
-
-
 import QtQuick 2.2
 import QtQuick.Window 2.1
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Extras 1.4
-
 
 
 ApplicationWindow {
@@ -16,7 +13,7 @@ ApplicationWindow {
     flags: Qt.FramelessWindowHint
     style: ApplicationWindowStyle {
         background: Rectangle {
-            color: "#000000"
+            color: "#ffffff"
         }
     }
 
@@ -154,6 +151,8 @@ ApplicationWindow {
                 radius: height / 5
                 color: "#656565"
 
+
+
                 Text {
                     id: prindle
                     anchors.verticalCenter: parent.verticalCenter
@@ -161,7 +160,7 @@ ApplicationWindow {
                     horizontalAlignment: Text.AlignCenter
 
                     text: valueSource.prindle
-                    color: "#c3c3c3"
+                    color: "#00c300"
                     font.pixelSize: parent.height * 0.85
                 }
             }
@@ -173,6 +172,8 @@ ApplicationWindow {
                 radius: height / 5
                 color: "#656565"
 
+
+
                 Text {
                     id: gear
                     anchors.verticalCenter: parent.verticalCenter
@@ -180,7 +181,7 @@ ApplicationWindow {
                     horizontalAlignment: Text.AlignCenter
 
                     text: valueSource.gear
-                    color: "#c3c3c3"
+                    color: "#00c300"
                     font.pixelSize: parent.height * 0.85
                 }
             }
@@ -330,12 +331,13 @@ ApplicationWindow {
                 id: fuelGaugeStyle
 
                 icon: "./images/fuel-icon.png"
-                minWarningColor: valueSource.startUp ? "#f42d2d" : "gray"
+                minWarningColor:"#f42d2d"
+
+
 
                 tickmarkLabel: Text {
-                    color: "transparent"}
-
-
+                    color: "transparent"
+                }
             }
         }
 
@@ -352,15 +354,13 @@ ApplicationWindow {
                 id: oilGaugeStyle
 
                 icon: "./images/AGL_Icons_Oil.svg"
-                maxWarningColor: valueSource.startUp ? "#f42d2d" : "gray"
-                minWarningColor: valueSource.startUp ? "#2487e4" : "gray"
+
+                maxWarningColor: "#f42d2d"
+                minWarningColor: "#2487e4"
 
 
-                tickmarkLabel: Text {
+               tickmarkLabel: Text {
                     color: "transparent"
-                    visible: styleData.value === 0 || styleData.value === 1
-                    font.pixelSize: fuelGaugeStyle.toPixels(0.225)
-                    text: styleData.value === 0 ? "E" : (styleData.value === 1 ? "F" : "")
                 }
             }
         }
@@ -378,14 +378,10 @@ ApplicationWindow {
                 id: tempGaugeStyle
 
                 icon: "./images/temperature-icon.png"
-                maxWarningColor: valueSource.startUp ? "#f42d2d" : "gray"
-                minWarningColor: valueSource.startUp ? "#2487e4" : "gray"
-
-                tickmarkLabel: Text {
-                    color: "transparent"
-                    visible: styleData.value === 0 || styleData.value === 1
-                    font.pixelSize: tempGaugeStyle.toPixels(0.225)
-                    text: styleData.value === 0 ? "C" : (styleData.value === 1 ? "H" : "")
+                maxWarningColor: "#f42d2d"
+                minWarningColor: "#2487e4"
+               tickmarkLabel: Text {
+                    color: "transparent"                 
                 }
             }
         }
@@ -397,26 +393,25 @@ ApplicationWindow {
         width: 441
         height: 190
 
-        source: valueSource.startUp ? "images/logod.png" : "images/a.png"
+        source: valueSource.startUp ? './images/logod.png' : './images/logod_B.png'
         //x: 772
     }
 
     Rectangle {
         id: rectangle
-        x: 740
+        x: 710
         y: 664
-        width: 441
-        height: 98
+        width: 500
+        height: 130
         color: "black"
         Text {
             id: matn
             color: "white"
             text: valueSource.txt
-            width: 441
-            height: 98
+            width: 500
+            height: 130
             font.pixelSize: 30
 
         }
     }
 }
-
