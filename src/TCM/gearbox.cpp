@@ -9,7 +9,7 @@
 
 // VehicleSpeed (km/h) = egRPM ( round per minut)* gearRatio (total with scaling 1000) * 
 //wheelRadiusCircumferance in m 60 for rpm
-int Gearbox::getVehicleSpeed(int _accPed, int _engRpm)
+int Gearbox::getVehicleSpeed(const int _accPed, const int _engRpm)
 {
     int vehicleSpeed;
 
