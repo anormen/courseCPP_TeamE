@@ -71,7 +71,7 @@ struct fr300{
     uint16_t speed:16; //*10
     uint8_t gearactual:7;
     uint8_t updatebit:1;
-    uint8_t res0:8;
+    uint8_t gearRatio:8;
     uint8_t res1:8;
     uint8_t res2:8;
     uint8_t res3:8;  
@@ -138,6 +138,7 @@ class frame_300
     void init_frame();
     uint16_t get_speed();
     uint8_t get_gearactual();
+    uint8_t get_gearratio();
 
     uint8_t get_updatebit();
     fr300* get_frame_ptr();
@@ -146,6 +147,7 @@ class frame_300
     void set_speed(const uint16_t spd);
     void set_gearactual(const uint8_t gearact);
     void set_updatebit(const uint8_t &ub);
+    void set_gearratio(const uint8_t &gr);
     std::mutex fr300_mutex;
   private:
     fr300 frame;

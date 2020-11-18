@@ -74,7 +74,7 @@ void frame_300::init_frame()
 {
     frame.speed = 0;
     frame.gearactual = 0;
-    frame.res0 = 0;
+    frame.gearRatio = 0;
     frame.res1 = 0;
     frame.res2 = 0;
     frame.res3 = 0;
@@ -88,7 +88,9 @@ uint8_t frame_300::get_gearactual(){return this->frame.gearactual;}
 uint8_t frame_300::get_updatebit(){return this->frame.updatebit;}
 fr300 *frame_300::get_frame_ptr(){return &this->frame;}
 uint8_t frame_300::get_length(){return this->frame.candlc;}
+uint8_t frame_300::get_gearratio(){return this->frame.gearRatio;};
 
 void frame_300::set_speed(const uint16_t spd){this->frame.speed=spd;}
 void frame_300::set_gearactual(const uint8_t gearact){this->frame.gearactual=gearact;}
 void frame_300::set_updatebit(const uint8_t &ub){this->frame.updatebit=ub;}
+void frame_300::set_gearratio(const uint8_t &gr){this->frame.gearRatio=gr;};
