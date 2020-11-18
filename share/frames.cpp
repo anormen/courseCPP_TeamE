@@ -73,8 +73,8 @@ frame_300::frame_300() { this->init_frame(); }
 void frame_300::init_frame()
 {
     frame.speed = 0;
-    frame.gearactual = 0;
-    frame.gearRatio = 0;
+    frame.gearactual = 1;
+    frame.gearRatio = 10;
     frame.res1 = 0;
     frame.res2 = 0;
     frame.res3 = 0;

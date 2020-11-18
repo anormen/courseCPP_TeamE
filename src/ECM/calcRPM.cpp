@@ -16,8 +16,8 @@ calcRPM::calcRPM()
 
 uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
 {
-    float gear_ratio = 4;
-    int oldGearratio = 1;
+   
+    
 
     //if (startstop == StartButtonSts::PRESSED && info == DriverInformation::NO_MSG)
     //    this->eng_on = !eng_on;
@@ -30,9 +30,13 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
  //   }
    if (oldGearratio =! _gearRatio)
    {
-       rpm = rpm * (oldGearratio/_gearRatio);
-       target_rpm -= 750;
-       oldGearratio = _gearRatio;
+       
+       if (_gearRatio > 10) //protect from 0
+       {
+            rpm = rpm * (oldGearratio/_gearRatio);
+            target_rpm -= 750;
+            oldGearratio = _gearRatio;
+        }
    }
 
     std::cout << "RPM = " << this->rpm << " target_rpm = " << target_rpm << std::endl;
@@ -41,13 +45,13 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
     {
         increasing_rpm = acc_ped > acc_ped_stored;
         decreasing_rpm = acc_ped < acc_ped_stored;
-        target_rpm = acc_ped * 75 * gear_ratio / 2; // should be based on acc_ped. gear?
+        target_rpm = acc_ped * 20 * _gearRatio / 2; // should be based on acc_ped. gear?
     }
 
     std::cout << "increasing_rpm = " << increasing_rpm << std::endl;
     std::cout << "decreasing_rpm = " << decreasing_rpm << std::endl;
     std::cout << "eng_on = " << eng_on << std::endl;
-    if (eng_on == true)
+    if (eng_on == true)m
     {
         if (this->rpm < 900)
             this->rpm = 900;

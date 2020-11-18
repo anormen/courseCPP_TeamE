@@ -16,9 +16,9 @@ class ECM
 {
   public:
     ECM();
-    void Update(frame_100 &frm_100, frame_300 &frm_300, int _gearRatio);
+    void Update(frame_100 &frm_100, frame_300 &frm_300);
     void Write(frame_200 &frm_200);
-    uint16_t get_rpm();
+
   private:
     uint16_t rpm;
     uint8_t temp, counter;
