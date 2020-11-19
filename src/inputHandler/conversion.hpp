@@ -2,7 +2,6 @@
 #define CONVERSION_H
 
 #include <iostream>
-//#include "inputHandlerFrame.h"
 #include "can_class.hpp"
 #include <linux/can.h>
 #include <linux/can/raw.h>
