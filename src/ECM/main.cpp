@@ -4,8 +4,6 @@
 #include <future>
 #include "can_class.hpp"
 #include "ECM.hpp"
-#include "../TCM/TCM.hpp"
-#include "../TCM/gearbox.hpp"
 #include "frames.hpp"
 
 namespace fr=frames;
@@ -20,8 +18,6 @@ int main()
     can_frame frame;
 
     ECM ecm;
-    TCM tcm;
-    Gearbox gearbox;
 
     std::thread IO_thread([&]() {
         while (true)

@@ -67,8 +67,8 @@ bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     case 300: {
         memcpy(&frm_300,_frame,sizeof(struct fr::fr300));
         this->InstrumentCluster.setGearPindle(static_cast<char>(frm_300.gearactual));
-        this->InstrumentCluster.setSpeed(static_cast<double>(frm_300.speed));
-        this->speed = frm_300.speed;
+        this->InstrumentCluster.setSpeed(static_cast<double>(frm_300.speed/10.0));
+        this->speed = frm_300.speed/10.0;
 
         if(frm_300.updatebit){
             aliveTimeTCM->start(1000);
