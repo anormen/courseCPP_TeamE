@@ -60,7 +60,6 @@ int main()
     while (isRun)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr200_updateRate));
-
         switch(data_100.get_mode())
         {
             case fr::SimulationMode::OFF:
@@ -71,7 +70,6 @@ int main()
                 break;
             case fr::SimulationMode::INACTIVE:                
             case fr::SimulationMode::ACTIVE:
-                std::cout << "\033c \033[0;32m" ; // clear screen
                 {
                     std::lock_guard<std::mutex> guard_read(data_100.fr100_mutex);
                     ecm.Update(data_100, data_300);   
@@ -85,6 +83,7 @@ int main()
             default:
                 isRun = false;
         }
+        std::cout << "\033c \033[0;32m" ; // clear screen
     }
     return 0;
 }

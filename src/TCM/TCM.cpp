@@ -21,13 +21,12 @@ void TCM::Write(fr::frame_100 &frm_100, fr::frame_200 &frm_200, fr::frame_300 &f
     
     frm_300.set_speed(speed);
     frm_300.set_gearratio(gb.getGearRatio(frm_200.get_rpm()));
-    //frm_300.set_gearactual(gb.??);
     frm_300.set_updatebit(1);
 };
 
 void TCM::VehicleSpeedFilter(uint16_t &speed){
 
-    uint16_t sum = 0;
+    double sum = 0;
     vehiclespeedfilter.pop_back();
     vehiclespeedfilter.push_front(speed);
 

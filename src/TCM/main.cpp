@@ -17,11 +17,11 @@ int main()
     fr::frame_100 data_100;
     fr::frame_200 data_200;
     fr::frame_300 data_300;    
-
     TCM tcm;
+    bool isRun = true;
 
     std::thread IO_thread([&]() {
-        while (true)
+        while (isRun)
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr100_updateRate));
             std::cout << "Read frame" << std::endl;
@@ -41,45 +41,52 @@ int main()
             }
             if (data_100.get_mode() == fr::SimulationMode::OFF)
             {
+                isRun = false;
                 std::cout << "Exit IO thread" << std::endl;
-                break;
             }
 
             {
                 std::cout << "Write frame" << std::endl;
                 std::lock_guard<std::mutex> guard(data_300.fr300_mutex);
                 memcpy(&frame, data_300.get_frame_ptr(), sizeof(frame));
-                can.canWriteFrame(frame);
-                can.printFrame(frame);
-            }
+                if(can.canWriteFrame(frame) > 0){
+                    can.printFrame(frame);
+                }                    
+                else
+                    std::cout << "write frame failed" << std::endl;
 
+            }
             std::cout << "\033c \033[0;32m" ; // clear screen
         }
     });
 
-    while (true)
+    while (isRun)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr300_updateRate));
-
-        if (data_100.get_mode() == fr::SimulationMode::OFF)
+        switch(data_100.get_mode())
         {
-            IO_thread.join();
-            std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr300_updateRate));
-            break;
+            case fr::SimulationMode::OFF:
+                isRun = false;
+                IO_thread.join();
+                break;
+            case fr::SimulationMode::SLEEP:
+                break;
+            case fr::SimulationMode::INACTIVE:                
+            case fr::SimulationMode::ACTIVE:
+                {
+                    std::lock_guard<std::mutex> guard_read(data_100.fr100_mutex);
+                    tcm.Update(data_100,data_200);   
+                }   
+            
+                {
+                    std::lock_guard<std::mutex> guard_write(data_300.fr300_mutex);
+                    tcm.Write(data_100, data_200, data_300);
+                }
+                break;
+            default:
+                isRun = false;
         }
-
-        if (data_100.get_mode() == fr::SimulationMode::ACTIVE)
-        {
-            {
-                std::lock_guard<std::mutex> guard_read(data_100.fr100_mutex); // onödigt...? Vart ska den läggas?
-                tcm.Update(data_100,data_200);
-            }
-
-            {
-                std::lock_guard<std::mutex> guard_write(data_300.fr300_mutex); // Onödigt...?
-                tcm.Write(data_100, data_200, data_300);
-            }
-        }
+        std::cout << "\033c \033[0;32m" ; // clear screen
     }
     return 0;
 }
