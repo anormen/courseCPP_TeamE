@@ -16,7 +16,6 @@ int main()
     frame_200 data_200;
     frame_300 data_300;
     can_frame frame;
-    uint8_t sendRate = 0;
 
     ECM ecm;
     TCM tcm;
@@ -27,26 +26,28 @@ int main()
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate));
             std::cout << "read frame\n";
-            can.canReadFrame(frame);
-            can.printFrame(frame);
+           
+           
+            while(can.canReadFrame(frame) > 0){
+                can.printFrame(frame);
 
-            if (frame.can_dlc > 0)
-            {
-                std::lock_guard<std::mutex> guard(data_100.fr100_mutex);
-                if (frame.can_id == 100)
-                    memcpy(data_100.get_frame_ptr(), &frame, sizeof(frame));
-                else if (frame.can_id == 300)
-                    memcpy(data_300.get_frame_ptr(), &frame, sizeof(frame));
-                //else
-                //do nothing
+                if (frame.can_dlc > 0)
+                {
+                    std::lock_guard<std::mutex> guard(data_100.fr100_mutex);
+                   if (frame.can_id == 100)
+                       memcpy(data_100.get_frame_ptr(), &frame, sizeof(frame));
+                  else if (frame.can_id == 300)
+                     memcpy(data_300.get_frame_ptr(), &frame, sizeof(frame));
+                  //else
+                  //do nothing
+                }
             }
-
             if (data_100.get_mode() == SimulationMode::OFF)
             {
                 std::cout << "Exit IO thread\n";
                 break;
             }
-            if(sendRate > 4)
+
             {
                 std::cout << "write frame\n";
                 std::lock_guard<std::mutex> guard(data_200.fr200_mutex);
@@ -54,8 +55,6 @@ int main()
                 uint16_t b = can.canWriteFrame(frame);
                 can.printFrame(frame);
             }
-            else
-                sendRate++;
         }
     });
 
