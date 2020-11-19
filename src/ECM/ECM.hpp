@@ -1,8 +1,6 @@
 #ifndef ECM_HPP
 #define ECM_HPP
 
-#include "../TCM/TCM.hpp"
-#include "../TCM/gearbox.hpp"
 #include "frames.hpp"
 #include "calcFuel.hpp"
 #include "calcRPM.hpp"
