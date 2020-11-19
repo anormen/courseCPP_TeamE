@@ -7,31 +7,95 @@ Gearbox::Gearbox()
     targetGear = 1;
 }
 
-// VehicleSpeed (km/h) = egRPM ( round per minut)* gearRatio (total with scaling 1000) *
-//wheelRadiusCircumferance in m 60 for rpm
-int Gearbox::getVehicleSpeed(const int _accPed, const int _engRpm)
+ void Gearbox::setGearleverPos(frames::GearLeverPos _gearleverPos)
+ {
+     this->gearleverPosition = _gearleverPos;
+ }
+int Gearbox::getVehicleSpeed()
 {
-    int vehicleSpeed;
+    return (double (lastVehicleSpeed100/100));
+}
 
-    std::cout << vehicleSpeed << "  " << lastVehicleSpeed << " " << _engRpm << std::endl;
+void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const frames::GearLeverPos _gearleverPosition)
+{
+    int vehicleSpeed = 1;
 
-    if ((_engRpm <= 900) && (_accPed == 0))
+    std::cout << vehicleSpeed << " getVehicleSpeeda  " << lastVehicleSpeed100 << " " << _engRpm << std::endl;
+
+    switch(this->gearleverPosition)
     {
-        if (this->lastVehicleSpeed > 0)
-            this->lastVehicleSpeed--;
+        // PARK: Speed = 0 
+        case frames::GearLeverPos::PARK:
+        {
+            vehicleSpeed = 0;
+            std::cout << "PARK" << vehicleSpeed << std::endl;
+            break;
+        }
+            
+        // REVERSE: //Not implemented    
+        case frames::GearLeverPos::REVERSE:
+            // not implemnt;
+            break;     
+        // NEUTRAL: vehicleSpeed = lastvehicleSpeed100/100; slow retard to 0 
+        case frames::GearLeverPos::NEUTRAL:
+            if (this->lastVehicleSpeed100 > 0){
+                this->lastVehicleSpeed100--;
+                vehicleSpeed = double(this->lastVehicleSpeed100/100);
+            }
+                    
+            break;   
+        // DRIVE:      
+        case frames::GearLeverPos::DRIVE:
+        {
+            //handling idle
 
-        vehicleSpeed = this->lastVehicleSpeed;
+            
+            if ((_engRpm <= 900) && (_accPed == 0))
+            {
+                if (this->lastVehicleSpeed100 > 0)
+                {
+                    this->lastVehicleSpeed100--;
+                    vehicleSpeed = (double)(this->lastVehicleSpeed100/100);
+                }   
+            }
+            else
+            {
+                // VehicleSpeed (km/h) = egRPM ( round per minut)* gearRatio (total with scaling 1000) *
+                //wheelRadiusCircumferance in m 60 for rpm  
+                int tempVehicleSpeed = 0;    
+                tempVehicleSpeed = (double)(_engRpm * getGearRatio(_engRpm) * wheelCircumference) * 6 / (10000);
+                std::cout << tempVehicleSpeed << std::endl;
+                
+                int speedDelta = tempVehicleSpeed -(double)(lastVehicleSpeed100/100);
+                // Filter max rate change
+                const int maxSpeedDelta = 2; //km/h per tick
+                
+                if (speedDelta > maxSpeedDelta)
+                {
+                    vehicleSpeed = (double)lastVehicleSpeed100/100 + maxSpeedDelta;
+                }
+                    
+                else if (speedDelta < (-maxSpeedDelta))
+                {
+                    vehicleSpeed = (double)lastVehicleSpeed100/100 - maxSpeedDelta;
+                }
+                else
+                {
+                    vehicleSpeed = tempVehicleSpeed;
+                }
+            }
+            
+            std::cout << "DRIVE a " << vehicleSpeed << std::endl;
+        }
+        break;                       
+        default:
+            std::cout << "Undefined gearlever";
     }
-    //else if (geae)  PARK and NEUTTRALm
-    else
-    {
-        vehicleSpeed = (_engRpm * getGearRatio(_engRpm) * wheelCircumference) * 6 / (10000);
-        lastVehicleSpeed = vehicleSpeed;
-    }
-    return (vehicleSpeed);
+
+    lastVehicleSpeed100 = vehicleSpeed*100;
 }
 // GearRation
-int Gearbox::getGearRatio(int _engRpm)
+int Gearbox::getGearRatio(int _engRpm) 
 {
     return (gearRatioFact[targetGear]);
 }
@@ -43,7 +107,9 @@ int Gearbox::getGear()
 
 void Gearbox::selectGear(const int accPedal, const int _engRpm) {
     int accPedIndex = int (accPedal/10);
-    
+    if ( gearleverPosition == frames::GearLeverPos::PARK)
+        return;
+
     if (multiShiftDelay < 20){
         multiShiftDelay++;
     }       
