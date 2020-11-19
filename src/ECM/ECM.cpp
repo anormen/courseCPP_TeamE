@@ -18,7 +18,7 @@ void ECM::Update(fr::frame_100 &frm_100, fr::frame_300 &frm_300)
     }
 
     rpm = rpm_class.CalculateRPM(frm_100.get_accelerator(), frm_300.get_gearratio(), eng_on);
-    fuel_class.CalculateFuel(frm_100, rpm, frm_300);
+    fuel_class.CalculateFuel(frm_100.get_accelerator(), rpm, frm_300.get_speed());
     CalculateTemp();
 }
 

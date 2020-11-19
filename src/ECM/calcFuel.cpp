@@ -10,10 +10,8 @@ calcFuel::calcFuel(){
         fuelAvgFilter.push_front(fA);    // defaut init 50km/h 5L/km100   
 }
 
-void calcFuel::CalculateFuel(fr::frame_100 &fr100, uint16_t &rpm, fr::frame_300 &fr300){
+void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed){
 
-    uint16_t speed = fr300.get_speed();
-    uint8_t accelerator = fr100.get_accelerator();
     double sumOfiFuel=0, sumOfSpeed=0, sumOfFuel=0;
     double rate = 0;
 
@@ -53,10 +51,10 @@ void calcFuel::CalculateFuel(fr::frame_100 &fr100, uint16_t &rpm, fr::frame_300 
         }
     }
     //debug
-    std::cout << " ticks: " << fuelticks << " rate: " << rate << " avg: " << fuelAvg << " inst: " << fuelInst << " speed: " << speed << std::endl;   
+    //std::cout << " ticks: " << fuelticks << " rate: " << rate << " avg: " << fuelAvg << " inst: " << fuelInst << " speed: " << speed << std::endl;   
 } 
 
-double calcFuel::CalculateRate(uint8_t &accelerator, uint16_t &rpm, uint16_t &speed){
+double calcFuel::CalculateRate(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed){
 
     double rate = 0;
     //deside fuel rate
