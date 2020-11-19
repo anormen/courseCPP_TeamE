@@ -26,7 +26,7 @@ bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         tempString << fr::messages.at(frm_200.driverinfo);
         if(frm_200.rpm > 0){
             tempString << "\n\rFuel consumption: " << std::fixed << std::setprecision(1) ;
-        this->speed > 0 ? tempString << (frm_200.fuelavg/100.0) << " l/100km" : tempString << (frm_200.fuelinst/100.0) << " l/h";
+        this->speed > 2 ? tempString << (frm_200.fuelavg/100.0) << " l/100km" : tempString << (frm_200.fuelinst/100.0) << " l/h";
         }
 
         this->InstrumentCluster.setTxt(QString::fromStdString(tempString.str()));    
