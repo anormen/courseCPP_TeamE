@@ -8,7 +8,7 @@ void driverInfo::update(fr::frame_100 &fr100, uint16_t &rpm, fr::DriverInformati
     fr::SimulationMode mode = fr100.get_mode();
   
     if(startbutton == fr::StartButtonSts::PRESSED){ //handler active
-        if(mode != fr::SimulationMode::ACTIVE)
+        if(mode == fr::SimulationMode::INACTIVE)
             infoMsg = fr::DriverInformation::NO_KEY;
         else if (rpm > 0 && gearleverpos != fr::GearLeverPos::PARK) //running
             infoMsg = fr::DriverInformation::NOT_IN_P_IN_D;
@@ -25,7 +25,7 @@ void driverInfo::update(fr::frame_100 &fr100, uint16_t &rpm, fr::DriverInformati
     }
     
     uint16_t messageTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-startTime).count();
-    if(messageTime >= messageDuration || mode != fr::SimulationMode::ACTIVE) //message timeout or vehicle turned off 
+    if(messageTime >= messageDuration || mode == fr::SimulationMode::SLEEP) //message timeout or vehicle turned off 
         infoMsg = fr::DriverInformation::NO_MSG;
 
     //debug message
