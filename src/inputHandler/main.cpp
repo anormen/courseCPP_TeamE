@@ -28,18 +28,21 @@ int main()
 
         switch (canConvert.GetSimulationMode())
         {
-            case fr::SimulationMode::OFF:
+            case SimulationMode::OFF:
+                //turn off
                 can.canWriteFrame(frame);
                 isRun = false;
                 break; 
-            case fr::SimulationMode::SLEEP:
+            case SimulationMode::SLEEP:
+                //do nothing but wait
                 break;
-            case fr::SimulationMode::INACTIVE:
-            case fr::SimulationMode::ACTIVE:
+            case SimulationMode::INACTIVE:
+            case SimulationMode::ACTIVE:
+                //send frames
                 can.canWriteFrame(frame); 
                 break;
             default:
-                std::cout << "Unhandled mode" << std::endl;
+                //unhandled mode
         }
     }
     return 0;

@@ -23,6 +23,7 @@ class keyConverter{
   public:
     keyConverter();
     UserReq readInputReq();
+    ~keyConverter() { endwin(); };
   private:
     UserReq required_action;
     int key;
