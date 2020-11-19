@@ -7,21 +7,23 @@
 #include "canio/can_common.h"
 #include "frames.hpp"
 
+namespace fr=frames;
+
 bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
    
-    fr300 frm_300 = {0};
-    fr200 frm_200 = {0};
-    fr100 frm_100 = {0};
+    fr::fr300 frm_300 = {0};
+    fr::fr200 frm_200 = {0};
+    fr::fr100 frm_100 = {0};
     bool isRun = true;
 
     std::ostringstream tempString;
 
     switch (_frame->can_id) {
     case 200: {
-        memcpy(&frm_200,_frame,sizeof(struct fr200));
+        memcpy(&frm_200,_frame,sizeof(struct fr::fr200));
         this->InstrumentCluster.setRPM(static_cast<double>(frm_200.rpm ));
 
-        tempString << messages.at(frm_200.driverinfo);
+        tempString << fr::messages.at(frm_200.driverinfo);
         if(frm_200.rpm > 0){
             tempString << "\n\rFuel consumption: " << std::fixed << std::setprecision(1) ;
         this->speed > 0 ? tempString << (frm_200.fuelavg/100.0) << " l/100km" : tempString << (frm_200.fuelinst/100.0) << " l/h";
@@ -38,12 +40,12 @@ bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         break;
     }
     case 100: {
-        memcpy(&frm_100,_frame,sizeof(struct fr100));
-        this->InstrumentCluster.setGear(QString::fromStdString(gears.at(frm_100.gearlever)));
+        memcpy(&frm_100,_frame,sizeof(struct fr::fr100));
+        this->InstrumentCluster.setGear(QString::fromStdString(fr::gears.at(frm_100.gearlever)));
         this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_100.accelerator));        
         frm_100.brake > 0 ? this->icon.hand_break = false : this->icon.hand_break = true;
         this->InstrumentCluster.setIcon(&this->icon);
-        if((SimulationMode)frm_100.mode == SimulationMode::ACTIVE && this->isStart == true){
+        if((fr::SimulationMode)frm_100.mode == fr::SimulationMode::ACTIVE && this->isStart == true){
             this->isStart = false; 
             this->InstrumentCluster.ignite(true);
             this->icon.oil_check = 1;
@@ -58,12 +60,12 @@ bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
                 }); 
         }
 
-        ((SimulationMode)frm_100.mode == SimulationMode::OFF) ? isRun = false : isRun = true;
+        ((fr::SimulationMode)frm_100.mode == fr::SimulationMode::OFF) ? isRun = false : isRun = true;
 
        break;
     }
     case 300: {
-        memcpy(&frm_300,_frame,sizeof(struct fr300));
+        memcpy(&frm_300,_frame,sizeof(struct fr::fr300));
         this->InstrumentCluster.setGearPindle(static_cast<char>(frm_300.gearactual));
         this->InstrumentCluster.setSpeed(static_cast<double>(frm_300.speed));
         this->speed = frm_300.speed;

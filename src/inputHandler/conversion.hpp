@@ -10,12 +10,13 @@
 #include "key_converter.hpp"
 
 namespace kc=key_conv;
+namespace fr=frames;
 
 class Conversion{
 
 private:
    // Frame_data inputHandlerFrame;
-    frame_100 frm_100;
+    fr::frame_100 frm_100;
     void AccPedUp();
     void AccPedDown();
     void BrakePedalUp();
@@ -29,7 +30,7 @@ private:
 public:
     Conversion();
     void fillFrame(can_frame &_frame, kc::UserReq _userReq);
-    SimulationMode GetSimulationMode() { return this->frm_100.get_mode(); };     
+    fr::SimulationMode GetSimulationMode() { return this->frm_100.get_mode(); };     
    ~Conversion();
 };
 

@@ -8,13 +8,15 @@
 #include "../TCM/gearbox.hpp"
 #include "frames.hpp"
 
+namespace fr=frames;
+
 int main()
 {
     canHandler can;
     can.canInit("vcan0");
-    frame_100 data_100;
-    frame_200 data_200;
-    frame_300 data_300;
+    fr::frame_100 data_100;
+    fr::frame_200 data_200;
+    fr::frame_300 data_300;
     can_frame frame;
 
     ECM ecm;
@@ -24,7 +26,7 @@ int main()
     std::thread IO_thread([&]() {
         while (true)
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate));
+            std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr100_updateRate));
             std::cout << "read frame\n";
            
            
@@ -42,7 +44,7 @@ int main()
                   //do nothing
                 }
             }
-            if (data_100.get_mode() == SimulationMode::OFF)
+            if (data_100.get_mode() == fr::SimulationMode::OFF)
             {
                 std::cout << "Exit IO thread\n";
                 break;
@@ -60,15 +62,15 @@ int main()
 
     while (true)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(fr200_updateRate));
+        std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr200_updateRate));
 
-        if (data_100.get_mode() == SimulationMode::OFF)
+        if (data_100.get_mode() == fr::SimulationMode::OFF)
         {
             IO_thread.join();
             break;
         }
 
-        if (data_100.get_mode() == SimulationMode::ACTIVE)
+        if (data_100.get_mode() == fr::SimulationMode::ACTIVE)
         {   std::cout << "\033c \033[0;32m" ; // clear screen
             {
                 std::lock_guard<std::mutex> guard_read(data_100.fr100_mutex); // onödigt...? Vart ska den läggas?

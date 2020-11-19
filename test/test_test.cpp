@@ -3,11 +3,12 @@
 #include <iostream>
 #include <vector>
 
+namespace fr=frames;
 
 class FrameFixture : public ::testing::Test {
   protected:
     // NOLINTNEXTLINE
-    frame_100 frm_100;
+    fr::frame_100 frm_100;
     
 
     void SetUp() override

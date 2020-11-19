@@ -7,6 +7,8 @@
 #include "data_class.hpp"
 #include <future>
 
+namespace fr=frames;
+
 class displayHandler{
 
     public:

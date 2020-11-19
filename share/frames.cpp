@@ -3,6 +3,8 @@
 
 // Frame 100
 
+namespace frames { 
+
 frame_100::frame_100() { this->init_frame(); };
 void frame_100::init_frame()
 {
@@ -94,3 +96,5 @@ void frame_300::set_speed(const uint16_t spd){this->frame.speed=spd;}
 void frame_300::set_gearactual(const uint8_t gearact){this->frame.gearactual=gearact;}
 void frame_300::set_updatebit(const uint8_t &ub){this->frame.updatebit=ub;}
 void frame_300::set_gearratio(const uint8_t &gr){this->frame.gearRatio=gr;};
+
+} // namespace frames

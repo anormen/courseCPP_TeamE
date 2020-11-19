@@ -1,6 +1,6 @@
 #include "TCM.hpp"
 
-void TCM::Update(frame_100 &frm_100, frame_200 &frm_200)
+void TCM::Update(fr::frame_100 &frm_100, fr::frame_200 &frm_200)
 {
     
     gb.selectGear(frm_100.get_accelerator(), frm_200.get_rpm());
@@ -9,7 +9,7 @@ void TCM::Update(frame_100 &frm_100, frame_200 &frm_200)
     //info = di.getDriverInfoMsg();
 }
 
-void TCM::Write(frame_100 &frm_100, frame_200 &frm_200, frame_300 &frm_300) //remove frame 200 and change get vehicle speed behaviour
+void TCM::Write(fr::frame_100 &frm_100, fr::frame_200 &frm_200, fr::frame_300 &frm_300) //remove frame 200 and change get vehicle speed behaviour
 {
     std::cout << "Speed : " << (int)gb.getVehicleSpeed(frm_100.get_accelerator(),frm_200.get_rpm()) << std::endl;
     frm_300.set_gearactual(gb.getGear());

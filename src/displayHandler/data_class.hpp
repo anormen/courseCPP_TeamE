@@ -5,6 +5,8 @@
 #include "frames.hpp"
 #include "display_handler.hpp"
 
+namespace fr=frames;
+
 class dataLayer{
 
     public:

@@ -7,11 +7,13 @@
 #include <deque>
 #include "frames.hpp"
 
+namespace fr=frames;
+
 class calcFuel{
 
     public:
         calcFuel();
-        void CalculateFuel(frame_100 &fr100, uint16_t &rpm, frame_300 &fr300);
+        void CalculateFuel(fr::frame_100 &fr100, uint16_t &rpm, fr::frame_300 &fr300);
         double getFuelInst() { return fuelInst; };
         double getFuelAvg() { return fuelAvg; };
     private:

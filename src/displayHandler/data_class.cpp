@@ -5,9 +5,9 @@
 
 void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
 
-        frame_100 fr100;
-        frame_200 fr200;
-        frame_300 fr300;
+        fr::frame_100 fr100;
+        fr::frame_200 fr200;
+        fr::frame_300 fr300;
 
         if(frameGen.can_dlc > 0 && frameGen.can_id != 0)
         {

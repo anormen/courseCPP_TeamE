@@ -6,12 +6,12 @@ ECM::ECM()
     this->temp = 10;
 }
 
-void ECM::Update(frame_100 &frm_100, frame_300 &frm_300)
+void ECM::Update(fr::frame_100 &frm_100, fr::frame_300 &frm_300)
 {
 
     di.update(frm_100, rpm, infoMsg);
     
-    if (frm_100.get_startstop() == StartButtonSts::PRESSED && infoMsg == DriverInformation::NO_MSG)
+    if (frm_100.get_startstop() == fr::StartButtonSts::PRESSED && infoMsg == fr::DriverInformation::NO_MSG)
         this->eng_on = !eng_on;
 
     std::cout << "eng_on = " << eng_on << "\n";
@@ -22,7 +22,7 @@ void ECM::Update(frame_100 &frm_100, frame_300 &frm_300)
     //info = di.getDriverInfoMsg();
 }
 
-void ECM::Write(frame_200 &frm_200)
+void ECM::Write(fr::frame_200 &frm_200)
 {
     frm_200.set_rpm(rpm);
     frm_200.set_fuelavg(fuel_class.getFuelAvg());

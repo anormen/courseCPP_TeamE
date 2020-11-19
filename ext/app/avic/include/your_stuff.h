@@ -7,6 +7,8 @@
 
 #include <iomanip>
 
+
+
 class yourStuff : public QObject {
     Q_OBJECT
 public:

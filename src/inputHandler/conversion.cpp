@@ -29,29 +29,29 @@ void Conversion::BrakePedalDown(){
     this->frm_100.set_brake(brk);
 }
 void Conversion::SetStartButton(){
-    this->frm_100.set_startstop(StartButtonSts::PRESSED);
+    this->frm_100.set_startstop(fr::StartButtonSts::PRESSED);
 }
 void Conversion::ReleaseStartButton(){
-    this->frm_100.set_startstop(StartButtonSts::UNPRESSED);
+    this->frm_100.set_startstop(fr::StartButtonSts::UNPRESSED);
 }
 void Conversion::GearLeverUp(){
 
     switch(this->frm_100.get_gearlever())
     {
-        case GearLeverPos::PARK:
-            this->frm_100.set_gearlever(GearLeverPos::REVERSE);
+        case fr::GearLeverPos::PARK:
+            this->frm_100.set_gearlever(fr::GearLeverPos::REVERSE);
             break;
-        case GearLeverPos::REVERSE:
-            this->frm_100.set_gearlever(GearLeverPos::NEUTRAL);
+        case fr::GearLeverPos::REVERSE:
+            this->frm_100.set_gearlever(fr::GearLeverPos::NEUTRAL);
             break;      
-        case GearLeverPos::NEUTRAL:
-            this->frm_100.set_gearlever(GearLeverPos::DRIVE);
+        case fr::GearLeverPos::NEUTRAL:
+            this->frm_100.set_gearlever(fr::GearLeverPos::DRIVE);
             break;    
-        case GearLeverPos::DRIVE:
-            this->frm_100.set_gearlever(GearLeverPos::DRIVE);
+        case fr::GearLeverPos::DRIVE:
+            this->frm_100.set_gearlever(fr::GearLeverPos::DRIVE);
             break;                       
         default:
-            this->frm_100.set_gearlever(GearLeverPos::PARK);
+            this->frm_100.set_gearlever(fr::GearLeverPos::PARK);
     }
 }
 
@@ -59,20 +59,20 @@ void Conversion::GearLeverDown(){
 
     switch(this->frm_100.get_gearlever())
     {
-        case GearLeverPos::PARK:
-            this->frm_100.set_gearlever(GearLeverPos::PARK);
+        case fr::GearLeverPos::PARK:
+            this->frm_100.set_gearlever(fr::GearLeverPos::PARK);
             break;
-        case GearLeverPos::REVERSE:
-            this->frm_100.set_gearlever(GearLeverPos::PARK);
+        case fr::GearLeverPos::REVERSE:
+            this->frm_100.set_gearlever(fr::GearLeverPos::PARK);
             break;      
-        case GearLeverPos::NEUTRAL:
-            this->frm_100.set_gearlever(GearLeverPos::REVERSE);
+        case fr::GearLeverPos::NEUTRAL:
+            this->frm_100.set_gearlever(fr::GearLeverPos::REVERSE);
             break;    
-        case GearLeverPos::DRIVE:
-            this->frm_100.set_gearlever(GearLeverPos::NEUTRAL);
+        case fr::GearLeverPos::DRIVE:
+            this->frm_100.set_gearlever(fr::GearLeverPos::NEUTRAL);
             break;                       
         default:
-            this->frm_100.set_gearlever(GearLeverPos::PARK);
+            this->frm_100.set_gearlever(fr::GearLeverPos::PARK);
     }
 }
 
@@ -80,17 +80,17 @@ void Conversion::SetSimulationMode(){
 
     switch(this->frm_100.get_mode())
     {
-        case SimulationMode::SLEEP:
-            this->frm_100.set_mode(SimulationMode::INACTIVE);
+        case fr::SimulationMode::SLEEP:
+            this->frm_100.set_mode(fr::SimulationMode::INACTIVE);
             break;
-        case SimulationMode::INACTIVE:
-            this->frm_100.set_mode(SimulationMode::ACTIVE);
+        case fr::SimulationMode::INACTIVE:
+            this->frm_100.set_mode(fr::SimulationMode::ACTIVE);
             break;
-        case SimulationMode::ACTIVE:
-            this->frm_100.set_mode(SimulationMode::OFF);
+        case fr::SimulationMode::ACTIVE:
+            this->frm_100.set_mode(fr::SimulationMode::OFF);
             break;     
         default:
-            this->frm_100.set_mode(SimulationMode::SLEEP);          
+            this->frm_100.set_mode(fr::SimulationMode::SLEEP);          
     }
 }
 

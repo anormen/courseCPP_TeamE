@@ -5,6 +5,8 @@
 #include <string>
 #include <mutex>
 
+namespace frames { 
+
 enum class GearLeverPos : uint8_t {PARK, REVERSE, NEUTRAL, DRIVE};
 enum class StartButtonSts : uint8_t {UNPRESSED, PRESSED};
 enum class SimulationMode : uint8_t { SLEEP, INACTIVE, ACTIVE, OFF};
@@ -153,6 +155,6 @@ class frame_300
     fr300 frame;
 };
 
-
+} // namespace frames
 
 #endif //_FRAMES_H

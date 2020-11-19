@@ -9,11 +9,13 @@
 #include <iostream>
 #include <cstdint>
 
+namespace fr=frames;
+
 class driverInfo{
 
     public:
         driverInfo(){};
-        void update(frame_100 &fr100, uint16_t &rpm, DriverInformation &infoMsg);
+        void update(fr::frame_100 &fr100, uint16_t &rpm, fr::DriverInformation &infoMsg);
     private:
         std::chrono::steady_clock::time_point startTime;
         const uint16_t messageDuration = 2000;

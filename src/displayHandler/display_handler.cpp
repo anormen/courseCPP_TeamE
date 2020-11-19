@@ -15,13 +15,13 @@ displayHandler::displayHandler(){
     std::thread reader( [&](){  //start can reader thread
 
         finishedReader.set_value_at_thread_exit();
-        while(dispHndl.getValueMode() != SimulationMode::OFF){ //run as song as mode != off (3)
+        while(dispHndl.getValueMode() != fr::SimulationMode::OFF){ //run as song as mode != off (3)
             if(canHndl.canReadFrame(frameGen) != -1){ //print frame if any data
                 canHndl.printFrame(frameGen);
                 std::lock_guard<std::mutex> lock(guard); //block write to frame during display
                     dataHndl.processInput(dispHndl, frameGen);  
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(fr100_updateRate/3)); 
+            std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr100_updateRate/3)); 
         }
     });
     reader.detach();
@@ -29,7 +29,7 @@ displayHandler::displayHandler(){
     std::thread display( [&](){
 
         finishedDisplay.set_value_at_thread_exit();
-        while(dispHndl.getValueMode() != SimulationMode::OFF){
+        while(dispHndl.getValueMode() != fr::SimulationMode::OFF){
             { // fake scope to release lock
                 std::lock_guard<std::mutex> lock(guard);
                     dispHndl.update();  
