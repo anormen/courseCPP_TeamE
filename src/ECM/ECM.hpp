@@ -30,6 +30,7 @@ class ECM
     driverInfo di;
     bool eng_on;
     void CalculateTemp();
+    fr::StartButtonSts stored_button;
 };
 
 #endif //ECM_HPP
