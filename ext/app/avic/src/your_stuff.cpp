@@ -42,7 +42,7 @@ bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     case 100: {
         memcpy(&frm_100,_frame,sizeof(struct fr::fr100));
         this->InstrumentCluster.setGear(QString::fromStdString(fr::gears.at(frm_100.gearlever)));
-        this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_100.accelerator));        
+        this->InstrumentCluster.setFuelGauges(static_cast<double>(frm_100.accelerator* (255.0/100.0)));        
         frm_100.brake > 0 ? this->icon.hand_break = false : this->icon.hand_break = true;
         this->InstrumentCluster.setIcon(&this->icon);
         if((fr::SimulationMode)frm_100.mode == fr::SimulationMode::ACTIVE && this->isStart == true){

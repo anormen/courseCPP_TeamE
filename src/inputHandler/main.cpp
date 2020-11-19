@@ -42,8 +42,8 @@ int main()
                 can.canWriteFrame(frame); 
                 break;
             default:
-                break;
                 //unhandled mode
+                isRun = false;
         }
     }
     return 0;
