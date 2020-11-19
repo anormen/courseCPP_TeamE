@@ -5,15 +5,12 @@
 #include <thread>
 #include <iostream>
 #include <deque>
-#include "frames.hpp"
-
-namespace fr=frames;
 
 class calcFuel{
 
     public:
         calcFuel();
-        void CalculateFuel(fr::frame_100 &fr100, uint16_t &rpm, fr::frame_300 &fr300);
+        void CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed);
         double getFuelInst() { return fuelInst; };
         double getFuelAvg() { return fuelAvg; };
     private:
@@ -21,7 +18,7 @@ class calcFuel{
             double vSpeed = 50.0;
             double iFuel = 0.001;
         }fA;      
-        double CalculateRate(uint8_t &accelerator, uint16_t &rpm, uint16_t &speed);                 
+        double CalculateRate(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed);                 
         double fuelAvg = 0; //kept by class
         double fuelInst = 0; //kept by class
         double fuelticks = 0;
