@@ -82,7 +82,7 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
                 increasing_rpm = false;
                 acc_inc_delta = 0;
             }
-            this->rpm += acc_ped;
+            this->rpm += acc_ped * 10 / _gearRatio;
             //if (acc_inc_delta > response_time)
             //    this->rpm += 10;
                 //this->rpm += 20 * acc_ped / 20;

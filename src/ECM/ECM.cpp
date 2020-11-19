@@ -4,15 +4,20 @@ ECM::ECM()
 {
     this->eng_on = false;
     this->temp = 10;
+    this->stored_button = fr::StartButtonSts::UNPRESSED;
 }
 
 void ECM::Update(fr::frame_100 &frm_100, fr::frame_300 &frm_300)
 {
 
     di.update(frm_100, rpm, infoMsg);
-    
-    if (frm_100.get_startstop() == fr::StartButtonSts::PRESSED && infoMsg == fr::DriverInformation::NO_MSG)
+
+    if (frm_100.get_startstop() == fr::StartButtonSts::PRESSED && infoMsg == fr::DriverInformation::NO_MSG && stored_button == fr::StartButtonSts::UNPRESSED){
         this->eng_on = !eng_on;
+        stored_button = fr::StartButtonSts::PRESSED;
+    } else {
+        stored_button = fr::StartButtonSts::UNPRESSED;
+    }
 
     std::cout << "eng_on = " << eng_on << "\n";
 
@@ -35,14 +40,14 @@ void ECM::Write(fr::frame_200 &frm_200)
 void ECM::CalculateTemp()
 {
     counter++;
-    if (counter % 20 == 0)
+    if (counter % 5 == 0)
     {
         if (rpm > 0)
             this->temp += this->rpm / 900;
         else
             this->temp -= 2;
 
-        this->temp = std::min((int)this->temp, 90);
+        this->temp = std::min((int)this->temp, 127);
         this->temp = std::max((int)this->temp, 10);
 
         std::cout << "Temp = " << (int)this->temp << std::endl;
