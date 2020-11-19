@@ -41,7 +41,7 @@ public:
     void calculateVehicleSpeed(const int _accPed, const int _engRpm, const frames::GearLeverPos _gearleverPosition);
 
     // GearRation 
-    int getGearRatio (int _engRpm);
+    int getGearRatio ();
     int getGear();
 
     void selectGear(const int accPedal, const int _engRpm);

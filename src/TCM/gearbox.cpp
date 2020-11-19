@@ -63,7 +63,7 @@ void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const 
                 // VehicleSpeed (km/h) = egRPM ( round per minut)* gearRatio (total with scaling 1000) *
                 //wheelRadiusCircumferance in m 60 for rpm  
                 int tempVehicleSpeed = 0;    
-                tempVehicleSpeed = (double)(_engRpm * getGearRatio(_engRpm) * wheelCircumference) * 6 / (10000);
+                tempVehicleSpeed = (double)(_engRpm * getGearRatio() * wheelCircumference) * 6 / (10000);
                 std::cout << tempVehicleSpeed << std::endl;
                 
                 int speedDelta = tempVehicleSpeed -(double)(lastVehicleSpeed100/100);
@@ -95,7 +95,7 @@ void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const 
     lastVehicleSpeed100 = vehicleSpeed*100;
 }
 // GearRation
-int Gearbox::getGearRatio(int _engRpm) 
+int Gearbox::getGearRatio() 
 {
     return (gearRatioFact[targetGear]);
 }

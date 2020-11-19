@@ -14,7 +14,7 @@ class TCM
     ~TCM() = default;
     void Update(fr::frame_100 &frm_100, fr::frame_200 &frm_200);
     void VehicleSpeedFilter(uint16_t &speed);
-    void Write(fr::frame_100 &frm_100, fr::frame_200 &frm_200, fr::frame_300 &frm_300);
+    void Write(fr::frame_300 &frm_300);
   private:
     Gearbox gb;
     std::deque<uint16_t> vehiclespeedfilter;
