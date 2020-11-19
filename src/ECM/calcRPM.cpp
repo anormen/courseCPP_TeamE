@@ -60,11 +60,9 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
 
     std::cout << "RPM = " << this->rpm << " target_rpm = " << target_rpm << std::endl;
     std::cout << "acc_ped = " << acc_ped << " acc_ped_stored = " << acc_ped_stored << std::endl;
-    if (acc_ped != acc_ped_stored)
-    {
-        increasing_rpm = acc_ped > acc_ped_stored;
-        decreasing_rpm = acc_ped < acc_ped_stored;
-    }
+ 
+    increasing_rpm = target_rpm > this->rpm;
+    decreasing_rpm = target_rpm < this->rpm;
 
     std::cout << "increasing_rpm = " << increasing_rpm << std::endl;
     std::cout << "decreasing_rpm = " << decreasing_rpm << std::endl;
