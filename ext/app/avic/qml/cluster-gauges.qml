@@ -331,7 +331,7 @@ ApplicationWindow {
                 id: fuelGaugeStyle
 
                 icon: "./images/pedal.png"
-                minWarningColor:"#f42d2d"
+                //minWarningColor:"#f42d2d"
 
 
 
