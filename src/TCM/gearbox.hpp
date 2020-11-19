@@ -5,8 +5,8 @@
 
 class Gearbox {
 private:
-    //const int gearRatioFact[6] = {11, 10, 14, 18, 28, 35}; // R=0, 1,2 3,4,5
-    const int gearRatioFact[6] = {11, 10, 14, 20, 22, 30};
+    const int gearRatioFact[6] = {11, 10, 14, 18, 28, 35}; // R=0, 1,2 3,4,5
+    //const int gearRatioFact[6] = {11, 10, 14, 20, 22, 30};
     const int wheelCircumference = 2;// 2m 1913 mmmm for 17 tums
     
     // Select gear based on egRpm and AccPedal
