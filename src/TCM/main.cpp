@@ -62,6 +62,7 @@ int main()
         if (data_100.get_mode() == SimulationMode::OFF)
         {
             IO_thread.join();
+            std::this_thread::sleep_for(std::chrono::milliseconds(fr300_updateRate));
             break;
         }
 
