@@ -13,7 +13,7 @@ uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
 
     // No magic values move to header
     if (acc_ped == 0)
-        target_rpm = 900;
+        target_rpm = 890;
     else if (acc_ped == 10)
         target_rpm = 2500;
     else if (acc_ped == 20)
