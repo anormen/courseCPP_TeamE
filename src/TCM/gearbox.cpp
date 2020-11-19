@@ -39,7 +39,7 @@ void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const 
         // NEUTRAL: vehicleSpeed = lastvehicleSpeed100/100; slow retard to 0 
         case frames::GearLeverPos::NEUTRAL:
             if (this->lastVehicleSpeed100 > 0){
-                this->lastVehicleSpeed100--;
+                this->lastVehicleSpeed100 = this->lastVehicleSpeed100 - (double)1/100;
                 vehicleSpeed = double(this->lastVehicleSpeed100/100);
             }
                     
