@@ -12,19 +12,14 @@ void ECM::Update(fr::frame_100 &frm_100, fr::frame_300 &frm_300)
 
     di.update(frm_100, rpm, infoMsg);
 
-    if (frm_100.get_startstop() == fr::StartButtonSts::PRESSED && infoMsg == fr::DriverInformation::NO_MSG && stored_button == fr::StartButtonSts::UNPRESSED){
+    if (frm_100.get_startstop() == fr::StartButtonSts::PRESSED && infoMsg == fr::DriverInformation::NO_MSG && frm_100.get_mode() == fr::SimulationMode::ACTIVE){
         this->eng_on = !eng_on;
         stored_button = fr::StartButtonSts::PRESSED;
-    } else {
-        stored_button = fr::StartButtonSts::UNPRESSED;
     }
-
-    std::cout << "eng_on = " << eng_on << "\n";
 
     rpm = rpm_class.CalculateRPM(frm_100.get_accelerator(), frm_300.get_gearratio(), eng_on);
     fuel_class.CalculateFuel(frm_100, rpm, frm_300);
     CalculateTemp();
-    //info = di.getDriverInfoMsg();
 }
 
 void ECM::Write(fr::frame_200 &frm_200)

@@ -10,10 +10,6 @@
 
 namespace fr=frames;
 
-const int max_rpm=8000;
-const int shift_rpm=3200; // REMOVE LATER
-
-
 class ECM
 {
   public:
