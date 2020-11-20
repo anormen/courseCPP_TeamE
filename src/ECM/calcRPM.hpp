@@ -6,7 +6,7 @@
 class calcRPM {
   public:
     calcRPM();
-    uint16_t CalculateRPM(int acc_ped, int _gearRatio, bool eng_on);
+    uint16_t CalculateRPM(const int &acc_ped, int _gearRatio, const bool &eng_on);
   private:
     uint16_t rpm;
     int oldGearratio = 10;
