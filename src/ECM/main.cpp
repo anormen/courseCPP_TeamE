@@ -43,7 +43,7 @@ int main()
                 isRun = false;
                 std::cout << "Exit IO thread" << std::endl;
             }
-            if (data_100.get_mode() != fr::SimulationMode::SLEEP)
+
             {
                 std::lock_guard<std::mutex> guard(data_200.fr200_mutex);
                 memcpy(&frame, data_200.get_frame_ptr(), sizeof(frame));
