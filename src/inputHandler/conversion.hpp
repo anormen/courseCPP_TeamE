@@ -23,9 +23,9 @@ private:
     void GearLeverUp();
     void GearLeverDown();    
     void SetStartButton();
-    //void ReleaseStartButton();
+    void ReleaseStartButton();
     void SetSimulationMode();    
-    fr::StartButtonSts button;
+    
 public:
     Conversion();
     void fillFrame(can_frame &_frame, kc::UserReq _userReq);
