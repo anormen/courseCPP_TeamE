@@ -1,7 +1,7 @@
 #include "conversion.hpp"
 
 Conversion::Conversion(){
-    // Empty
+    button = fr::StartButtonSts::UNPRESSED;
 }
 
 void Conversion::AccPedUp(){
@@ -29,11 +29,16 @@ void Conversion::BrakePedalDown(){
     this->frm_100.set_brake(brk);
 }
 void Conversion::SetStartButton(){
-    this->frm_100.set_startstop(fr::StartButtonSts::PRESSED);
+    if(button == fr::StartButtonSts::UNPRESSED)
+        button = fr::StartButtonSts::PRESSED;
+    else
+        button = fr::StartButtonSts::UNPRESSED;
+
+    this->frm_100.set_startstop(button);
 }
-void Conversion::ReleaseStartButton(){
-    this->frm_100.set_startstop(fr::StartButtonSts::UNPRESSED);
-}
+//void Conversion::ReleaseStartButton(){
+//    this->frm_100.set_startstop(fr::StartButtonSts::UNPRESSED);
+//}
 void Conversion::GearLeverUp(){
 
     switch(this->frm_100.get_gearlever())
@@ -121,8 +126,9 @@ void  Conversion::fillFrame(can_frame &_frame, kc::UserReq _userReq){
         case kc::UserReq::GEARLEV_DOWN: //-
             GearLeverDown();
             break;
-        default:  
-            ReleaseStartButton();   // NOT OK SOLUTION NEED IMPROVMENT      
+        default:
+            break; 
+            //ReleaseStartButton();   // NOT OK SOLUTION NEED IMPROVMENT      
     }
     //std::cout << "&data_to_send = " << &data_to_send << " &data_to_send+6 " << &data_to_send+6 << std::endl;
     frm_100.set_updatebit(1);
