@@ -32,7 +32,7 @@ bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         this->InstrumentCluster.setTxt(QString::fromStdString(tempString.str()));    
         this->InstrumentCluster.setTemperatureGauges(static_cast<double>(frm_200.temp));
 
-        if(frm_200.updatebit){
+        if(frm_200.updatebit && this->icon.engine_check  == false){
             aliveTimeECM->start(1000);
             this->icon.engine_check = false;
             this->InstrumentCluster.setIcon(&this->icon);
@@ -70,7 +70,7 @@ bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         this->InstrumentCluster.setSpeed(static_cast<double>(frm_300.speed/10.0));
         this->speed = frm_300.speed/10.0;
 
-        if(frm_300.updatebit){
+        if(frm_300.updatebit && this->icon.engine_check  == false){
             aliveTimeTCM->start(1000);
             this->icon.engine_check = false;
             this->InstrumentCluster.setIcon(&this->icon);

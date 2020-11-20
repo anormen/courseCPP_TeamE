@@ -44,7 +44,7 @@ int main()
                 isRun = false;
                 std::cout << "Exit IO thread" << std::endl;
             }
-
+            if (data_100.get_mode() != fr::SimulationMode::SLEEP)
             {
                 std::cout << "Write frame" << std::endl;
                 std::lock_guard<std::mutex> guard(data_300.fr300_mutex);

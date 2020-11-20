@@ -6,14 +6,14 @@ calcRPM::calcRPM()
     this->oldGearratio = 10;
 }
 
-uint16_t calcRPM::CalculateRPM(int acc_ped, int _gearRatio, bool eng_on)
+uint16_t calcRPM::CalculateRPM(const int &acc_ped, int _gearRatio, const bool &eng_on)
 {
     int target_rpm = 0;
     _gearRatio = std::max(10, _gearRatio); // protect from zero
 
     // No magic values move to header
     if (acc_ped == 0)
-        target_rpm = 900;
+        target_rpm = 890;
     else if (acc_ped == 10)
         target_rpm = 2500;
     else if (acc_ped == 20)
