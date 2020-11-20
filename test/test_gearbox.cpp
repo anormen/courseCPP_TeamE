@@ -69,24 +69,53 @@ TEST_F(FrameFixture, test_park_gear)
     engRpm = 900;
     gearleverpostion = GearLeverPos::PARK;
 
-for (int i = 0; i<5000; i++)
-{
-    gb.setGearleverPos(gearleverpostion); 
-    gb.selectGear(acc, engRpm);
-    gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+    for (int i = 0; i<5000; i++)
+    {
+        gb.setGearleverPos(gearleverpostion); 
+        gb.selectGear(acc, engRpm);
+        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
 
-}
-acc = 20;
-engRpm = 3000;
+    }
+    acc = 20;
+    engRpm = 3000;
 
-for (int i = 0; i<5000; i++)
-{
-    gb.setGearleverPos(gearleverpostion); 
-    gb.selectGear(acc, engRpm);
-    gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+    for (int i = 0; i<5000; i++)
+    {
+        gb.setGearleverPos(gearleverpostion); 
+        gb.selectGear(acc, engRpm);
+        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
 
-}
-    
+    }
+        
     EXPECT_EQ(gb.getGear() ,1);
+};
+
+TEST_F(FrameFixture, test_drive_gear)
+{
+    
+    acc = 0;
+    engRpm = 900;
+    gearleverpostion = GearLeverPos::PARK;
+
+    for (int i = 0; i<5000; i++)
+    {
+        gb.setGearleverPos(gearleverpostion); 
+        gb.selectGear(acc, engRpm);
+        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+
+    }
+    acc = 20;
+    engRpm = 3000;
+    gearleverpostion = GearLeverPos::DRIVE;
+
+    for (int i = 0; i<50000; i++)
+    {
+        gb.setGearleverPos(gearleverpostion); 
+        gb.selectGear(acc, engRpm);
+        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+
+    }
+    
+    EXPECT_GT(gb.getGear() ,2);
 };
 
