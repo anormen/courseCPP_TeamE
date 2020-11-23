@@ -12,20 +12,17 @@ calcFuel::calcFuel(){
 
 void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed){
 
-    double sumOfiFuel=0, sumOfSpeed=0, sumOfFuel=0;
-    double rate = 0;
-
+    double sumOfiFuel=0, sumOfvSpeed=0, sumOfFuel=0;
     //deside fuel rate
     if(rpm > 0) { //running
 
-        rate = CalculateRate(accelerator, rpm, speed);
-        fuelticks += rate;
+        fuelticks += CalculateRate(accelerator, rpm, speed);
 
         uint32_t filterDuration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-startTime).count();
         if(filterDuration > fuelInstFilterTime){
 
             startTime = std::chrono::steady_clock::now();
-            if(speed > 0){
+            if(speed > 0){//AVG
 
                 fuelAvgFilter.pop_back();
                 fA.vSpeed = speed;
@@ -33,12 +30,12 @@ void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, co
                 fuelAvgFilter.push_front(fA);
                 //calc average speed and injected fuel
                 for(auto i : fuelAvgFilter) {
-                    sumOfSpeed += i.vSpeed;
+                    sumOfvSpeed += i.vSpeed;
                     sumOfFuel += i.iFuel;
                 }
-                fuelAvg = ((sumOfFuel/fuelAvgFilterSamples) * 3600) / (sumOfSpeed/fuelAvgFilterSamples) * 100;
+                fuelAvg = ((sumOfFuel/fuelAvgFilterSamples) * 3600) / (sumOfvSpeed/fuelAvgFilterSamples) * 100;
             }
-            else{
+            else{ //INST
                 fuelInstFilter.pop_back();
                 fuelInstFilter.push_front((fuelticks-fuelticksPrev) * (1000.0/fuelInstFilterTime)); //fuelticks per sample
 
@@ -58,7 +55,6 @@ double calcFuel::CalculateRate(const uint8_t &accelerator, const uint16_t &rpm, 
 
     double rate = 0;
     //deside fuel rate
-
     if(accelerator > 0){ //accelerating
 
         if(speed > 0){ //moving with load
@@ -76,7 +72,6 @@ double calcFuel::CalculateRate(const uint8_t &accelerator, const uint16_t &rpm, 
             rate = baseRate * rpm; //0.9l/h @ 750 rpm @ 250ms update
         }
     }
-    //rate = rate / 4.0; // main run 4 times per second 250ms
     rate = rate / updateRate; // main run 4 times per second 250ms
 
     return rate;
