@@ -53,12 +53,12 @@ void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, co
 
 double calcFuel::CalculateRate(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed){
 
-    double rate = 0;
+    double rate;
     //deside fuel rate
     if(accelerator > 0){ //accelerating
 
         if(speed > 0){ //moving with load
-            rate = baseRate * rpm * (accelerator/9.0);
+            rate = baseRate * rpm * (accelerator/9.0); //divide by some constant....
         }
         else { //stand still reving no load
             rate = baseRate * rpm; //2.3l/h @ 2000rpm @ 250ms update
