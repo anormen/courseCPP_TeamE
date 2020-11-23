@@ -3,8 +3,6 @@
 
 #include <iostream>
 #include "can_class.hpp"
-#include <linux/can.h>
-#include <linux/can/raw.h>
 #include "frames.hpp"
 #include "key_converter.hpp"
 

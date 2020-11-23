@@ -1,5 +1,5 @@
 #include <iostream>
-#include <curses.h>
+//#include <curses.h>
 #include <chrono>
 #include <thread>  
 #include "can_class.hpp"
