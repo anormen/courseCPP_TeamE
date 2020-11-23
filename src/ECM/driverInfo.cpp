@@ -1,6 +1,6 @@
 #include "driverInfo.hpp"
 
-void driverInfo::update(fr::frame_100 &fr100, uint16_t &rpm, fr::DriverInformation &infoMsg){
+void driverInfo::update(fr::frame_100 &fr100, const uint16_t &rpm, fr::DriverInformation &infoMsg){
     //local variables
     fr::GearLeverPos gearleverpos = fr100.get_gearlever();
     fr::StartButtonSts startbutton = fr100.get_startstop();

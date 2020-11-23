@@ -22,7 +22,7 @@ class displayHandler{
         display dispHndl;
         dataLayer dataHndl;
         canHandler canHndl;
-        uint16_t displayUpdateRate = 500;
+        uint16_t displayUpdateRate = 400;
 };
 
 #endif

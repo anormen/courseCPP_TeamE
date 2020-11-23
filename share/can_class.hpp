@@ -2,13 +2,9 @@
 #define _CAN_CLASS_H_ 
 #include <unistd.h>
 #include <linux/can.h>
-#include <linux/can/raw.h>
 #include <sys/socket.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <chrono>
 #include <chrono>
 #include <iomanip>
 #include <iostream>
@@ -18,10 +14,10 @@ class canHandler{
 
     public:
         canHandler(){ startTime = std::chrono::steady_clock::now();};
-        void canInit(const char *ifname);
-        int16_t canReadFrame(can_frame &frame);
-        int16_t canWriteFrame(const can_frame &frame);
-        void printFrame(const can_frame &frame);
+        void canInit(const char*);
+        int16_t canReadFrame(can_frame&);
+        int16_t canWriteFrame(can_frame&);
+        void printFrame(const can_frame&);
         ~canHandler() { close(canSocket); };
     private:       
         uint16_t canSocket;

@@ -15,7 +15,7 @@ class driverInfo{
 
     public:
         driverInfo(){};
-        void update(fr::frame_100 &fr100, uint16_t &rpm, fr::DriverInformation &infoMsg);
+        void update(fr::frame_100 &fr100, const uint16_t &rpm, fr::DriverInformation &infoMsg);
     private:
         std::chrono::steady_clock::time_point startTime;
         const uint16_t messageDuration = 2000;
