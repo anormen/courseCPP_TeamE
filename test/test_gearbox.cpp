@@ -6,15 +6,15 @@
 
 using namespace frames;
 
-class FrameFixture : public ::testing::Test {
+class GearboxFixture : public ::testing::Test {
   
-    public:
+public:
     Gearbox gb;
     uint8_t acc = 0;
     int engRpm = 0;
     GearLeverPos gearleverpostion = GearLeverPos::PARK;
 
-  protected:
+protected:
     
 
     void SetUp() override
@@ -23,23 +23,22 @@ class FrameFixture : public ::testing::Test {
         engRpm = 0;
         gearleverpostion = GearLeverPos::PARK;
 
-        for (int i = 0; i<5000; i++)
+        for (int i = 0; i<2000; i++)
         {
             gb.setGearleverPos(gearleverpostion); 
             gb.selectGear(acc, engRpm);
             gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
-
         }
     }
 };
 
-TEST_F(FrameFixture, test_park_speed)
+TEST_F(GearboxFixture, test_park_speed)
 {
     acc = 0;
     engRpm = 900;
     gearleverpostion = GearLeverPos::PARK;
 
-for (int i = 0; i<5000; i++)
+for (int i = 0; i<2000; i++)
 {
     gb.setGearleverPos(gearleverpostion); 
     gb.selectGear(acc, engRpm);
@@ -62,7 +61,7 @@ for (int i = 0; i<5000; i++)
 };
 
 
-TEST_F(FrameFixture, test_park_gear)
+TEST_F(GearboxFixture, test_park_gear)
 {
     
     acc = 0;
@@ -90,7 +89,7 @@ TEST_F(FrameFixture, test_park_gear)
     EXPECT_EQ(gb.getGear() ,1);
 };
 
-TEST_F(FrameFixture, test_drive_gear_20)
+TEST_F(GearboxFixture, test_drive_gear_20)
 {
     
     acc = 0;
@@ -119,7 +118,7 @@ TEST_F(FrameFixture, test_drive_gear_20)
     EXPECT_GT(gb.getGear() ,2);
 };
 
-TEST_F(FrameFixture, test_drive_gear_100)
+TEST_F(GearboxFixture, test_drive_gear_100)
 {
     
     acc = 0;
@@ -148,7 +147,7 @@ TEST_F(FrameFixture, test_drive_gear_100)
     EXPECT_EQ(gb.getGear() ,5);
 };
 
-TEST_F(FrameFixture, test_neutral_speed)
+TEST_F(GearboxFixture, test_neutral_speed)
 {
     
     acc = 0;

@@ -20,7 +20,7 @@ void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const 
 {
     int vehicleSpeed = 0;
 
-    std::cout << vehicleSpeed << " getVehicleSpeeda  " << lastVehicleSpeed100 << " " << _engRpm << std::endl;
+    //std::cout << vehicleSpeed << " getVehicleSpeeda  " << lastVehicleSpeed100 << " " << _engRpm << std::endl;
 
     switch(this->gearleverPosition)
     {
@@ -28,7 +28,7 @@ void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const 
         case frames::GearLeverPos::PARK:
         {
             vehicleSpeed = 0;
-            std::cout << "PARK" << vehicleSpeed << std::endl;
+            //std::cout << "PARK" << vehicleSpeed << std::endl;
             break;
         }
             
@@ -60,7 +60,7 @@ void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const 
                 //wheelRadiusCircumferance in m 60 for rpm  
                 int tempVehicleSpeed = 0;    
                 tempVehicleSpeed = (double)(_engRpm * getGearRatio() * wheelCircumference) * 6 / (10000);
-                std::cout << tempVehicleSpeed << std::endl;
+                //std::cout << tempVehicleSpeed << std::endl;
                 
                 int speedDelta = tempVehicleSpeed -(double)(lastVehicleSpeed100/100);
                 // Filter max rate change
@@ -81,11 +81,11 @@ void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const 
                 }
             }
             
-            std::cout << "DRIVE a " << vehicleSpeed << std::endl;
+            //std::cout << "DRIVE a " << vehicleSpeed << std::endl;
         }
         break;                       
         default:
-            std::cout << "Undefined gearlever";
+        std::cout << "Undefined gearlever";
     }
 
     lastVehicleSpeed100 = vehicleSpeed*100;
@@ -140,9 +140,9 @@ void Gearbox::selectGear(const int accPedal, const int _engRpm) {
         multiShiftDelay = 0;      
     
     }
-    std::cout << multiShiftDelay <<  "multi" << targetGear << std::endl;       
+    //std::cout << multiShiftDelay <<  "multi" << targetGear << std::endl;       
     
-    std::cout << currentGear << " " << targetGear  << "print in selectGear\n\r";
+    //std::cout << currentGear << " " << targetGear  << "print in selectGear\n\r";
     currentGear = targetGear;
 }
 

@@ -1,7 +1,6 @@
 #ifndef GEARBOX_H
 #define GEARBOX_H
 #include<iostream>
-#include<cmath>
 #include "frames.hpp"
 
 class Gearbox {
