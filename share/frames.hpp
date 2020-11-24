@@ -13,10 +13,10 @@ enum class SimulationMode : uint8_t { SLEEP, INACTIVE, ACTIVE, OFF};
 enum class DriverInformation : uint8_t { NO_MSG, NO_BRAKE, NOT_IN_P, NOT_IN_P_IN_D, NO_KEY};
 enum class Telltale : uint8_t { PRESENT, ECM, TCM, INPUT};
 
-static std::vector<std::string> messages = {"No message", "No Brake pressed", "Gear not in P" , "Gear not in P, select P to turn off", "No key found", "", "", "", "", "", "", "" , "", "", "", ""};
-static std::vector<std::string> gears = {"P", "R", "N" , "D" , "1", "2", "3", "4", "5", "6", "7", "8", "9", "", "", "" };
-static std::vector<std::string> modes = { "SLEEP", "INACTIVE", "ACTIVE", "OFF" };
-static std::vector<std::string> telltales = { "OK", "MISSING ECM", "MISSING TCM", "MISSING INPUT" };
+const static std::vector<std::string> messages = {"No message", "No Brake pressed", "Gear not in P" , "Gear not in P, select P to turn off", "No key found", "", "", "", "", "", "", "" , "", "", "", ""};
+const static std::vector<std::string> gears = {"P", "R", "N" , "D" , "1", "2", "3", "4", "5", "6", "7", "8", "9", "", "", "" };
+const static std::vector<std::string> modes = { "SLEEP", "INACTIVE", "ACTIVE", "OFF" };
+const static std::vector<std::string> telltales = { "OK", "MISSING ECM", "MISSING TCM", "MISSING INPUT" };
 
 //frame cycle times
 const uint16_t fr100_updateRate = 50;
@@ -100,9 +100,9 @@ class frame_100 : public base_frame
     uint8_t get_updatebit();
     uint8_t get_accelerator();
     uint8_t get_brake();
-    fr100* get_frame_ptr();
+    fr100* get_frame_ptr() override;
     uint8_t get_length();
-    uint32_t get_id();
+    uint32_t get_id() override;
 
     void set_mode(const SimulationMode &mode);
     void set_gearlever(const GearLeverPos &lever);
@@ -127,10 +127,10 @@ class frame_200 : public base_frame
     DriverInformation get_driverinfo();
     Telltale get_telltale();
     uint8_t get_updatebit();
-    fr200* get_frame_ptr();
+    fr200* get_frame_ptr() override;
     uint8_t get_length();
     uint8_t get_temp();
-    uint32_t get_id();
+    uint32_t get_id() override;
 
     void set_rpm(const uint16_t rpm);
     void set_fuelinst(double fuelinst);
@@ -154,9 +154,9 @@ class frame_300 : public base_frame
     uint8_t get_gearratio();
 
     uint8_t get_updatebit();
-    fr300* get_frame_ptr();
+    fr300* get_frame_ptr() override;
     uint8_t get_length();
-    uint32_t get_id();
+    uint32_t get_id() override;
 
     void set_speed(const uint16_t spd);
     void set_gearactual(const uint8_t gearact);
