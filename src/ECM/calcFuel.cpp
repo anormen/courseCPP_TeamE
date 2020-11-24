@@ -12,7 +12,6 @@ calcFuel::calcFuel(){
 
 void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed){
 
-    double sumOfiFuel=0, sumOfvSpeed=0, sumOfFuel=0;
     //deside fuel rate
     if(rpm > 0) { //running
 
@@ -28,6 +27,7 @@ void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, co
                 fA.vSpeed = speed;
                 fA.iFuel = (fuelticks-fuelticksPrev) * (1000.0/fuelInstFilterTime);
                 fuelAvgFilter.push_front(fA);
+                double sumOfvSpeed=0, sumOfFuel=0;
                 //calc average speed and injected fuel
                 for(auto i : fuelAvgFilter) {
                     sumOfvSpeed += i.vSpeed;
@@ -38,7 +38,7 @@ void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, co
             else{ //INST
                 fuelInstFilter.pop_back();
                 fuelInstFilter.push_front((fuelticks-fuelticksPrev) * (1000.0/fuelInstFilterTime)); //fuelticks per sample
-
+                double sumOfiFuel=0;
                 for(auto i : fuelInstFilter) //sum elements
                     sumOfiFuel += i;
                 //calc average  -> l/h for stand still
