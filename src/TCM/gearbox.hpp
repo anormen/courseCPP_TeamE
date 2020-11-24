@@ -37,7 +37,7 @@ public:
     // VehicleSpeed (m/s) = egRPM ( round per minut)* gearRatio (total with scaling 10) * 
     //wheelRadius  dived with 1000 for wheelradius in mm and with 10 for gearRatio scaling 10 and 60 for rpm
     int getVehicleSpeed();
-    void calculateVehicleSpeed(const int _accPed, const int _engRpm, const frames::GearLeverPos _gearleverPosition);
+    void calculateVehicleSpeed(const int _accPed, const int _engRpm);
 
     // GearRation 
     int getGearRatio ();

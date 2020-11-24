@@ -27,7 +27,7 @@ protected:
         {
             gb.setGearleverPos(gearleverpostion); 
             gb.selectGear(acc, engRpm);
-            gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+            gb.calculateVehicleSpeed(acc, engRpm);
         }
     }
 };
@@ -42,7 +42,7 @@ for (int i = 0; i<2000; i++)
 {
     gb.setGearleverPos(gearleverpostion); 
     gb.selectGear(acc, engRpm);
-    gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+    gb.calculateVehicleSpeed(acc, engRpm);
 
 }
 acc = 20;
@@ -52,7 +52,7 @@ for (int i = 0; i<5000; i++)
 {
     gb.setGearleverPos(gearleverpostion); 
     gb.selectGear(acc, engRpm);
-    gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+    gb.calculateVehicleSpeed(acc, engRpm);
 
 }
     
@@ -72,7 +72,7 @@ TEST_F(GearboxFixture, test_park_gear)
     {
         gb.setGearleverPos(gearleverpostion); 
         gb.selectGear(acc, engRpm);
-        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+        gb.calculateVehicleSpeed(acc, engRpm);
 
     }
     acc = 20;
@@ -82,7 +82,7 @@ TEST_F(GearboxFixture, test_park_gear)
     {
         gb.setGearleverPos(gearleverpostion); 
         gb.selectGear(acc, engRpm);
-        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+        gb.calculateVehicleSpeed(acc, engRpm);
 
     }
         
@@ -100,7 +100,7 @@ TEST_F(GearboxFixture, test_drive_gear_20)
     {
         gb.setGearleverPos(gearleverpostion); 
         gb.selectGear(acc, engRpm);
-        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+        gb.calculateVehicleSpeed(acc, engRpm);
 
     }
     acc = 20;
@@ -111,7 +111,7 @@ TEST_F(GearboxFixture, test_drive_gear_20)
     {
         gb.setGearleverPos(gearleverpostion); 
         gb.selectGear(acc, engRpm);
-        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+        gb.calculateVehicleSpeed(acc, engRpm);
 
     }
     
@@ -129,7 +129,7 @@ TEST_F(GearboxFixture, test_drive_gear_100)
     {
         gb.setGearleverPos(gearleverpostion); 
         gb.selectGear(acc, engRpm);
-        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+        gb.calculateVehicleSpeed(acc, engRpm);
 
     }
     acc = 100;
@@ -140,7 +140,7 @@ TEST_F(GearboxFixture, test_drive_gear_100)
     {
         gb.setGearleverPos(gearleverpostion); 
         gb.selectGear(acc, engRpm);
-        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+        gb.calculateVehicleSpeed(acc, engRpm);
 
     }
     
@@ -158,7 +158,7 @@ TEST_F(GearboxFixture, test_neutral_speed)
     {
         gb.setGearleverPos(gearleverpostion); 
         gb.selectGear(acc, engRpm);
-        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+        gb.calculateVehicleSpeed(acc, engRpm);
 
     }
     acc = 30;
@@ -169,7 +169,7 @@ TEST_F(GearboxFixture, test_neutral_speed)
     {
         gb.setGearleverPos(gearleverpostion); 
         gb.selectGear(acc, engRpm);
-        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+        gb.calculateVehicleSpeed(acc, engRpm);
 
     }
     int tempSpeed = gb.getVehicleSpeed();
@@ -177,7 +177,7 @@ TEST_F(GearboxFixture, test_neutral_speed)
     for (int i = 0; i<1000; i++)
     {
         gb.setGearleverPos(gearleverpostion); 
-        gb.calculateVehicleSpeed(acc, engRpm, gearleverpostion);
+        gb.calculateVehicleSpeed(acc, engRpm);
     }
         
     EXPECT_EQ(gb.getVehicleSpeed() ,tempSpeed);

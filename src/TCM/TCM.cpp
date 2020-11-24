@@ -8,9 +8,8 @@ TCM::TCM(){
 void TCM::Update(fr::frame_100 &frm_100, fr::frame_200 &frm_200)
 {   
     gb.setGearleverPos(frm_100.get_gearlever());
-    gb.calculateVehicleSpeed(frm_100.get_accelerator(), frm_200.get_rpm(),frm_100.get_gearlever());
+    gb.calculateVehicleSpeed(frm_100.get_accelerator(), frm_200.get_rpm());
     gb.selectGear(frm_100.get_accelerator(), frm_200.get_rpm());
-    //do something here 
     //fuel_class.CalculateFuel(frm_100, rpm, frm_300);
     //info = di.getDriverInfoMsg();
 }
