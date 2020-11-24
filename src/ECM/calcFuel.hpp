@@ -5,20 +5,21 @@
 #include <thread>
 #include <iostream>
 #include <deque>
+#include <numeric>
 
 class calcFuel{
 
     public:
         calcFuel();
         void CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed);
-        double getFuelInst() { return fuelInst; };
-        double getFuelAvg() { return fuelAvg; };
+        double getFuelInst() { return fuelInst; }
+        double getFuelAvg() { return fuelAvg; }
     private:
         struct fuelAvgCon{
             double vSpeed = 50.0;
             double iFuel = 0.001;
         }fA;      
-        double CalculateRate(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed);                 
+        double CalculateRate(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed);             
         double fuelAvg = 0; //kept by class
         double fuelInst = 0; //kept by class
         double fuelticks = 0;
