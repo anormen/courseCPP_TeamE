@@ -13,7 +13,7 @@ class TCM
     TCM();
     ~TCM() = default;
     void Update(fr::frame_100 &frm_100, fr::frame_200 &frm_200);
-    void VehicleSpeedFilter(uint16_t &speed);
+    uint16_t VehicleSpeedFilter(const uint16_t &speed);
     void Write(fr::frame_300 &frm_300);
   private:
     Gearbox gb;
