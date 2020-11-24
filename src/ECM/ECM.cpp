@@ -5,6 +5,8 @@ ECM::ECM()
     this->eng_on = false;
     this->temp = 10;
     this->stored_button = fr::StartButtonSts::UNPRESSED;
+    this->rpm = 0;
+    this->counter = 0;
 }
 
 void ECM::Update(fr::frame_100 &frm_100, fr::frame_300 &frm_300)
