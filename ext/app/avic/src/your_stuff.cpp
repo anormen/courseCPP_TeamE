@@ -83,9 +83,10 @@ bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     return isRun;
 }
 
+/*
 void yourStuff::startUp(unsigned char &_data) {
     //do something
-}
+}*/
 
 
 

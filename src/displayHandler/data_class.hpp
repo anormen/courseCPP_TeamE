@@ -10,9 +10,9 @@ namespace fr=frames;
 class dataLayer{
 
     public:
-        dataLayer(){};
+        dataLayer(){}
         void processInput(display &dHndl, const can_frame &frameGen);
-        ~dataLayer(){};
+        ~dataLayer(){}
     private:
 };
 

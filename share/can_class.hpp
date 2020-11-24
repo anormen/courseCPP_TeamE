@@ -14,7 +14,7 @@ class canHandler{
 
     public:
         canHandler(){ startTime = std::chrono::steady_clock::now();};
-        void canInit(const char*);
+        bool canInit(const char*);
         int16_t canReadFrame(can_frame&);
         int16_t canWriteFrame(can_frame&);
         void printFrame(const can_frame&);

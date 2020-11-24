@@ -13,7 +13,7 @@ int main()
 {
     can_frame frame;
     canHandler can;
-    can.canInit("vcan0");
+    if(can.canInit("vcan0")) exit(1);; //init can comm (get socket)   
     bool isRun = true;
 
     Conversion canConvert;

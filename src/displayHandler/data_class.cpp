@@ -45,4 +45,4 @@ void dataLayer::processInput(display &dHndl, const can_frame &frameGen){
         else
             std::cout << "Can data read buffer is empty" << std::endl;
     return;
-};
+}

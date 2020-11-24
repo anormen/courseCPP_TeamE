@@ -1,17 +1,19 @@
 #include "can_class.hpp"
 
-void canHandler::canInit(const char * ifname){
+bool canHandler::canInit(const char * ifname){
 
     struct sockaddr_can addr;
-    struct timeval timeout = {0,500};
+    struct timeval timeout = {0, 500};
+    bool isFault = false;
     //timeout.tv_sec = 0;
     //timeout.tv_usec = 500;
 
     struct ifreq ifr;
     this->canSocket = socket(PF_CAN, SOCK_RAW, CAN_RAW); //open socket of type can
-    if(this->canSocket < 0) //need error print out 
-        std::cout << "Socket failed" << std::endl;    
-
+    if(this->canSocket < 0){ //need error print out 
+        std::cout << "Socket failed" << std::endl; 
+        isFault = true;           
+    }
     memcpy(ifr.ifr_name, ifname, strlen(ifname)+1);
     ioctl(this->canSocket, SIOCGIFINDEX, &ifr);
     //fcntl(this->canSocket, F_SETFL, O_NONBLOCK); //used if NON_BLOCKING_READ
@@ -21,10 +23,11 @@ void canHandler::canInit(const char * ifname){
     addr.can_ifindex = ifr.ifr_ifindex;
 
     int16_t result = bind(this->canSocket, (struct sockaddr *)&addr, sizeof(addr)); //
-    if(result < 0)          //need error print out 
+    if(result < 0){          //need error print out 
         std::cout << "Bind failed" << std::endl;
-
-    return;
+        isFault = true; 
+    }
+    return isFault;
 }
 
 int16_t canHandler::canReadFrame(can_frame &frame){

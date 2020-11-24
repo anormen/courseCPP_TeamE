@@ -89,7 +89,7 @@ TEST_F(FrameFixture, driverinfoMessages)
     di.update(frm_100, rpm);
     EXPECT_EQ( info, fr::DriverInformation::NO_MSG);                
 
-};
+}
 
 int main (int argc, char **argv){
 

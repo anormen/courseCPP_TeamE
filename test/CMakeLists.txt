@@ -1,5 +1,7 @@
 project(simulator)
 add_executable(test1 test_test.cpp ${SHARE_DIR}/frames.cpp)
+add_executable(diTest driverInfo_test.cpp ${ECM_DIR}/driverInfo.cpp ${SHARE_DIR}/frames.cpp)
 add_executable(testGearbox test_gearbox.cpp ${TCM_DIR}/gearbox.cpp)
 target_link_libraries(test1 PRIVATE gtest gtest_main pthread)
+target_link_libraries(diTest PRIVATE gtest gtest_main pthread)
 target_link_libraries(testGearbox PRIVATE gtest gtest_main pthread)

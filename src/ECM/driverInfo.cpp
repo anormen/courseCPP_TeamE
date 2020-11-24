@@ -32,4 +32,4 @@ fr::DriverInformation driverInfo::update(fr::frame_100 &fr100, const uint16_t &r
     //std::cout << messages.at((uint8_t)infoMsg) << " T: "<< messageTime << " S: " << (int)startbutton << " BR: " 
     //  << (int)brake << " Gear: " << gears.at((uint8_t)gearleverpos) << " rpm: " << (int)rpm << std::endl; 
     return infoMsg;
-};
+}
