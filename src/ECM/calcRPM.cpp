@@ -44,11 +44,13 @@ uint16_t calcRPM::CalculateRPM(const int &acc_ped, int _gearRatio, const bool &e
         this->oldGearratio = _gearRatio;
     }
 
-    bool increasing_rpm = target_rpm > this->rpm;
-    bool decreasing_rpm = target_rpm < this->rpm;
+
 
     if (eng_on == true)
     {
+        bool increasing_rpm = target_rpm > this->rpm;
+        bool decreasing_rpm = target_rpm < this->rpm;
+        
         if (this->rpm < 900)
             this->rpm = 900;
 
