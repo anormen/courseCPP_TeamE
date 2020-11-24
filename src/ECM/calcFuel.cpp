@@ -33,15 +33,14 @@ void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, co
                     sumOfvSpeed += i.vSpeed;
                     sumOfFuel += i.iFuel;
                 }
+                //double sumOfvSpeed = std::accumulate(fuelAvgFilter.begin(), fuelAvgFilter.end(), 0); 
                 fuelAvg = ((sumOfFuel/fuelAvgFilterSamples) * 3600) / (sumOfvSpeed/fuelAvgFilterSamples) * 100;
             }
             else{ //INST
                 fuelInstFilter.pop_back();
                 fuelInstFilter.push_front((fuelticks-fuelticksPrev) * (1000.0/fuelInstFilterTime)); //fuelticks per sample
-                double sumOfiFuel=0;
-                for(auto i : fuelInstFilter) //sum elements
-                    sumOfiFuel += i;
                 //calc average  -> l/h for stand still
+                double sumOfiFuel = std::accumulate(fuelInstFilter.begin(), fuelInstFilter.end(), 0) ;
                 fuelInst = (sumOfiFuel/fuelInstFilterSamples) * 3600; // AccumulatedSumOfSamples/NumberOfSamples * s/h 
             }
             fuelticksPrev = fuelticks;
