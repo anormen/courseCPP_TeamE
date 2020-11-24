@@ -2,7 +2,6 @@
 #define _CAN_CLASS_H_ 
 #include <unistd.h>
 #include <linux/can.h>
-//#include <sys/socket.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <chrono>
@@ -20,7 +19,7 @@ class canHandler{
         void printFrame(const can_frame&);
         ~canHandler() { close(canSocket); };
     private:       
-        int16_t canSocket;
+        int16_t canSocket = -1; // -1 error
         std::chrono::time_point<std::chrono::steady_clock> startTime;
 };
 
