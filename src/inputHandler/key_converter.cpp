@@ -4,6 +4,7 @@ namespace key_conv {  // Is this a good idea?
 
 keyConverter::keyConverter()
 {
+    key = 0;
     // Init ncurses key input
     initscr();
     cbreak();
