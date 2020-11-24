@@ -1,8 +1,7 @@
 #ifndef _FRAMES_H
 #define _FRAMES_H
-#include <cstdint>
+#include <iostream>
 #include <vector>
-#include <string>
 #include <mutex>
 
 namespace frames { 
