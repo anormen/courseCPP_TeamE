@@ -14,10 +14,8 @@ void message_handler::IO_read(std::vector<frames::base_frame *> &read_frames)
         {
             for (auto &frm : read_frames)
             {
-                std::cout << "trying to read " << (int)frm->get_id() << std::endl;
                 if (frame.can_id == frm->get_id())
                 {
-                    std::cout << "reading " << (int)frame.can_id << std::endl;
                     std::lock_guard<std::mutex> guard(read_mutex);
                     memcpy(frm->get_frame_ptr(), &frame, sizeof(frame));
                 }

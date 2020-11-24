@@ -1,8 +1,6 @@
 #include <iostream>
 #include <unistd.h>
 #include <mutex>
-//#include <future>
-//#include "can_class.hpp"
 #include "ECM.hpp"
 #include "frames.hpp"
 #include "message_handler.hpp"
@@ -59,11 +57,9 @@ int main()
         case fr::SimulationMode::INACTIVE:
         case fr::SimulationMode::ACTIVE:
             {
-                std::cout << "updating\n";
                 std::lock_guard<std::mutex> guard_read(msg.read_mutex);
                 ecm.Update(*data_100, *data_300);
             }
-            std::cout << "finished updating\n";
             {
                 std::lock_guard<std::mutex> guard_write(msg.write_mutex);
                 ecm.Write(*data_200);
