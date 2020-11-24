@@ -58,7 +58,7 @@ for (int i = 0; i<5000; i++)
     
     EXPECT_EQ(gb.getVehicleSpeed() ,0);
     
-};
+}
 
 
 TEST_F(GearboxFixture, test_park_gear)
@@ -87,7 +87,7 @@ TEST_F(GearboxFixture, test_park_gear)
     }
         
     EXPECT_EQ(gb.getGear() ,1);
-};
+}
 
 TEST_F(GearboxFixture, test_drive_gear_20)
 {
@@ -116,7 +116,7 @@ TEST_F(GearboxFixture, test_drive_gear_20)
     }
     
     EXPECT_GT(gb.getGear() ,2);
-};
+}
 
 TEST_F(GearboxFixture, test_drive_gear_100)
 {
@@ -145,7 +145,7 @@ TEST_F(GearboxFixture, test_drive_gear_100)
     }
     
     EXPECT_EQ(gb.getGear() ,5);
-};
+}
 
 TEST_F(GearboxFixture, test_neutral_speed)
 {
@@ -181,4 +181,4 @@ TEST_F(GearboxFixture, test_neutral_speed)
     }
         
     EXPECT_EQ(gb.getVehicleSpeed() ,tempSpeed);
-};
+}
