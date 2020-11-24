@@ -23,7 +23,7 @@ add_executable(displayHandler ${DISPLAY_HANDLER_DIR}/main.cpp ${DISPLAY_HANDLER_
             ${DISPLAY_HANDLER_DIR}/data_class.cpp ${SHARE_DIR}/frames.cpp) 
 target_link_libraries(displayHandler PRIVATE pthread canIO)
 
-add_executable(TCM ${TCM_DIR}/main.cpp ${TCM_DIR}/TCM.cpp ${TCM_DIR}/gearbox.cpp ${SHARE_DIR}/frames.cpp) 
+add_executable(TCM ${TCM_DIR}/main.cpp ${TCM_DIR}/TCM.cpp ${TCM_DIR}/gearbox.cpp ${SHARE_DIR}/frames.cpp ${SHARE_DIR}/message_handler.cpp)  
 target_link_libraries(TCM PRIVATE pthread canIO)
 
 #set_target_properties(displayHandler PROPERTIES CXX_STANDARD 17)

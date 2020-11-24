@@ -20,7 +20,6 @@ public:
 private:
     canHandler can;
     can_frame frame;
-    bool isRun = true;
 };
 
 #endif //MESSAGE_HANDLER_HPP
