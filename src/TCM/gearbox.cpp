@@ -16,7 +16,7 @@ int Gearbox::getVehicleSpeed()
     return (double (lastVehicleSpeed100/100));
 }
 
-void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const frames::GearLeverPos _gearleverPosition)
+void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm)
 {
     int vehicleSpeed = 0;
 
@@ -37,7 +37,7 @@ void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const 
             // not implemented;
                 vehicleSpeed = 0;
             break;     
-        // NEUTRAL: vehicleSpeed = lastvehicleSpeed100/100; slow retard to 0 
+        // NEUTRAL: maintain speed
         case frames::GearLeverPos::NEUTRAL:
                 vehicleSpeed = double(this->lastVehicleSpeed100/100);                 
             break;   
@@ -80,8 +80,6 @@ void Gearbox::calculateVehicleSpeed(const int _accPed, const int _engRpm, const 
                     vehicleSpeed = tempVehicleSpeed;
                 }
             }
-            
-            //std::cout << "DRIVE a " << vehicleSpeed << std::endl;
         }
         break;                       
         default:
@@ -139,11 +137,10 @@ void Gearbox::selectGear(const int accPedal, const int _engRpm) {
     if (targetGear != currentGear)
         multiShiftDelay = 0;      
     
-    }
-    //std::cout << multiShiftDelay <<  "multi" << targetGear << std::endl;       
+    }      
     
     //std::cout << currentGear << " " << targetGear  << "print in selectGear\n\r";
     currentGear = targetGear;
 }
 
-Gearbox::~Gearbox(){};
+Gearbox::~Gearbox(){}
