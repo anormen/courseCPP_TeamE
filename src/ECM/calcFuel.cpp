@@ -2,7 +2,6 @@
 
 calcFuel::calcFuel(){
 
-    startTime = std::chrono::steady_clock::now();
     for (int i = 0; i < fuelInstFilterSamples; i++)
         fuelInstFilter.push_front(0.00165);    // defaut init 6*0.9l/h
 
@@ -11,7 +10,7 @@ calcFuel::calcFuel(){
 }
 
 void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed){
-
+  
     //deside fuel rate
     if(rpm > 0) { //running
 
@@ -33,21 +32,20 @@ void calcFuel::CalculateFuel(const uint8_t &accelerator, const uint16_t &rpm, co
                     sumOfvSpeed += i.vSpeed;
                     sumOfFuel += i.iFuel;
                 }
-                //double sumOfvSpeed = std::accumulate(fuelAvgFilter.begin(), fuelAvgFilter.end(), 0); 
                 fuelAvg = ((sumOfFuel/fuelAvgFilterSamples) * 3600) / (sumOfvSpeed/fuelAvgFilterSamples) * 100;
             }
             else{ //INST
                 fuelInstFilter.pop_back();
                 fuelInstFilter.push_front((fuelticks-fuelticksPrev) * (1000.0/fuelInstFilterTime)); //fuelticks per sample
                 //calc average  -> l/h for stand still
-                double sumOfiFuel = std::accumulate(fuelInstFilter.begin(), fuelInstFilter.end(), 0) ;
+                double sumOfiFuel = std::accumulate(fuelInstFilter.begin(), fuelInstFilter.end(), 0.0);
                 fuelInst = (sumOfiFuel/fuelInstFilterSamples) * 3600; // AccumulatedSumOfSamples/NumberOfSamples * s/h 
             }
             fuelticksPrev = fuelticks;
         }
     }
     //debug
-    //std::cout << " ticks: " << fuelticks << " rate: " << rate << " avg: " << fuelAvg << " inst: " << fuelInst << " speed: " << speed << std::endl;   
+ //std::cout << " ticks: " << fuelticks << " rate: " << CalculateRate(accelerator, rpm, speed) << " avg: " << fuelAvg << " inst: " << fuelInst << " speed: " << speed << std::endl;   
 } 
 
 double calcFuel::CalculateRate(const uint8_t &accelerator, const uint16_t &rpm, const uint16_t &speed){

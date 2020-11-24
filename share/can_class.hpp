@@ -12,7 +12,7 @@
 class canHandler{
 
     public:
-        canHandler(){ startTime = std::chrono::steady_clock::now();};
+        canHandler(){};
         bool canInit(const char*);
         int16_t canReadFrame(can_frame&);
         int16_t canWriteFrame(can_frame&);

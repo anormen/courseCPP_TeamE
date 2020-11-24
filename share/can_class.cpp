@@ -27,6 +27,9 @@ bool canHandler::canInit(const char * ifname){
         std::cout << "Bind failed" << std::endl;
         isFault = true; 
     }
+
+    startTime = std::chrono::steady_clock::now();
+
     return isFault;
 }
 
