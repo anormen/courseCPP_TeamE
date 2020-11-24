@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cppcheck --enable=all src share
+cppcheck --enable=all src share ext
