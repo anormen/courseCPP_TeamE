@@ -15,7 +15,7 @@ add_executable(inputHandler ${INPUT_HANDLER_DIR}/main.cpp ${INPUT_HANDLER_DIR}/k
 target_link_libraries(inputHandler PRIVATE ncurses pthread canIO) # should it be PRIVATE?
 
 add_executable(ECM ${ECM_DIR}/main.cpp ${ECM_DIR}/ECM.cpp ${ECM_DIR}/calcFuel.cpp ${ECM_DIR}/driverInfo.cpp ${ECM_DIR}/calcRPM.cpp ${SHARE_DIR}/frames.cpp 
-        ${TCM_DIR}/gearbox.cpp) 
+        ${SHARE_DIR}/message_handler.cpp ${TCM_DIR}/gearbox.cpp) 
 target_link_libraries(ECM PRIVATE pthread canIO)
 
 add_executable(displayHandler ${DISPLAY_HANDLER_DIR}/main.cpp ${DISPLAY_HANDLER_DIR}/display_class.cpp ${DISPLAY_HANDLER_DIR}/display_handler.cpp 

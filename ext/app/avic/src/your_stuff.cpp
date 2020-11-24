@@ -11,9 +11,9 @@ namespace fr=frames;
 
 bool yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
    
-    fr::fr300 frm_300 = {0};
-    fr::fr200 frm_200 = {0};
-    fr::fr100 frm_100 = {0};
+    fr::fr300 frm_300;// = {};
+    fr::fr200 frm_200;// = {};
+    fr::fr100 frm_100;// = {};
     bool isRun = true;
 
     std::ostringstream tempString;

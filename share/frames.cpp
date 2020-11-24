@@ -29,6 +29,7 @@ uint8_t frame_100::get_accelerator() { return this->frame.accelerator; }
 uint8_t frame_100::get_brake() { return this->frame.brake; }
 fr100 *frame_100::get_frame_ptr() { return &this->frame; }
 uint8_t frame_100::get_length() { return this->frame.candlc; }
+uint32_t frame_100::get_id() {return this->frame.canid;}
 
 void frame_100::set_mode(const SimulationMode &mode) { this->frame.mode = static_cast<uint8_t>(mode); }
 void frame_100::set_gearlever(const GearLeverPos &lever) { this->frame.gearlever = static_cast<uint8_t>(lever); }
@@ -60,6 +61,7 @@ uint8_t frame_200::get_updatebit() { return this->frame.updatebit; }
 fr200 *frame_200::get_frame_ptr() { return &this->frame; }
 uint8_t frame_200::get_length() { return this->frame.candlc; }
 uint8_t frame_200::get_temp() { return this->frame.temp; }
+uint32_t frame_200::get_id() {return this->frame.canid;}
 
 void frame_200::set_rpm(const uint16_t rpm) { this->frame.rpm = rpm; }
 void frame_200::set_fuelinst(const double fuelinst) { this->frame.fuelinst = (uint16_t)(fuelinst * 100); }
@@ -91,6 +93,7 @@ uint8_t frame_300::get_updatebit(){return this->frame.updatebit;}
 fr300 *frame_300::get_frame_ptr(){return &this->frame;}
 uint8_t frame_300::get_length(){return this->frame.candlc;}
 uint8_t frame_300::get_gearratio(){return this->frame.gearRatio;}
+uint32_t frame_300::get_id() {return this->frame.canid;}
 
 void frame_300::set_speed(const uint16_t spd){this->frame.speed= spd * 10;}
 void frame_300::set_gearactual(const uint8_t gearact){this->frame.gearactual=gearact;}

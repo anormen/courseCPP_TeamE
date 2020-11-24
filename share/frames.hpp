@@ -23,8 +23,11 @@ const uint16_t fr100_updateRate = 50;
 const uint16_t fr200_updateRate = 50;
 const uint16_t fr300_updateRate = 50;
 
+struct base_frame_struct {
+};
+
 //frame from inputhandler
-struct fr100{
+struct fr100: public base_frame_struct{
 //header
     uint32_t canid = 100;
     uint8_t candlc = 8;
@@ -45,7 +48,7 @@ struct fr100{
     uint8_t res4:8;     
 };
 //frame from ECM
-struct fr200{
+struct fr200: public base_frame_struct{
 //header
     uint32_t canid = 200;
     uint8_t candlc = 8;
@@ -62,7 +65,7 @@ struct fr200{
     uint8_t temp:8;   
 };
 //frame from TCM
-struct fr300{
+struct fr300: public base_frame_struct{
 //header
     uint32_t canid = 300;
     uint8_t candlc = 8;
@@ -80,7 +83,13 @@ struct fr300{
     uint8_t res4:8;     
 };
 
-class frame_100
+class base_frame {
+  public:
+    virtual uint32_t get_id() = 0;
+    virtual base_frame_struct* get_frame_ptr () = 0;
+};
+
+class frame_100 : public base_frame
 {
   public:
     frame_100();
@@ -93,6 +102,7 @@ class frame_100
     uint8_t get_brake();
     fr100* get_frame_ptr();
     uint8_t get_length();
+    uint32_t get_id();
 
     void set_mode(const SimulationMode &mode);
     void set_gearlever(const GearLeverPos &lever);
@@ -106,7 +116,7 @@ class frame_100
 };
 
 
-class frame_200
+class frame_200 : public base_frame
 {
   public:
     frame_200();
@@ -120,6 +130,7 @@ class frame_200
     fr200* get_frame_ptr();
     uint8_t get_length();
     uint8_t get_temp();
+    uint32_t get_id();
 
     void set_rpm(const uint16_t rpm);
     void set_fuelinst(double fuelinst);
@@ -133,7 +144,7 @@ class frame_200
     fr200 frame;
 };
 
-class frame_300
+class frame_300 : public base_frame
 {
   public:
     frame_300();
@@ -145,6 +156,7 @@ class frame_300
     uint8_t get_updatebit();
     fr300* get_frame_ptr();
     uint8_t get_length();
+    uint32_t get_id();
 
     void set_speed(const uint16_t spd);
     void set_gearactual(const uint8_t gearact);
