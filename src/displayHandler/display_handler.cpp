@@ -7,7 +7,7 @@ std::mutex guard;
 displayHandler::displayHandler(){
 
     memset(&frameGen,0,sizeof(frameGen)); //clear generic can frame
-    canHndl.canInit("vcan0"); //init can comm (get socket) 
+    if(canHndl.canInit("vcan0")) exit(1);; //init can comm (get socket)      
     dispHndl.initDisplay(); //fake
     futureDisplay = finishedDisplay.get_future();
     futureReader = finishedReader.get_future();
