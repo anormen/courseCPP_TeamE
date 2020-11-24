@@ -2,7 +2,6 @@
 #define CONVERSION_H
 
 #include <iostream>
-#include "can_class.hpp"
 #include "frames.hpp"
 #include "key_converter.hpp"
 
@@ -12,22 +11,19 @@ namespace fr=frames;
 class Conversion{
 
 private:
-   // Frame_data inputHandlerFrame;
-    fr::frame_100 frm_100;
-    void AccPedUp();
-    void AccPedDown();
-    void BrakePedalUp();
-    void BrakePedalDown();
-    void GearLeverUp();
-    void GearLeverDown();    
-    void SetStartButton();
-    void ReleaseStartButton();
-    void SetSimulationMode();    
+    void AccPedUp(fr::frame_100 &frm_100);
+    void AccPedDown(fr::frame_100 &frm_100);
+    void BrakePedalUp(fr::frame_100 &frm_100);
+    void BrakePedalDown(fr::frame_100 &frm_100);
+    void GearLeverUp(fr::frame_100 &frm_100);
+    void GearLeverDown(fr::frame_100 &frm_100);    
+    void SetStartButton(fr::frame_100 &frm_100);
+    void ReleaseStartButton(fr::frame_100 &frm_100);
+    void SetSimulationMode(fr::frame_100 &frm_100);    
     
 public:
     Conversion();
-    void fillFrame(can_frame &_frame, kc::UserReq _userReq);
-    fr::SimulationMode GetSimulationMode() { return this->frm_100.get_mode(); };     
+    void fillFrame(fr::frame_100 &frm_100, kc::UserReq _userReq);
    ~Conversion();
 };
 

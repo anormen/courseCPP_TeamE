@@ -12,7 +12,7 @@ add_compile_options(-Wall -Wextra -pedantic)
 include_directories(${SHARE_DIR})
 
 add_library(canIO ${SHARE_DIR}/can_class.cpp)
-add_executable(inputHandler ${INPUT_HANDLER_DIR}/main.cpp ${INPUT_HANDLER_DIR}/key_converter.cpp ${INPUT_HANDLER_DIR}/conversion.cpp ${SHARE_DIR}/frames.cpp)
+add_executable(inputHandler ${INPUT_HANDLER_DIR}/main.cpp ${INPUT_HANDLER_DIR}/key_converter.cpp ${INPUT_HANDLER_DIR}/conversion.cpp ${SHARE_DIR}/frames.cpp ${SHARE_DIR}/message_handler.cpp)
 target_link_libraries(inputHandler PRIVATE ncurses pthread canIO) # should it be PRIVATE?
 
 add_executable(ECM ${ECM_DIR}/main.cpp ${ECM_DIR}/ECM.cpp ${ECM_DIR}/calcFuel.cpp ${ECM_DIR}/driverInfo.cpp ${ECM_DIR}/calcRPM.cpp ${SHARE_DIR}/frames.cpp 

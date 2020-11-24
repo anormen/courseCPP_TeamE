@@ -1,19 +1,20 @@
 #include <iostream>
-//#include <curses.h>
 #include <chrono>
 #include <thread>  
-#include "can_class.hpp"
 #include "conversion.hpp"
 #include "key_converter.hpp"
+#include "message_handler.hpp"
 
 namespace kc=key_conv;
 namespace fr=frames;
 
 int main()
 {
-    can_frame frame;
-    canHandler can;
-    if(can.canInit("vcan0")) exit(1);; //init can comm (get socket)   
+    message_handler msg;
+    fr::frame_100 data_100;
+    std::vector<fr::base_frame *> write_vec;
+    write_vec.emplace_back(&data_100);
+
     bool isRun = true;
 
     Conversion canConvert;
@@ -24,13 +25,13 @@ int main()
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr100_updateRate)); //slowdown sending
         userReq = keyConvert.readInputReq();
-        canConvert.fillFrame(frame, userReq); 
+        canConvert.fillFrame(data_100, userReq); 
 
-        switch (canConvert.GetSimulationMode())
+        switch (data_100.get_mode())
         {
             case fr::SimulationMode::OFF:
                 //turn off
-                can.canWriteFrame(frame);
+                msg.IO_write(write_vec);
                 isRun = false;
                 break; 
             case fr::SimulationMode::SLEEP:
@@ -39,7 +40,7 @@ int main()
             case fr::SimulationMode::INACTIVE:
             case fr::SimulationMode::ACTIVE:
                 //send frames
-                can.canWriteFrame(frame); 
+                msg.IO_write(write_vec);
                 break;
             default:
                 //unhandled mode

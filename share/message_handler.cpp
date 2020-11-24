@@ -35,8 +35,7 @@ void message_handler::IO_write(const std::vector<frames::base_frame *> &write_fr
         }
         if (can.canWriteFrame(frame) > 0)
         {
-            std::cout << "write frame" << std::endl;
-            can.printFrame(frame);
+            //can.printFrame(frame);
         }
         else
             std::cout << "write frame failed" << std::endl;
