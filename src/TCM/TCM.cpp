@@ -1,9 +1,10 @@
 #include "TCM.hpp"
-#include <utility>
+
 
 TCM::TCM(){
-    for (int i = 0; i < vehiclespeedfilterSamples; i++)
-        vehiclespeedfilter.push_front(0.0);   
+
+    for (auto i = 0; i < vehiclespeedfilterSamples; i++)
+        vehiclespeedfilter.push_front(0);   
 }
 
 void TCM::Update(fr::frame_100 &frm_100, fr::frame_200 &frm_200)
@@ -24,12 +25,9 @@ void TCM::Write(fr::frame_300 &frm_300) //remove frame 200 and change get vehicl
 
 uint16_t TCM::VehicleSpeedFilter(const uint16_t &speed){
 
-    uint16_t sum = 0;
     vehiclespeedfilter.pop_back();
     vehiclespeedfilter.push_front(speed);
-
-    for(auto i : vehiclespeedfilter) //sum elements
-        sum += i;
+    uint16_t sum = std::accumulate(vehiclespeedfilter.begin(), vehiclespeedfilter.end(), 0);
 
     return (sum / vehiclespeedfilterSamples);
 }
