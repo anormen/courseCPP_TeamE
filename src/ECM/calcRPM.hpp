@@ -10,7 +10,6 @@ class calcRPM {
   private:
     uint16_t rpm;
     int oldGearratio = 10;
-    bool eng_on;
 };
 
 #endif // CALCRPM_HPP

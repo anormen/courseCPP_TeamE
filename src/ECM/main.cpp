@@ -57,7 +57,11 @@ int main()
         case fr::SimulationMode::ACTIVE:
             {
                 std::lock_guard<std::mutex> guard_read(msg.read_mutex);
-                ecm.Update(data_100, data_300);
+                if(data_100.get_updatebit() == 1){
+                    ecm.Update(data_100, data_300);
+                    data_100.set_updatebit(0);
+                }
+                
             }
             {
                 std::lock_guard<std::mutex> guard_write(msg.write_mutex);

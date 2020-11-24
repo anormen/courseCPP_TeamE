@@ -5,7 +5,6 @@ calcRPM::calcRPM()
 {
     this->oldGearratio = 10;
     this->rpm = 0;
-    this->eng_on = 0;
 }
 
 uint16_t calcRPM::CalculateRPM(const int &acc_ped, int _gearRatio, const bool &eng_on)
