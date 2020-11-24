@@ -26,7 +26,7 @@ const uint16_t fr300_updateRate = 50;
 //frame from inputhandler
 struct fr100{
 //header
-    uint32_t canid = 100;; 
+    uint32_t canid = 100;
     uint8_t candlc = 8;
     uint8_t canpad = 0;
     uint8_t canres0 = 0;
@@ -47,7 +47,7 @@ struct fr100{
 //frame from ECM
 struct fr200{
 //header
-    uint32_t canid = 200;; 
+    uint32_t canid = 200;
     uint8_t candlc = 8;
     uint8_t canpad = 0;
     uint8_t canres0 = 0;

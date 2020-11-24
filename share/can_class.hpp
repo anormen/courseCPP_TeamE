@@ -20,7 +20,7 @@ class canHandler{
         void printFrame(const can_frame&);
         ~canHandler() { close(canSocket); };
     private:       
-        uint16_t canSocket;
+        int16_t canSocket;
         std::chrono::time_point<std::chrono::steady_clock> startTime;
 };
 

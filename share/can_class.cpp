@@ -12,7 +12,7 @@ void canHandler::canInit(const char * ifname){
     if(this->canSocket < 0) //need error print out 
         std::cout << "Socket failed" << std::endl;    
 
-    memcpy(ifr.ifr_name, ifname, sizeof(ifname));
+    memcpy(ifr.ifr_name, ifname, strlen(ifname)+1);
     ioctl(this->canSocket, SIOCGIFINDEX, &ifr);
     //fcntl(this->canSocket, F_SETFL, O_NONBLOCK); //used if NON_BLOCKING_READ
     setsockopt(this->canSocket, CAN_RAW, SO_RCVTIMEO, &timeout, sizeof(timeout));
@@ -34,7 +34,7 @@ int16_t canHandler::canReadFrame(can_frame &frame){
 
     if (nbytes < 0)
         std::cout << "can raw socket read failed (emtpy queue or vcan0 not running)" << std::endl;
-    else if (nbytes < sizeof(struct can_frame))
+    else if (nbytes < (int16_t)sizeof(struct can_frame))
         std::cout << "read: incomplete CAN frame, DLC 1-15" << std::endl;
 
     return nbytes; // tbd if needed
@@ -46,7 +46,7 @@ int16_t canHandler::canWriteFrame(can_frame &frame){
 
     if (nbytes < 0)
         std::cout << "can raw socket write failed (emtpy queue or vcan0 not running)" << std::endl;
-    else if (nbytes < sizeof(struct can_frame))
+    else if (nbytes < (int16_t)sizeof(struct can_frame))
         std::cout << "write: incomplete CAN frame, DLC 0-15" << std::endl;
 
     return nbytes; // tbd if needed
@@ -57,7 +57,7 @@ void canHandler::printFrame(const can_frame &frame){
     std::cout << std::dec << "Time: "
     << std::setw(6) << std::setfill('0') << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-startTime).count()
     << std::setw(3) << std::setfill('0') << " ID: " << (int)frame.can_id << std::setw(2) << std::setfill('0') << " DLC: " << (int)frame.can_dlc << " [";
-    for(int i = 0 ; i < sizeof(frame.data) ; i++ )            
+    for(size_t i = 0 ; i < sizeof(frame.data) ; i++ )            
         std::cout << std::setw(2) << std::setfill('0') << std::hex<< (int)frame.data[i] << (i < sizeof(frame.data)-1 ? ":" : "");
     std::cout << "]" << std::dec << std::endl;
 

@@ -15,10 +15,12 @@ class driverInfo{
 
     public:
         driverInfo(){};
-        void update(fr::frame_100 &fr100, const uint16_t &rpm, fr::DriverInformation &infoMsg);
+        fr::DriverInformation update(fr::frame_100 &fr100, const uint16_t &rpm);
+        fr::DriverInformation getInfoMsg(){ return infoMsg;  };
     private:
         std::chrono::steady_clock::time_point startTime;
         const uint16_t messageDuration = 2000;
+        fr::DriverInformation infoMsg;
 };
 
 #endif
