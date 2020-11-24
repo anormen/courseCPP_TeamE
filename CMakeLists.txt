@@ -7,7 +7,7 @@ set(DISPLAY_HANDLER_DIR "${PROJECT_SRC_DIR}/displayHandler")
 set(ECM_DIR "${PROJECT_SRC_DIR}/ECM")
 set(TCM_DIR "${PROJECT_SRC_DIR}/TCM")
 set(SHARE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/share")
-#add_compile_options(-Wall)
+add_compile_options(-Wall -Wextra -pedantic)
 
 include_directories(${SHARE_DIR})
 
