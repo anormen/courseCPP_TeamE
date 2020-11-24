@@ -3,92 +3,107 @@
 #include "../src/ECM/driverInfo.hpp"
 #include <iostream>
 #include <vector>
+#include <thread>
 #include <string>
 #include <stdint.h>
 
-class FrameFixture : public ::testing::Test {
-  protected:
-    // NOLINTNEXTLINE
-    fr::frame_100 frm_100;
-    fr::frame_200 frm_200;
-    fr::frame_300 frm_300;        
-    
-    void SetUp()// override
-    {
-        //frm_100.set_accelerator(20);
-    }
+class driverInfoTest : public testing::Test {
+
+	 protected:
+        fr::frame_100 data; 
+        driverInfo di;
+	  virtual void SetUp() {
+            data.set_brake(0);
+            data.set_gearlever(fr::GearLeverPos::PARK);
+            data.set_startstop(fr::StartButtonSts::UNPRESSED);  
+            data.set_mode(fr::SimulationMode::SLEEP);            
+	  }
+	  virtual void TearDown() {
+	    // Code here will be called immediately after each test
+	    // (right before the destructor).
+	  }
 };
 
-TEST_F(FrameFixture, driverinfoMessages)
+TEST_F(driverInfoTest, driverinfoMessagesNone){
+    
+    data.set_mode(fr::SimulationMode::SLEEP); 
+    data.set_startstop(fr::StartButtonSts::PRESSED);      
+    EXPECT_EQ( di.update(data, 0), fr::DriverInformation::NO_MSG);
+
+    data.set_brake(10);
+    data.set_gearlever(fr::GearLeverPos::PARK);   
+    data.set_mode(fr::SimulationMode::ACTIVE);      
+    //no message
+    EXPECT_EQ( di.update(data, 0), fr::DriverInformation::NO_MSG);
+
+    //park and running 
+    data.set_brake(0);  
+    EXPECT_EQ( di.update(data, 1000), fr::DriverInformation::NO_MSG); 
+}
+
+TEST_F(driverInfoTest, driverinfoMessagesKey)
+{    
+    data.set_mode(fr::SimulationMode::INACTIVE);
+    data.set_startstop(fr::StartButtonSts::PRESSED); 
+    EXPECT_EQ( di.update(data, 0), fr::DriverInformation::NO_KEY);
+}
+TEST_F(driverInfoTest, driverinfoMessagesBrake)
 {
-    driverInfo di;
-    fr::DriverInformation info = fr::DriverInformation::NO_MSG;
-    uint16_t rpm = 0;
-    frm_100.set_brake(0);
-    frm_100.set_gearlever(fr::GearLeverPos::PARK);
+    data.set_brake(0);
+    data.set_mode(fr::SimulationMode::ACTIVE);
+    data.set_startstop(fr::StartButtonSts::PRESSED); 
+    EXPECT_EQ( di.update(data, 0), fr::DriverInformation::NO_BRAKE);
 
-
-    frm_100.set_startstop(fr::StartButtonSts::UNPRESSED);  
-    frm_100.set_mode(fr::SimulationMode::SLEEP);
-
-    di.update(frm_100, rpm);
-    //no message
-    EXPECT_EQ( info, fr::DriverInformation::NO_MSG);
-    frm_100.set_startstop(fr::StartButtonSts::PRESSED); 
-    di.update(frm_100, rpm);
-    //no message
-    EXPECT_EQ( info, fr::DriverInformation::NO_MSG);
-    //no key
-    frm_100.set_mode(fr::SimulationMode::INACTIVE);
-    frm_100.set_startstop(fr::StartButtonSts::PRESSED); 
-    di.update(frm_100, rpm);
-    EXPECT_EQ( info, fr::DriverInformation::NO_KEY);
-
-    //no brake
-    frm_100.set_mode(fr::SimulationMode::ACTIVE);
-    frm_100.set_startstop(fr::StartButtonSts::PRESSED); 
-    di.update(frm_100, rpm);
-    EXPECT_EQ( info, fr::DriverInformation::NO_BRAKE);
-    //no brake
-    frm_100.set_mode(fr::SimulationMode::ACTIVE);
-    frm_100.set_startstop(fr::StartButtonSts::PRESSED); 
-    frm_100.set_gearlever(fr::GearLeverPos::NEUTRAL);    
-    di.update(frm_100, rpm);
-    EXPECT_EQ( info, fr::DriverInformation::NO_BRAKE);    
-    //no brake and neutral
-    frm_100.set_mode(fr::SimulationMode::ACTIVE);
-    frm_100.set_startstop(fr::StartButtonSts::PRESSED); 
-    frm_100.set_gearlever(fr::GearLeverPos::NEUTRAL);   
-    frm_100.set_brake(10); 
-    di.update(frm_100, rpm);
-    EXPECT_EQ( info, fr::DriverInformation::NOT_IN_P);   
-
-    //no brake and park
-    frm_100.set_mode(fr::SimulationMode::ACTIVE);
-    frm_100.set_startstop(fr::StartButtonSts::PRESSED); 
-    frm_100.set_gearlever(fr::GearLeverPos::PARK);   
-    frm_100.set_brake(10); 
-    di.update(frm_100, rpm);
-    EXPECT_EQ( info, fr::DriverInformation::NO_MSG);
-
+    data.set_gearlever(fr::GearLeverPos::NEUTRAL);    
+    EXPECT_EQ( di.update(data, 0), fr::DriverInformation::NO_BRAKE);   
+}
+TEST_F(driverInfoTest, driverinfoMessagesNotInP)
+{ 
+    data.set_mode(fr::SimulationMode::ACTIVE);
+    data.set_startstop(fr::StartButtonSts::PRESSED); 
+    data.set_gearlever(fr::GearLeverPos::NEUTRAL);   
+    data.set_brake(10); 
+    EXPECT_EQ( di.update(data, 0), fr::DriverInformation::NOT_IN_P);   
+}
+TEST_F(driverInfoTest, driverinfoMessagesNotInPInD)
+{ 
     //drive and running
-    frm_100.set_mode(fr::SimulationMode::ACTIVE);
-    frm_100.set_startstop(fr::StartButtonSts::PRESSED); 
-    frm_100.set_gearlever(fr::GearLeverPos::DRIVE);   
-    frm_100.set_brake(10); 
-    rpm = 1000;    
-    di.update(frm_100, rpm);
-    EXPECT_EQ( info, fr::DriverInformation::NOT_IN_P_IN_D);    
+    data.set_mode(fr::SimulationMode::ACTIVE);
+    data.set_startstop(fr::StartButtonSts::PRESSED); 
+    data.set_gearlever(fr::GearLeverPos::DRIVE);     
+    EXPECT_EQ( di.update(data, 1000), fr::DriverInformation::NOT_IN_P_IN_D);    
+}
 
-    //park and running
-    frm_100.set_mode(fr::SimulationMode::ACTIVE);
-    frm_100.set_startstop(fr::StartButtonSts::PRESSED); 
-    frm_100.set_gearlever(fr::GearLeverPos::PARK);   
-    frm_100.set_brake(10); 
-    rpm = 1000;    
-    di.update(frm_100, rpm);
-    EXPECT_EQ( info, fr::DriverInformation::NO_MSG);                
+TEST_F(driverInfoTest, driverinfoMessagesGetInfo)
+{ 
+    data.set_mode(fr::SimulationMode::ACTIVE);
+    data.set_startstop(fr::StartButtonSts::PRESSED); 
+    data.set_gearlever(fr::GearLeverPos::NEUTRAL);   
+    data.set_brake(10);   
+    di.update(data, 0); 
+    EXPECT_EQ( di.getInfoMsg(), fr::DriverInformation::NOT_IN_P);  
+       
+}
+TEST_F(driverInfoTest, driverinfoMessagesTimer)
+{ 
+    data.set_mode(fr::SimulationMode::ACTIVE);
+    data.set_startstop(fr::StartButtonSts::PRESSED); 
+    data.set_gearlever(fr::GearLeverPos::PARK);   
+    data.set_brake(0);   
+    di.update(data, 0); 
+    EXPECT_EQ( di.getInfoMsg(), fr::DriverInformation::NO_BRAKE);  
 
+    data.set_startstop(fr::StartButtonSts::UNPRESSED);  
+    di.update(data, 0);  
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1250));
+
+    di.update(data, 0); 
+    EXPECT_EQ( di.getInfoMsg(), fr::DriverInformation::NO_BRAKE); 
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    di.update(data, 0);  
+    EXPECT_EQ( di.getInfoMsg(), fr::DriverInformation::NO_MSG);        
 }
 
 int main (int argc, char **argv){
@@ -97,4 +112,3 @@ int main (int argc, char **argv){
 
     return  RUN_ALL_TESTS();
 }
-

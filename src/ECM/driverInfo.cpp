@@ -12,7 +12,7 @@ fr::DriverInformation driverInfo::update(fr::frame_100 &fr100, const uint16_t &r
             infoMsg = fr::DriverInformation::NO_KEY;
         else if (rpm > 0 && gearleverpos != fr::GearLeverPos::PARK) //running
             infoMsg = fr::DriverInformation::NOT_IN_P_IN_D;
-        else if(brake == 0) //not pressed
+        else if (rpm == 0 && brake == 0) //not pressed
             infoMsg = fr::DriverInformation::NO_BRAKE;
         else if (gearleverpos != fr::GearLeverPos::PARK)
             infoMsg = fr::DriverInformation::NOT_IN_P;
