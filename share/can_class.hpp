@@ -2,7 +2,7 @@
 #define _CAN_CLASS_H_ 
 #include <unistd.h>
 #include <linux/can.h>
-#include <sys/socket.h>
+//#include <sys/socket.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <chrono>

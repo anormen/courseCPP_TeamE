@@ -1,4 +1,3 @@
-#include <iostream>
 #include "frames.hpp"
 
 // Frame 100
