@@ -23,13 +23,13 @@ void printIconss(const Iconss_t::_bits *_i) {
     std::cout <<"RESERVERD_PADDING: " <<
                 static_cast<unsigned>(_i->RESERVERD_PADDING) << std::endl;
 }
-
-void printGearbx(const Gearbx_t &_g) {/*
+/*
+void printGearbx(const Gearbx_t &_g) {
     std::cout <<"GEAR_N: " << static_cast<unsigned>(_g.GEAR_N) << std::endl;
     std::cout <<"GEAR_P: " << static_cast<unsigned>(_g.GEAR_P) << std::endl;
     std::cout <<"RESERVERD_PADDING: " <<
-                static_cast<unsigned> (_g.RESERVERD_PADDING) << std::endl;*/
-}
+                static_cast<unsigned> (_g.RESERVERD_PADDING) << std::endl;
+}*/
 
 void printEngine(const Engine_t &_e) {
     std::cout <<"RPM: " << static_cast<unsigned>(_e.RPM) << std::endl;

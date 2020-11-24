@@ -85,7 +85,7 @@ typedef union _gauge{
 
 void printGauges(const Gauges_t::_inner *_g);
 void printIconss(const Iconss_t::_bits *_i);
-void printGearbx(const Gearbx_t &_g);
+//void printGearbx(const Gearbx_t &_g);
 void printEngine(const Engine_t &_e);
 void printUserIn(const UserIn_t &_u);
 

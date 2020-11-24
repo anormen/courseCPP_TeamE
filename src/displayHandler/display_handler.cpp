@@ -38,7 +38,7 @@ displayHandler::displayHandler(){
         }
     });
     display.detach();
-};
+}
 
 bool displayHandler::run(){
 
@@ -49,4 +49,4 @@ bool displayHandler::run(){
                 isRunning = false;
 
     return isRunning;
-};
+}

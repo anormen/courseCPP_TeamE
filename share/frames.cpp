@@ -5,7 +5,7 @@
 
 namespace frames { 
 
-frame_100::frame_100() { this->init_frame(); };
+frame_100::frame_100() { this->init_frame(); }
 void frame_100::init_frame()
 {
     this->frame.mode = 0;
@@ -27,8 +27,8 @@ StartButtonSts frame_100::get_startstop() { return static_cast<StartButtonSts>(t
 uint8_t frame_100::get_updatebit() { return this->frame.updatebit; }
 uint8_t frame_100::get_accelerator() { return this->frame.accelerator; }
 uint8_t frame_100::get_brake() { return this->frame.brake; }
-fr100 *frame_100::get_frame_ptr() { return &this->frame; };
-uint8_t frame_100::get_length() { return this->frame.candlc; };
+fr100 *frame_100::get_frame_ptr() { return &this->frame; }
+uint8_t frame_100::get_length() { return this->frame.candlc; }
 
 void frame_100::set_mode(const SimulationMode &mode) { this->frame.mode = static_cast<uint8_t>(mode); }
 void frame_100::set_gearlever(const GearLeverPos &lever) { this->frame.gearlever = static_cast<uint8_t>(lever); }
@@ -39,7 +39,7 @@ void frame_100::set_brake(const uint8_t &brk) { this->frame.brake = brk; }
 
 // Frame 200
 
-frame_200::frame_200() { this->init_frame(); };
+frame_200::frame_200() { this->init_frame(); }
 void frame_200::init_frame()
 {
     frame.rpm = 0;
@@ -57,9 +57,9 @@ double frame_200::get_fuelavg() { return (double)(this->frame.fuelavg / 100.0); 
 DriverInformation frame_200::get_driverinfo() { return static_cast<DriverInformation>(this->frame.driverinfo); }
 Telltale frame_200::get_telltale() { return static_cast<Telltale>(this->frame.telltale); }
 uint8_t frame_200::get_updatebit() { return this->frame.updatebit; }
-fr200 *frame_200::get_frame_ptr() { return &this->frame; };
-uint8_t frame_200::get_length() { return this->frame.candlc; };
-uint8_t frame_200::get_temp() { return this->frame.temp; };
+fr200 *frame_200::get_frame_ptr() { return &this->frame; }
+uint8_t frame_200::get_length() { return this->frame.candlc; }
+uint8_t frame_200::get_temp() { return this->frame.temp; }
 
 void frame_200::set_rpm(const uint16_t rpm) { this->frame.rpm = rpm; }
 void frame_200::set_fuelinst(const double fuelinst) { this->frame.fuelinst = (uint16_t)(fuelinst * 100); }
@@ -90,11 +90,11 @@ uint8_t frame_300::get_gearactual(){return this->frame.gearactual;}
 uint8_t frame_300::get_updatebit(){return this->frame.updatebit;}
 fr300 *frame_300::get_frame_ptr(){return &this->frame;}
 uint8_t frame_300::get_length(){return this->frame.candlc;}
-uint8_t frame_300::get_gearratio(){return this->frame.gearRatio;};
+uint8_t frame_300::get_gearratio(){return this->frame.gearRatio;}
 
 void frame_300::set_speed(const uint16_t spd){this->frame.speed= spd * 10;}
 void frame_300::set_gearactual(const uint8_t gearact){this->frame.gearactual=gearact;}
 void frame_300::set_updatebit(const uint8_t &ub){this->frame.updatebit=ub;}
-void frame_300::set_gearratio(const uint8_t &gr){this->frame.gearRatio=gr;};
+void frame_300::set_gearratio(const uint8_t &gr){this->frame.gearRatio=gr;}
 
 } // namespace frames

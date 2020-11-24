@@ -18,7 +18,6 @@ class ECM
   private:
     uint16_t rpm;
     uint8_t temp, counter;
-    fr::DriverInformation infoMsg;
     calcRPM rpm_class;
     calcFuel fuel_class;
     driverInfo di;

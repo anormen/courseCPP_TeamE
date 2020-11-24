@@ -20,10 +20,10 @@ public:
 private:
     bool run();
     bool YouHaveJustRecievedACANFrame(const canfd_frame * const _frame);
-    void startUp(unsigned char &_data);
+    //void startUp(unsigned char &_data);
     void timerEvent(QTimerEvent*) override;
     uint16_t speed = 0;
-    _icons icon = {0};
+    _icons icon = {0,0,0,0,0,0,0,0,0,0,0,0};
     QTimer* aliveTimeTCM;
     QTimer* aliveTimeECM;
     bool isRunning = false;
