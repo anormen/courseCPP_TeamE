@@ -1,0 +1,1 @@
+./build/test/diTest --gtest_output="xml:./build/test/diTest.xml"
