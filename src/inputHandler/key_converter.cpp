@@ -1,24 +1,8 @@
 #include "key_converter.hpp"
 #include "conversion.hpp"
 
-
-
 UserReq readKeyboard()
 {
-    std::unordered_map<unsigned char, UserReq> intKeyToEnumAction(
-    {
-        { 'm', UserReq::SIMULATION_MODE },
-        { 's', UserReq::STARTBUTTON },
-        { '+', UserReq::GEARLEV_UP },
-        { '-', UserReq::GEARLEV_DOWN },
-        { 'a', UserReq::ACC_PED_UP },
-        { 'z', UserReq::ACC_PED_DOWN },
-        { 'c', UserReq::BRAKE_PED_DOWN },
-        { 'd', UserReq::BRAKE_PED_UP } ,   
-        { ' ', UserReq::UNDEFINED }   
-    });
-
-
     UserReq uReq;
     unsigned char key;
     std::cin >> key;
