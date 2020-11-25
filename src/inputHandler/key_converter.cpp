@@ -1,44 +1,38 @@
 #include "key_converter.hpp"
+#include "conversion.hpp"
 
-namespace key_conv {  // Is this a good idea?
 
-keyConverter::keyConverter()
+
+UserReq readKeyboard()
 {
-    key = 0;
-    // Init ncurses key input
-    initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
+    std::unordered_map<unsigned char, UserReq> intKeyToEnumAction(
+    {
+        { 'm', UserReq::SIMULATION_MODE },
+        { 's', UserReq::STARTBUTTON },
+        { '+', UserReq::GEARLEV_UP },
+        { '-', UserReq::GEARLEV_DOWN },
+        { 'a', UserReq::ACC_PED_UP },
+        { 'z', UserReq::ACC_PED_DOWN },
+        { 'c', UserReq::BRAKE_PED_DOWN },
+        { 'd', UserReq::BRAKE_PED_UP } ,   
+        { ' ', UserReq::UNDEFINED }   
+    });
 
-    this->required_action = UserReq::UNDEFINED;
+
+    UserReq uReq;
+    unsigned char key;
+    std::cin >> key;
+
+    auto action = intKeyToEnumAction.find(key);
+    if (action == intKeyToEnumAction.end()) {
+        std::cout << "Code: " << key << " not found" << std::endl; 
+        uReq = UserReq::UNDEFINED;
+    }
+    else{
+        std::cout << "Key: " << key << "Action: " << (int)action->second << std::endl;
+        uReq = action->second;
+    }
+
+    std::cin.clear();
+    return uReq;
 }
-
-UserReq keyConverter::readInputReq()
-{
-    this->key = getch();
-
-    if(key==key_req_map.acc_ped_up) 
-        required_action=UserReq::ACC_PED_UP;
-    else if (key==key_req_map.acc_ped_down) 
-        required_action=UserReq::ACC_PED_DOWN;
-    else if (key==key_req_map.startbutton) 
-        required_action=UserReq::STARTBUTTON;
-    else if (key==key_req_map.simulation_mode) 
-        required_action=UserReq::SIMULATION_MODE;
-    else if (key==key_req_map.brake_ped_up) 
-        required_action=UserReq::BRAKE_PED_UP;
-    else if (key==key_req_map.brake_ped_down) 
-        required_action=UserReq::BRAKE_PED_DOWN;
-    else if(key==key_req_map.gearlev_up) 
-        required_action=UserReq::GEARLEV_UP;
-    else if(key==key_req_map.gearlev_down) 
-        required_action=UserReq::GEARLEV_DOWN;
-    else
-        required_action=UserReq::UNDEFINED;
-    
-    return required_action;
-}
-
-} // namespace key_converter

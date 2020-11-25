@@ -1,40 +1,59 @@
 #include "conversion.hpp"
 
-Conversion::Conversion(){
-    // Empty
+bool exeCommand(fr::frame_100& frame, UserReq action)
+{
+    bool isExe = false;
+    auto func = EnumActionToFunc.find(action);
+     if (func == EnumActionToFunc.end()) 
+        std::cout << "Action: " << (int)action << " not found\n\n"; 
+    else {
+        std::cout << "Action: " << (int)action << "function: " << &func->second << std::endl; 
+        func->second(frame);
+        isExe = true;
+    }
+
+    return isExe;
 }
 
-void Conversion::AccPedUp(fr::frame_100 &frm_100){
+void AccPedUp(fr::frame_100 &frm_100){
     int8_t acc = frm_100.get_accelerator() + 10;
     if(acc > 100)
         acc = 100;
     frm_100.set_accelerator(acc);
+    frm_100.set_updatebit(1);    
 }
-void Conversion::AccPedDown(fr::frame_100 &frm_100){     
+void AccPedDown(fr::frame_100 &frm_100){     
     int8_t acc = frm_100.get_accelerator() - 10; 
     if (acc < 0) 
         acc = 0;
     frm_100.set_accelerator(acc);
+    frm_100.set_updatebit(1);    
 }
-void Conversion::BrakePedalUp(fr::frame_100 &frm_100){
+void BrakePedalUp(fr::frame_100 &frm_100){
     int8_t brk = frm_100.get_brake() + 10;
     if (brk > 100)
         brk = 100;
     frm_100.set_brake(brk);
+    frm_100.set_updatebit(1);    
 }
-void Conversion::BrakePedalDown(fr::frame_100 &frm_100){
+void BrakePedalDown(fr::frame_100 &frm_100){
     int8_t brk = frm_100.get_brake() - 10;
     if (brk < 0)
         brk = 0;
     frm_100.set_brake(brk);
+    frm_100.set_updatebit(1);
 }
-void Conversion::SetStartButton(fr::frame_100 &frm_100){
+void SetStartButton(fr::frame_100 &frm_100){
+    
     frm_100.set_startstop(fr::StartButtonSts::PRESSED);
+    frm_100.set_updatebit(1);
 }
-void Conversion::ReleaseStartButton(fr::frame_100 &frm_100){
+void ReleaseStartButton(fr::frame_100 &frm_100){
+    
     frm_100.set_startstop(fr::StartButtonSts::UNPRESSED);
+    frm_100.set_updatebit(1);
 }
-void Conversion::GearLeverUp(fr::frame_100 &frm_100){
+void GearLeverUp(fr::frame_100 &frm_100){
 
     switch(frm_100.get_gearlever())
     {
@@ -53,9 +72,10 @@ void Conversion::GearLeverUp(fr::frame_100 &frm_100){
         default:
             frm_100.set_gearlever(fr::GearLeverPos::PARK);
     }
+    frm_100.set_updatebit(1);    
 }
 
-void Conversion::GearLeverDown(fr::frame_100 &frm_100){
+void GearLeverDown(fr::frame_100 &frm_100){
 
     switch(frm_100.get_gearlever())
     {
@@ -74,9 +94,10 @@ void Conversion::GearLeverDown(fr::frame_100 &frm_100){
         default:
             frm_100.set_gearlever(fr::GearLeverPos::PARK);
     }
+    frm_100.set_updatebit(1);    
 }
 
-void Conversion::SetSimulationMode(fr::frame_100 &frm_100){
+void SetSimulationMode(fr::frame_100 &frm_100){
 
     switch(frm_100.get_mode())
     {
@@ -92,42 +113,5 @@ void Conversion::SetSimulationMode(fr::frame_100 &frm_100){
         default:
             frm_100.set_mode(fr::SimulationMode::SLEEP);          
     }
-}
-
-void  Conversion::fillFrame(fr::frame_100 &frm_100, kc::UserReq _userReq){
-   
-    switch (_userReq){
-        case kc::UserReq::SIMULATION_MODE: // m
-            SetSimulationMode(frm_100);
-            break;      
-        case  kc::UserReq::ACC_PED_UP: // Arrow UP
-            AccPedUp(frm_100);
-            break;
-        case  kc::UserReq::ACC_PED_DOWN: //Arrow Down
-            AccPedDown(frm_100);
-            break;
-        case kc::UserReq::STARTBUTTON: // s
-            SetStartButton(frm_100);
-            break;
-        case kc::UserReq::BRAKE_PED_UP: //->
-            BrakePedalUp(frm_100);
-            break;
-        case kc::UserReq::BRAKE_PED_DOWN: //<-
-            BrakePedalDown(frm_100);
-            break;
-        case kc::UserReq::GEARLEV_UP: //+
-            GearLeverUp(frm_100);
-            break;
-        case kc::UserReq::GEARLEV_DOWN: //-
-            GearLeverDown(frm_100);
-            break;
-        default:  
-            ReleaseStartButton(frm_100);   // NOT OK SOLUTION NEED IMPROVMENT      
-    }
-    //std::cout << "&data_to_send = " << &data_to_send << " &data_to_send+6 " << &data_to_send+6 << std::endl;
     frm_100.set_updatebit(1);
-}
-
-Conversion::~Conversion(){
-    //empty
 }

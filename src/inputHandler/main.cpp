@@ -5,7 +5,7 @@
 #include "key_converter.hpp"
 #include "message_handler.hpp"
 
-namespace kc=key_conv;
+//namespace kc=key_conv;
 namespace fr=frames;
 
 int main()
@@ -14,18 +14,16 @@ int main()
     fr::frame_100 data_100;
     std::vector<fr::base_frame *> write_vec;
     write_vec.emplace_back(&data_100);
+    UserReq req = UserReq::UNDEFINED;
 
     bool isRun = true;
-
-    Conversion canConvert;
-    kc::keyConverter keyConvert;
-    kc::UserReq userReq; //Make more local??
 
     while (isRun)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr100_updateRate)); //slowdown sending
-        userReq = keyConvert.readInputReq();
-        canConvert.fillFrame(data_100, userReq); 
+        req = readKeyboard();
+        if(req != UserReq::UNDEFINED)
+            exeCommand(data_100, req);       
 
         switch (data_100.get_mode())
         {
