@@ -4,18 +4,13 @@
 #include "cluster_updater.h"
 #include <string>
 #include <QTimer>
-
 #include <iomanip>
-
-
 
 class yourStuff : public QObject {
     Q_OBJECT
 public:
     yourStuff() = delete;
     yourStuff(const std::string &_ifName, QObject *_);
-
-
 
 private:
     bool run();
@@ -24,20 +19,15 @@ private:
     void timerEvent(QTimerEvent*) override;
     uint16_t speed = 0;
     _icons icon = {0,0,0,0,0,0,0,0,0,0,0,0};
-    QTimer* aliveTimeTCM;
-    QTimer* aliveTimeECM;
+    QTimer* aliveTimeTCM, * aliveTimeECM;
     bool isRunning = false;
     bool isStart = true;
-
-
 //signals:
 //    void die();
-
 private:
     size_t Counter;
     CANOpener CANReader;
     ClusterUpdater InstrumentCluster;
 
 };
-
 #endif // YOUR_STUFF_H
