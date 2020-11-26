@@ -10,7 +10,7 @@ void display::initDisplay()
 
 void display::update()
 { 
-    std::cout << "\033c \033[0;32m" ;  //http://ascii-table.com/ansi-escape-sequences.php
+    std::cout << "\033c\033[0;32m" ;  //http://ascii-table.com/ansi-escape-sequences.php
     std::cout << "----------------------------------------------------------------" << std::endl;    
     std::cout << std::dec << std::setw(3) << std::setfill('0') << "Accelerator:     " << static_cast<unsigned int>(accelerator)   << " %" << std::endl;
     std::cout << std::dec << std::setw(3) << std::setfill('0') << "Brake:           " << static_cast<unsigned int>(brake)         << " %" << std::endl;
