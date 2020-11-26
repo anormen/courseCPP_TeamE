@@ -51,5 +51,7 @@ int main()
 
     }
 
+    IO_thread.join();
+
     return 0;
 }
