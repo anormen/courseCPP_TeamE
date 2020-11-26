@@ -10,7 +10,7 @@
 namespace kc = key_Converter;
 namespace fr=frames;
 
-const int stepsize = 10;
+const uint16_t stepsize = 10;
 //key handler functions
 bool exeRequest(fr::frame_100&, kc::UserReq);
 void AccPedUp(fr::frame_100&);

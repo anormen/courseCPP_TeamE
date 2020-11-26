@@ -2,8 +2,7 @@
 
 namespace key_Converter { 
 
-keyConverter::keyConverter()
-{
+keyConverter::keyConverter(){
     // Init ncurses key input
     initscr();
     cbreak();
@@ -16,8 +15,7 @@ UserReq keyConverter::readKeyInputReq()
 {
     UserReq uAction;
     int key = getch();
-
-    std::cout << "\033c\033[0;32m" ; 
+    clear();
     std::cout << "---------------------------------\n\r";      
     std::cout << "Press 'm' to change mode\n\r";
     std::cout << "Press 's' to start engine\n\r"; 
@@ -32,10 +30,10 @@ UserReq keyConverter::readKeyInputReq()
         uAction = UserReq::UNDEFINED;
     }
     else {
-        std::cout << "Key: " << key << " Action: " << (int)action->second << "\n\r";
+        std::cout << "Key: " << key << " Action: " << static_cast<int>(action->second) << "\n\r";
         uAction = action->second;
     }
+
     return uAction;
 }
-
 } // namespace key_converter
