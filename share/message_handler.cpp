@@ -1,11 +1,13 @@
 #include "message_handler.hpp"
 
-message_handler::message_handler()
+message_handler::message_handler(sendFlist &_list)
 {
     if(can.canInit("vcan0")) exit(1);
+
+    list = _list;
 }
 
-void message_handler::IO_read(std::vector<frames::base_frame *> &read_frames)
+void message_handler::IO_read(frameVector &read_frames)
 {
     while (can.canReadFrame(frame) > 0)
     { //check if new data available
@@ -24,7 +26,7 @@ void message_handler::IO_read(std::vector<frames::base_frame *> &read_frames)
     }
 }
 
-void message_handler::IO_write(const std::vector<frames::base_frame *> &write_frames)
+void message_handler::IO_write(const frameVector &write_frames)
 {
     
     for (const auto &frm : write_frames)

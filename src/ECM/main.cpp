@@ -3,27 +3,31 @@
 #include "ECM.hpp"
 #include "frames.hpp"
 #include "message_handler.hpp"
-#include "run_ecu.hpp"
+#include <functional>
+#include <unordered_map>
 
 namespace fr = frames;
 
+typedef std::function<void(message_handler const &, const frameVector&)> sendFunction;
+
+typedef std::unordered_map<uint32_t, sendFunction> sendFlists;
+
+
 int main()
 {
+    sendFlist list;
     fr::frame_100 data_100;
     fr::frame_200 data_200;
     fr::frame_300 data_300;
-
-    message_handler msg;
+    message_handler msg(list);
 
     ECM ecm;
     bool isRun = true;
-    bool isRunMain = true;
 
-    std::vector<fr::base_frame *> read_vec;
-    read_vec.emplace_back(&data_100);
+    frameVector read_vec;
+    frameVector write_vec;    
+    read_vec.emplace_back(&data_100); //fill vector
     read_vec.emplace_back(&data_300);
-
-    std::vector<fr::base_frame *> write_vec;
     write_vec.emplace_back(&data_200);
 
     std::thread IO_thread([&]() {
@@ -32,6 +36,7 @@ int main()
             std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr100_updateRate));
 
             msg.IO_read(read_vec);
+            
 
             if (data_100.get_mode() == fr::SimulationMode::OFF)
             {
@@ -44,13 +49,37 @@ int main()
         }
     });
 
-    while (isRunMain)
+    while (isRun)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr200_updateRate));
-        isRunMain = run_ecu<ECM>(ecm, read_vec, write_vec, msg);
+        switch (data_100.get_mode())
+        {
+        case fr::SimulationMode::OFF:
+            isRun = false;
+            IO_thread.join();
+            break;
+        case fr::SimulationMode::SLEEP:
+            break;
+        case fr::SimulationMode::INACTIVE:
+        case fr::SimulationMode::ACTIVE:
+            {
+                std::lock_guard<std::mutex> guard_read(msg.read_mutex);
+                if(data_100.get_updatebit() == 1){
+                    ecm.Update(data_100, data_300);
+                    data_100.set_updatebit(0);
+                }
+                
+            }
+            {
+                std::lock_guard<std::mutex> guard_write(msg.write_mutex);
+                ecm.Write(data_200);
+            }
+            break;
+        default:
+            isRun = false;
+        }
+        //std::cout << "\033c \033[0;32m"; // clear screen
     }
-
-    IO_thread.join();
 
     return 0;
 }

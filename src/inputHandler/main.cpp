@@ -10,7 +10,8 @@ namespace fr = frames;
 
 int main()
 {
-    message_handler msg;
+    sendFlist list;
+    message_handler msg(list);
     fr::frame_100 data_100;
     std::vector<fr::base_frame *> write_vec;
     write_vec.emplace_back(&data_100);
