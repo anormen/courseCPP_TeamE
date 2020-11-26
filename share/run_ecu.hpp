@@ -4,10 +4,15 @@
 #include "message_handler.hpp"
 
 template <class T>
-bool run_ecu(T &ecu, const std::vector<fr::base_frame *> read_vec, std::vector<fr::base_frame *> write_vec, std::mutex &read_mutex, std::mutex &write_mutex, const fr::SimulationMode &mode)
+bool run_ecu(T &ecu, const std::vector<fr::base_frame *> read_vec, std::vector<fr::base_frame *> write_vec, message_handler &msg)
 {
     bool isRun = true;
-    std::cout << "run ecu mode = " << (int)mode << std::endl;
+    frames::SimulationMode mode;
+    for (auto &frm : read_vec){
+        if(frm->get_id() == 100)
+            mode = static_cast<frames::frame_100 *>(frm)->get_mode();
+    }
+
     switch (mode)
     {
     case fr::SimulationMode::OFF:
@@ -19,12 +24,12 @@ bool run_ecu(T &ecu, const std::vector<fr::base_frame *> read_vec, std::vector<f
     case fr::SimulationMode::INACTIVE:
     case fr::SimulationMode::ACTIVE:
         {
-            std::lock_guard<std::mutex> guard_read(read_mutex);
+            std::lock_guard<std::mutex> guard_read(msg.read_mutex);
             ecu.Read(read_vec);
         }
         ecu.Update();
         {
-            std::lock_guard<std::mutex> guard_write(write_mutex);
+            std::lock_guard<std::mutex> guard_write(msg.write_mutex);
             ecu.Write(write_vec);
         }
         break;

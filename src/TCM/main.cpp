@@ -47,7 +47,7 @@ int main()
     {
   
         std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr200_updateRate));
-        isRunMain = run_ecu<TCM>(tcm, read_vec, write_vec, msg.read_mutex, msg.write_mutex, data_100.get_mode());
+        isRunMain = run_ecu<TCM>(tcm, read_vec, write_vec, msg);
 
     }
 
