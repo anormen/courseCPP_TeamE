@@ -6,24 +6,29 @@
 #include "calcRPM.hpp"
 #include "driverInfo.hpp"
 
-namespace fr=frames;
+namespace fr = frames;
 
 class ECM
 {
-  public:
+public:
     ECM();
-    void Update(fr::frame_100 &frm_100, fr::frame_300 &frm_300);
-    void Write(fr::frame_200 &frm_200);
+    void Update();
+    void Write(std::vector<fr::base_frame *> data_vec);
+    void Read(std::vector<fr::base_frame *> data_vec);
 
-  private:
-    uint16_t rpm;
-    uint8_t temp, counter;
+private:
+    uint16_t rpm, veh_speed;
+    uint8_t counter, temp, acc, gear_ratio, updatebit, brake;
+    bool eng_on;
+    fr::StartButtonSts startstop;
+    fr::SimulationMode mode;
+    fr::GearLeverPos gear_lever;
     calcRPM rpm_class;
     calcFuel fuel_class;
-    driverInfo di;
-    bool eng_on;
+    driverInfo di; // should probably be a method
     void CalculateTemp();
-    fr::StartButtonSts stored_button;
+
+    friend class driverInfo;
 };
 
 #endif //ECM_HPP

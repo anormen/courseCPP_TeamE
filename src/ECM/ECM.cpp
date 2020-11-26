@@ -4,34 +4,68 @@ ECM::ECM()
 {
     this->eng_on = false;
     this->temp = 10;
-    this->stored_button = fr::StartButtonSts::UNPRESSED;
     this->rpm = 0;
     this->counter = 0;
+    this->veh_speed = 0;
+    this->acc = 0;
+    this->gear_ratio = 0;
+    this->updatebit = 0;
+    this->brake = 0;
 }
 
-void ECM::Update(fr::frame_100 &frm_100, fr::frame_300 &frm_300)
+void ECM::Read(std::vector<fr::base_frame *> data_vec)
 {
 
-    fr::DriverInformation info = di.update(frm_100, rpm);
-
-    if (frm_100.get_startstop() == fr::StartButtonSts::PRESSED && info == fr::DriverInformation::NO_MSG && frm_100.get_mode() == fr::SimulationMode::ACTIVE){
-        this->eng_on = !eng_on;
-        stored_button = fr::StartButtonSts::PRESSED;
+    for (auto &frm : data_vec)
+    {
+        if (frm->get_id() == 100)
+        {
+            this->acc = static_cast<fr::frame_100 *>(frm)->get_accelerator();
+            this->startstop = static_cast<fr::frame_100 *>(frm)->get_startstop();
+            this->mode = static_cast<fr::frame_100 *>(frm)->get_mode();
+            this->updatebit = static_cast<fr::frame_100 *>(frm)->get_updatebit();
+            this->gear_lever = static_cast<fr::frame_100 *>(frm)->get_gearlever();
+            this->brake = static_cast<fr::frame_100 *>(frm)->get_brake();
+        }
+        else if (frm->get_id() == 300)
+        {
+            this->gear_ratio = static_cast<fr::frame_300 *>(frm)->get_gearratio();
+            this->veh_speed = static_cast<fr::frame_300 *>(frm)->get_speed();
+        }
+        else
+        {
+            // no more
+        }
     }
+}
 
-    rpm = rpm_class.CalculateRPM(frm_100.get_accelerator(), frm_300.get_gearratio(), eng_on);
-    fuel_class.CalculateFuel(frm_100.get_accelerator(), rpm, frm_300.get_speed());
+void ECM::Update()
+{
+    //di.update(this);
+    fr::DriverInformation info = di.update(this->startstop, this->mode, this->rpm, this->brake, this->gear_lever); // too many inputs, should probably be a method
+    if (this->startstop == fr::StartButtonSts::PRESSED && info == fr::DriverInformation::NO_MSG && this->mode == fr::SimulationMode::ACTIVE)
+    {
+        this->eng_on = !eng_on;
+    }
+    rpm = rpm_class.CalculateRPM(this->acc, this->gear_ratio, this->eng_on);
+    fuel_class.CalculateFuel(this->acc, this->rpm, this->veh_speed);
     CalculateTemp();
 }
 
-void ECM::Write(fr::frame_200 &frm_200)
+void ECM::Write(std::vector<fr::base_frame *> data_vec)
 {
-    frm_200.set_rpm(this->rpm);
-    frm_200.set_fuelavg(fuel_class.getFuelAvg());
-    frm_200.set_fuelinst(fuel_class.getFuelInst());
-    frm_200.set_driverinfor(di.getInfoMsg());
-    frm_200.set_temp(this->temp);
-    frm_200.set_updatebit(1);
+    for (auto &frm : data_vec)
+    {
+        if (frm->get_id() == 200)
+        {
+            static_cast<fr::frame_200 *>(frm)->set_rpm(this->rpm);
+            static_cast<fr::frame_200 *>(frm)->set_fuelavg(fuel_class.getFuelAvg());
+            static_cast<fr::frame_200 *>(frm)->set_fuelinst(fuel_class.getFuelInst());
+            static_cast<fr::frame_200 *>(frm)->set_driverinfor(di.getInfoMsg());
+            static_cast<fr::frame_200 *>(frm)->set_temp(this->temp);
+            static_cast<fr::frame_200 *>(frm)->set_updatebit(1);
+        }
+    }
 }
 
 void ECM::CalculateTemp()
@@ -47,10 +81,6 @@ void ECM::CalculateTemp()
         this->temp = std::min((int)this->temp, 127);
         this->temp = std::max((int)this->temp, 10);
 
-        std::cout << "Temp = " << (int)this->temp << std::endl;
-
         counter = 0;
     }
-
-    std::cout << "Temp = " << (int)this->temp << std::endl;
 }

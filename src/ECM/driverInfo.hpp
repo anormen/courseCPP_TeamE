@@ -15,7 +15,7 @@ class driverInfo{
 
     public:
         driverInfo(){};
-        fr::DriverInformation update(fr::frame_100 &fr100, const uint16_t &rpm);
+        fr::DriverInformation update(const fr::StartButtonSts &ss, const fr::SimulationMode &mode, const uint16_t &rpm, const uint8_t &brake, const fr::GearLeverPos &gear_lev);
         fr::DriverInformation getInfoMsg(){ return infoMsg;  };
     private:
         std::chrono::steady_clock::time_point startTime;
@@ -23,4 +23,4 @@ class driverInfo{
         fr::DriverInformation infoMsg;
 };
 
-#endif
+#endif //_DRIVERINFO_H_

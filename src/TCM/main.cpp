@@ -1,8 +1,8 @@
 #include <iostream>
 #include "TCM.hpp"
 #include "frames.hpp"
-#include "gearbox.hpp"
 #include "message_handler.hpp"
+#include "run_ecu.hpp"
 
 namespace fr=frames;
 
@@ -42,33 +42,13 @@ int main()
         }
     });
 
-    while (isRun)
+    bool isRunMain = true;
+    while (isRunMain)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr300_updateRate));
-        switch(data_100.get_mode())
-        {
-            case fr::SimulationMode::OFF:
-                isRun = false;
-                IO_thread.join();
-                break;
-            case fr::SimulationMode::SLEEP:
-                break;
-            case fr::SimulationMode::INACTIVE:                
-            case fr::SimulationMode::ACTIVE:
-                {
-                    std::lock_guard<std::mutex> guard_read(msg.read_mutex);
-                    tcm.Update(data_100,data_200);   
-                }   
-            
-                {
-                    std::lock_guard<std::mutex> guard_write(msg.write_mutex);
-                    tcm.Write(data_300);
-                }
-                break;
-            default:
-                isRun = false;
-        }
-        std::cout << "\033c \033[0;32m" ; // clear screen
+  
+        std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr200_updateRate));
+        isRunMain = run_ecu<TCM>(tcm, read_vec, write_vec, msg.read_mutex, msg.write_mutex, data_100.get_mode());
+
     }
 
     return 0;

@@ -3,6 +3,7 @@
 #include "ECM.hpp"
 #include "frames.hpp"
 #include "message_handler.hpp"
+#include "run_ecu.hpp"
 
 namespace fr = frames;
 
@@ -16,6 +17,7 @@ int main()
 
     ECM ecm;
     bool isRun = true;
+    bool isRunMain = true;
 
     std::vector<fr::base_frame *> read_vec;
     read_vec.emplace_back(&data_100);
@@ -42,37 +44,13 @@ int main()
         }
     });
 
-    while (isRun)
+    while (isRunMain)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(fr::fr200_updateRate));
-        switch (data_100.get_mode())
-        {
-        case fr::SimulationMode::OFF:
-            isRun = false;
-            IO_thread.join();
-            break;
-        case fr::SimulationMode::SLEEP:
-            break;
-        case fr::SimulationMode::INACTIVE:
-        case fr::SimulationMode::ACTIVE:
-            {
-                std::lock_guard<std::mutex> guard_read(msg.read_mutex);
-                if(data_100.get_updatebit() == 1){
-                    ecm.Update(data_100, data_300);
-                    data_100.set_updatebit(0);
-                }
-                
-            }
-            {
-                std::lock_guard<std::mutex> guard_write(msg.write_mutex);
-                ecm.Write(data_200);
-            }
-            break;
-        default:
-            isRun = false;
-        }
-        //std::cout << "\033c \033[0;32m"; // clear screen
+        isRunMain = run_ecu<ECM>(ecm, read_vec, write_vec, msg.read_mutex, msg.write_mutex, data_100.get_mode());
     }
+
+    IO_thread.join();
 
     return 0;
 }
