@@ -16,5 +16,4 @@ void ClusterUpdater::setIcon(const  _icons * icons) {
 }
 
 void CANOpener() {
-
 }
