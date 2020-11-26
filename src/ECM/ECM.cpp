@@ -63,6 +63,7 @@ void ECM::Write(std::vector<fr::base_frame *> data_vec)
             static_cast<fr::frame_200 *>(frm)->set_fuelinst(fuel_class.getFuelInst());
             static_cast<fr::frame_200 *>(frm)->set_driverinfor(di.getInfoMsg());
             static_cast<fr::frame_200 *>(frm)->set_temp(this->temp);
+            static_cast<fr::frame_200 *>(frm)->set_telltale(0);
             static_cast<fr::frame_200 *>(frm)->set_updatebit(1);
         }
     }
@@ -80,7 +81,6 @@ void ECM::CalculateTemp()
 
         this->temp = std::min((int)this->temp, 127);
         this->temp = std::max((int)this->temp, 10);
-
         counter = 0;
     }
 }

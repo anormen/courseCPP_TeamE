@@ -1,44 +1,39 @@
 #include "key_converter.hpp"
 
-namespace key_conv {  // Is this a good idea?
+namespace key_Converter { 
 
-keyConverter::keyConverter()
-{
-    key = 0;
+keyConverter::keyConverter(){
     // Init ncurses key input
     initscr();
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
-
-    this->required_action = UserReq::UNDEFINED;
 }
 
-UserReq keyConverter::readInputReq()
+UserReq keyConverter::readKeyInputReq()
 {
-    this->key = getch();
+    UserReq uAction;
+    int key = getch();
+    clear();
+    std::cout << "---------------------------------\n\r";      
+    std::cout << "Press 'm' to change mode\n\r";
+    std::cout << "Press 's' to start engine\n\r"; 
+    std::cout << "Press '+'/'-' to change gear PRND\n\r";   
+    std::cout << "Press 'left'/'right' to brake\n\r";    
+    std::cout << "Press 'up'/'down' to accelerate\n\r";
+    std::cout << "---------------------------------\n\r";    
 
-    if(key==key_req_map.acc_ped_up) 
-        required_action=UserReq::ACC_PED_UP;
-    else if (key==key_req_map.acc_ped_down) 
-        required_action=UserReq::ACC_PED_DOWN;
-    else if (key==key_req_map.startbutton) 
-        required_action=UserReq::STARTBUTTON;
-    else if (key==key_req_map.simulation_mode) 
-        required_action=UserReq::SIMULATION_MODE;
-    else if (key==key_req_map.brake_ped_up) 
-        required_action=UserReq::BRAKE_PED_UP;
-    else if (key==key_req_map.brake_ped_down) 
-        required_action=UserReq::BRAKE_PED_DOWN;
-    else if(key==key_req_map.gearlev_up) 
-        required_action=UserReq::GEARLEV_UP;
-    else if(key==key_req_map.gearlev_down) 
-        required_action=UserReq::GEARLEV_DOWN;
-    else
-        required_action=UserReq::UNDEFINED;
-    
-    return required_action;
+    auto action = intKeyToEnumAction.find(key);
+    if (action == intKeyToEnumAction.end()) {
+        std::cout << "Code: " << key << " not found\n\r"; 
+        uAction = UserReq::UNDEFINED;
+    }
+    else {
+        std::cout << "Key: " << key << " Action: " << static_cast<int>(action->second) << "\n\r";
+        uAction = action->second;
+    }
+
+    return uAction;
 }
-
 } // namespace key_converter

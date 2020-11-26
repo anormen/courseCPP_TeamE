@@ -2,8 +2,6 @@
 #include "data_class.hpp"
 #include <thread>
 
-std::mutex guard;
-
 displayHandler::displayHandler(){
 
     memset(&frameGen,0,sizeof(frameGen)); //clear generic can frame
@@ -44,9 +42,9 @@ bool displayHandler::run(){
 
     bool isRunning = true;
 
-        if(this->futureReader.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready &&      
-            this->futureDisplay.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
-                isRunning = false;
+    if(this->futureReader.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready &&      
+        this->futureDisplay.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
+            isRunning = false;
 
     return isRunning;
 }

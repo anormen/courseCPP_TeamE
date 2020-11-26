@@ -18,6 +18,7 @@ class displayHandler{
     private:
         std::promise<void> finishedReader, finishedDisplay;
         std::future<void> futureReader, futureDisplay;
+        std::mutex guard;
         can_frame frameGen;
         display dispHndl;
         dataLayer dataHndl;

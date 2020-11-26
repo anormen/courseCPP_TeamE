@@ -3,30 +3,31 @@
 
 #include <iostream>
 #include <curses.h>
+#include <unordered_map>
+#include <functional>
 
-namespace key_conv {  // Is this a good idea?
+namespace key_Converter {  
 
 enum class UserReq { SIMULATION_MODE, STARTBUTTON, ACC_PED_UP, ACC_PED_DOWN, BRAKE_PED_UP, BRAKE_PED_DOWN, GEARLEV_UP, GEARLEV_DOWN, UNDEFINED };
-
-const struct req_key {
-    int simulation_mode = 109; // m
-    int startbutton = 115; // s
-    int acc_ped_up = 259; // arrow up
-    int acc_ped_down = 258; // arrow down
-    int brake_ped_up = 261; // arrow right
-    int brake_ped_down = 260; // arrow left
-    int gearlev_up = 43; // +
-    int gearlev_down = 45; // -
-} key_req_map;
 
 class keyConverter{
   public:
     keyConverter();
-    UserReq readInputReq();
+    UserReq readKeyInputReq();
     ~keyConverter() { endwin(); };
   private:
-    UserReq required_action;
-    int key;
+};
+
+const std::unordered_map<int, UserReq> intKeyToEnumAction
+{
+  { 109 , UserReq::SIMULATION_MODE }, //m
+  { 115 , UserReq::STARTBUTTON }, //s
+  {  43 , UserReq::GEARLEV_UP }, //+
+  {  45 , UserReq::GEARLEV_DOWN }, //-
+  { 259 , UserReq::ACC_PED_UP }, // arrow up
+  { 258 , UserReq::ACC_PED_DOWN }, //arrow down
+  { 260 , UserReq::BRAKE_PED_DOWN }, //arrow left
+  { 261 , UserReq::BRAKE_PED_UP } //arraow right  
 };
 
 } //namespace key_conv

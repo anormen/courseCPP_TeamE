@@ -3,6 +3,7 @@
 #include "../src/ECM/driverInfo.hpp"
 #include <iostream>
 #include <vector>
+#include <thread>
 #include <string>
 #include <stdint.h>
 
@@ -75,6 +76,19 @@ TEST_F(FrameFixture, driverinfoMessages)
     info = di.update(start_stop, mode, rpm, brake, gear_lever);
     EXPECT_EQ( info, fr::DriverInformation::NO_MSG);
 
+    data.set_gearlever(fr::GearLeverPos::NEUTRAL);    
+    EXPECT_EQ( di.update(data, 0), fr::DriverInformation::NO_BRAKE);   
+}
+TEST_F(driverInfoTest, driverinfoMessagesNotInP)
+{ 
+    data.set_mode(fr::SimulationMode::ACTIVE);
+    data.set_startstop(fr::StartButtonSts::PRESSED); 
+    data.set_gearlever(fr::GearLeverPos::NEUTRAL);   
+    data.set_brake(10); 
+    EXPECT_EQ( di.update(data, 0), fr::DriverInformation::NOT_IN_P);   
+}
+TEST_F(driverInfoTest, driverinfoMessagesNotInPInD)
+{ 
     //drive and running
     mode = fr::SimulationMode::ACTIVE;
     start_stop = fr::StartButtonSts::PRESSED; 
@@ -93,6 +107,14 @@ TEST_F(FrameFixture, driverinfoMessages)
     info = di.update(start_stop, mode, rpm, brake, gear_lever);
     EXPECT_EQ( info, fr::DriverInformation::NO_MSG);                
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(1250));
+
+    di.update(data, 0); 
+    EXPECT_EQ( di.getInfoMsg(), fr::DriverInformation::NO_BRAKE); 
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    di.update(data, 0);  
+    EXPECT_EQ( di.getInfoMsg(), fr::DriverInformation::NO_MSG);        
 }
 
 int main (int argc, char **argv){
@@ -101,4 +123,3 @@ int main (int argc, char **argv){
 
     return  RUN_ALL_TESTS();
 }
-

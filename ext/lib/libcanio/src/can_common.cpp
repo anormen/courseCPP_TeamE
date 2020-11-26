@@ -1,7 +1,7 @@
 #include <iostream>
 #include "can_common.h"
 namespace CAN {
-namespace MSG {
+namespace MSG {/*
 void printGauges(const Gauges_t::_inner *_g) {
     std::cout <<"G_FUEL: " << static_cast<unsigned>(_g->G_FUEL) << std::endl;
     std::cout <<"G_OILT: " << static_cast<unsigned>(_g->G_OILT) << std::endl;
@@ -23,13 +23,13 @@ void printIconss(const Iconss_t::_bits *_i) {
     std::cout <<"RESERVERD_PADDING: " <<
                 static_cast<unsigned>(_i->RESERVERD_PADDING) << std::endl;
 }
-/*
+
 void printGearbx(const Gearbx_t &_g) {
     std::cout <<"GEAR_N: " << static_cast<unsigned>(_g.GEAR_N) << std::endl;
     std::cout <<"GEAR_P: " << static_cast<unsigned>(_g.GEAR_P) << std::endl;
     std::cout <<"RESERVERD_PADDING: " <<
                 static_cast<unsigned> (_g.RESERVERD_PADDING) << std::endl;
-}*/
+}
 
 void printEngine(const Engine_t &_e) {
     std::cout <<"RPM: " << static_cast<unsigned>(_e.RPM) << std::endl;
@@ -45,7 +45,7 @@ void printUserIn(const UserIn_t &_u) {
     std::cout <<"GRRT: " << static_cast<unsigned>(_u.GRRT) << std::endl;
     std::cout <<"RESERVERD_PADDING: " <<
                 static_cast<unsigned int>(_u.RESERVERD_PADDING) << std::endl;
-}
+}*/
 
 } // namespace MSG
 } // namespace CAN

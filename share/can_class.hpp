@@ -9,17 +9,18 @@
 #include <iostream>
 #include <cstring>
 
-class canHandler{
+#define INVALID_SOCKET -1
 
+class canHandler{
     public:
-        canHandler(){ startTime = std::chrono::steady_clock::now();};
+        canHandler(){};
         bool canInit(const char*);
         int16_t canReadFrame(can_frame&);
         int16_t canWriteFrame(can_frame&);
         void printFrame(const can_frame&);
         ~canHandler() { close(canSocket); };
     private:       
-        int16_t canSocket = -1; // -1 error
+        int16_t canSocket = INVALID_SOCKET; // -1 error
         std::chrono::time_point<std::chrono::steady_clock> startTime;
 };
 

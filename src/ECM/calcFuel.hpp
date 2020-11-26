@@ -24,14 +24,14 @@ class calcFuel{
         double fuelInst = 0; //kept by class
         double fuelticks = 0;
         double fuelticksPrev = 0;              
-        std::chrono::steady_clock::time_point startTime;
+        std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
         std::deque<double> fuelInstFilter;
-        double fuelInstFilterTime = 500;
-        double fuelInstFilterSamples = 10;
+        double fuelInstFilterTime = 500.0;
+        double fuelInstFilterSamples = 10.0;
         double baseRate = 0.000000333333; // l/rpm @ 750 rpm idle      
         std::deque<struct fuelAvgCon> fuelAvgFilter;
         uint16_t fuelAvgFilterDistance = 1000;
-        double fuelAvgFilterSamples = 10; 
+        double fuelAvgFilterSamples = 10.0; 
         double updateRate = 20.0;  // times per second
 };
 

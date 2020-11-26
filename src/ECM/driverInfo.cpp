@@ -8,7 +8,7 @@ fr::DriverInformation driverInfo::update(const fr::StartButtonSts &ss, const fr:
             infoMsg = fr::DriverInformation::NO_KEY;
         else if (rpm > 0 && gear_lev != fr::GearLeverPos::PARK) //running
             infoMsg = fr::DriverInformation::NOT_IN_P_IN_D;
-        else if(brake == 0) //not pressed
+        else if (rpm == 0 && brake == 0) //not pressed
             infoMsg = fr::DriverInformation::NO_BRAKE;
         else if (gear_lev!= fr::GearLeverPos::PARK)
             infoMsg = fr::DriverInformation::NOT_IN_P;
