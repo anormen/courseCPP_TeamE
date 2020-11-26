@@ -8,7 +8,9 @@
 #include <functional>
 
 namespace kc = key_Converter;
-namespace fr=frames;
+namespace fr = frames;
+
+typedef std::function<void(fr::frame_100&)> keyFunction;
 
 const uint16_t stepsize = 10;
 //key handler functions
@@ -24,7 +26,7 @@ void ReleaseStartButton(fr::frame_100&);
 void SetSimulationMode(fr::frame_100&);
   
 //action to function mapping
-const std::unordered_map<kc::UserReq, std::function<void(fr::frame_100&)>> enumActionToFunc
+const std::unordered_map<kc::UserReq, keyFunction> enumActionToFunc
 {
   { kc::UserReq::SIMULATION_MODE, SetSimulationMode },
   { kc::UserReq::STARTBUTTON, SetStartButton },
