@@ -2,7 +2,7 @@
 
 message_handler::message_handler()
 {
-    can.canInit("vcan0");
+    if(can.canInit("vcan0")) exit(1);
 }
 
 void message_handler::IO_read(std::vector<frames::base_frame *> &read_frames)

@@ -16,7 +16,16 @@ UserReq keyConverter::readKeyInputReq()
 {
     UserReq uAction;
     int key = getch();
- 
+
+    std::cout << "\033c\033[0;32m" ; 
+    std::cout << "---------------------------------\n\r";      
+    std::cout << "Press 'm' to change mode\n\r";
+    std::cout << "Press 's' to start engine\n\r"; 
+    std::cout << "Press '+'/'-' to change gear PRND\n\r";   
+    std::cout << "Press 'left'/'right' to brake\n\r";    
+    std::cout << "Press 'up'/'down' to accelerate\n\r";
+    std::cout << "---------------------------------\n\r";    
+
     auto action = intKeyToEnumAction.find(key);
     if (action == intKeyToEnumAction.end()) {
         std::cout << "Code: " << key << " not found\n\r"; 
