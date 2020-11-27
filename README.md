@@ -4,23 +4,24 @@
 
 ![](https://github.com/anormen/courseCPP_TeamE/blob/main/documentation/system_overview.png "System overview")
 
-InputHandler exe for sending user action and simulation mode change  
-ECM for calculating engine speed, fuel consumption and messages  
-TCM for calculating vehicle speed and actual gear  
-DisplayHandler for debug information  
-GUI for displaying values  
+<h3> Built executables </h3>
+build/InputHandler for sending user action and simulation mode change  
+build/ECM for calculating engine speed, fuel consumption and messages  
+build/TCM for calculating vehicle speed and actual gear  
+build/DisplayHandler for debug information  
+build/ext/app/avic/avic GUI for displaying values  
   
 All binaries communicate via virtual can  
 
 <h3>Setup</h3>   
 
 git clone https://github.com/anormen/courseCPP_TeamE  
-mkdir build (make build folder)  
-cd build (change to build folder)  
+mkdir build  
+cd build  
 cmake..  
 make  
-cd .. (back to root)  
-./script_name  (run script)  
+cd ..  
+./script_name (run wanted script)  
 
 <h3>Folder structure</h3>  
 
