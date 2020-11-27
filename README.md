@@ -30,7 +30,7 @@ share/              - contains functionality for can message handling
 src/ECM/            - contains functionality for ECM  
 src/TCM/            - contains functionality for TCM  
 src/displayHandler/ - contains functionality for displayHandler  
-src/inputHandler/   - contains functionality for inputHandler 
+src/inputHandler/   - contains functionality for inputHandler   
 test/               - contains unit tests   
 
 
