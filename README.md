@@ -15,6 +15,8 @@ run ../script
 
 <h3>Overview</h3>  
 
+![Philadelphia's Magic Gardens. This place was so cool!](https://github.com/anormen/courseCPP_TeamE/blob/main/documentation/system_overview.png "Philadelphia's Magic Gardens")
+
 InputHandler exe for sending user action and simulation mode change  
 ECM for calculating engine speed, fuel consumption and messages  
 TCM for calculating vehicle speed and actual gear  
