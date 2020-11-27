@@ -13,8 +13,8 @@ class ECM
 public:
     ECM();
     void Update();
-    void Write(std::vector<fr::base_frame *> data_vec);
-    void Read(std::vector<fr::base_frame *> data_vec);
+    void Write(fr::frameVector data_vec);
+    void Read(fr::frameVector data_vec);
 
 private:
     uint16_t rpm, veh_speed;

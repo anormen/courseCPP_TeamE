@@ -13,7 +13,7 @@ ECM::ECM()
     this->brake = 0;
 }
 
-void ECM::Read(std::vector<fr::base_frame *> data_vec)
+void ECM::Read(fr::frameVector data_vec)
 {
 
     for (auto &frm : data_vec)
@@ -58,7 +58,7 @@ void ECM::Update()
     }
 }
 
-void ECM::Write(std::vector<fr::base_frame *> data_vec)
+void ECM::Write(fr::frameVector data_vec)
 {
     for (auto &frm : data_vec)
     {

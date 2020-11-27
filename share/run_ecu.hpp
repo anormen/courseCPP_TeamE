@@ -4,7 +4,7 @@
 #include "message_handler.hpp"
 
 template <class T>
-bool run_ecu(T &ecu, const std::vector<fr::base_frame *> read_vec, std::vector<fr::base_frame *> write_vec, message_handler &msg)
+bool run_ecu(T &ecu, const fr::frameVector read_vec, fr::frameVector write_vec, message_handler &msg)
 {
     bool isRun = true;
     frames::SimulationMode mode;
