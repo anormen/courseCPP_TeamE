@@ -23,15 +23,15 @@ run ../script
 
 <h3>Folder structure</h3>  
 
-documentation - contains documentation  
-ext/app - contains GUI  
-ext/lib - contain libcanio  
-share - contains functionality for can message handling   
-src/ECM - contains functionality for ECM  
-src/TCM - contains functionality for TCM  
-src/displayHandler - contains functionality for displayHandler  
-src/inputHandler - contains functionality for inputHandler 
-test - contains unit tests   
+documentation/ - contains documentation  
+ext/app/ - contains GUI  
+ext/lib/ - contain libcanio  
+share/ - contains functionality for can message handling   
+src/ECM/ - contains functionality for ECM  
+src/TCM/ - contains functionality for TCM  
+src/displayHandler/ - contains functionality for displayHandler  
+src/inputHandler/ - contains functionality for inputHandler 
+test/ - contains unit tests   
 
 
 <h3>Scripts</h3>  
