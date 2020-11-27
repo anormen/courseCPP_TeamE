@@ -24,6 +24,7 @@ void ECM::Read(std::vector<fr::base_frame *> data_vec)
             this->startstop = static_cast<fr::frame_100 *>(frm)->get_startstop();
             this->mode = static_cast<fr::frame_100 *>(frm)->get_mode();
             this->updatebit = static_cast<fr::frame_100 *>(frm)->get_updatebit();
+            static_cast<fr::frame_100 *>(frm)->set_updatebit(0);
             this->gear_lever = static_cast<fr::frame_100 *>(frm)->get_gearlever();
             this->brake = static_cast<fr::frame_100 *>(frm)->get_brake();
         }
@@ -31,6 +32,8 @@ void ECM::Read(std::vector<fr::base_frame *> data_vec)
         {
             this->gear_ratio = static_cast<fr::frame_300 *>(frm)->get_gearratio();
             this->veh_speed = static_cast<fr::frame_300 *>(frm)->get_speed();
+            this->updatebit = static_cast<fr::frame_300 *>(frm)->get_updatebit();
+            static_cast<fr::frame_300 *>(frm)->set_updatebit(0);
         }
         else
         {
@@ -41,15 +44,18 @@ void ECM::Read(std::vector<fr::base_frame *> data_vec)
 
 void ECM::Update()
 {
-    //di.update(this);
-    fr::DriverInformation info = di.update(this->startstop, this->mode, this->rpm, this->brake, this->gear_lever); // too many inputs, should probably be a method
-    if (this->startstop == fr::StartButtonSts::PRESSED && info == fr::DriverInformation::NO_MSG && this->mode == fr::SimulationMode::ACTIVE)
+    if (this->updatebit == 1)
     {
-        this->eng_on = !eng_on;
+        //di.update(this);
+        fr::DriverInformation info = di.update(this->startstop, this->mode, this->rpm, this->brake, this->gear_lever); // too many inputs, should probably be a method
+        if (this->startstop == fr::StartButtonSts::PRESSED && info == fr::DriverInformation::NO_MSG && this->mode == fr::SimulationMode::ACTIVE)
+        {
+            this->eng_on = !eng_on;
+        }
+        rpm = rpm_class.CalculateRPM(this->acc, this->gear_ratio, this->eng_on);
+        fuel_class.CalculateFuel(this->acc, this->rpm, this->veh_speed);
+        CalculateTemp();
     }
-    rpm = rpm_class.CalculateRPM(this->acc, this->gear_ratio, this->eng_on);
-    fuel_class.CalculateFuel(this->acc, this->rpm, this->veh_speed);
-    CalculateTemp();
 }
 
 void ECM::Write(std::vector<fr::base_frame *> data_vec)
