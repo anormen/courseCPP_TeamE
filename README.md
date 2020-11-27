@@ -43,6 +43,8 @@ setupvcan.sh setup and start vcan0
 
 <h3>Simulation instructions</h3>  
 
+In the inputHandler window:  
+
 Press 'm' to change mode sleep (do nothing, wait for can), inactive (activate network), active (normal), off (close applications)  
 Press 's' to start/stop engine (message triggered if conditions not met)  
 Press '+/-* to change gear lever up/down (PRND)  
