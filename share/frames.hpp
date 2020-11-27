@@ -109,7 +109,6 @@ class frame_100 : public base_frame
     void set_updatebit(const uint8_t &ub);
     void set_accelerator(const uint8_t &acc);
     void set_brake(const uint8_t &brk);
-    std::mutex fr100_mutex;
   private:
     fr100 frame;
 };
@@ -138,7 +137,6 @@ class frame_200 : public base_frame
     void set_telltale(const uint8_t tt);
     void set_updatebit(const uint8_t &ub);
     void set_temp(const uint8_t &ub);
-    std::mutex fr200_mutex;
   private:
     fr200 frame;
 };
@@ -161,7 +159,6 @@ class frame_300 : public base_frame
     void set_gearactual(const uint8_t gearact);
     void set_updatebit(const uint8_t &ub);
     void set_gearratio(const uint8_t &gr);
-    std::mutex fr300_mutex;
   private:
     fr300 frame;
 };
