@@ -1,7 +1,8 @@
 <h1>courseCPP_TeamE</h1>
 
 
-Setup  
+<h3>Setup</h3>   
+
 git clone dir/  
 make build dir/ in root. mkdir build  
 cd to build dir/  
