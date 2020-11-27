@@ -19,7 +19,7 @@ public:
     ~TCM() = default;
 
 private:
-    uint8_t acc;
+    uint8_t acc, updatebit;
     uint16_t rpm;
     fr::GearLeverPos gear_lever;
     Gearbox gb;

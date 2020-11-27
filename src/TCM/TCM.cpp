@@ -16,10 +16,14 @@ void TCM::Read(std::vector<fr::base_frame *> read_vec)
         {
             this->acc = static_cast<fr::frame_100 *>(frm)->get_accelerator();
             this->gear_lever = static_cast<fr::frame_100 *>(frm)->get_gearlever();
+            this->updatebit = static_cast<fr::frame_100 *>(frm)->get_updatebit();
+            static_cast<fr::frame_100 *>(frm)->set_updatebit(0);
         }
         else if (frm->get_id() == 200)
         {
             this->rpm = static_cast<fr::frame_200 *>(frm)->get_rpm();
+            this->updatebit = static_cast<fr::frame_200 *>(frm)->get_updatebit();
+            static_cast<fr::frame_200 *>(frm)->set_updatebit(0);
         }
         else
         {
@@ -30,9 +34,12 @@ void TCM::Read(std::vector<fr::base_frame *> read_vec)
 
 void TCM::Update()
 {
-    gb.setGearleverPos(this->gear_lever);
-    gb.calculateVehicleSpeed(this->acc, this->rpm);
-    gb.selectGear(this->acc, this->rpm);
+    if (this->updatebit == 1)
+    {
+        gb.setGearleverPos(this->gear_lever);
+        gb.calculateVehicleSpeed(this->acc, this->rpm);
+        gb.selectGear(this->acc, this->rpm);
+    }
 }
 
 void TCM::Write(std::vector<fr::base_frame *> write_vec) //remove frame 200 and change get vehicle speed behaviour
