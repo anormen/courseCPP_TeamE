@@ -1,5 +1,16 @@
 <h1>courseCPP_TeamE</h1>
 
+<h3>Overview</h3>  
+
+![](https://github.com/anormen/courseCPP_TeamE/blob/main/documentation/system_overview.png "System overview")
+
+InputHandler exe for sending user action and simulation mode change  
+ECM for calculating engine speed, fuel consumption and messages  
+TCM for calculating vehicle speed and actual gear  
+DisplayHandler for debug information  
+GUI for displaying values  
+  
+All binaries communicate via virtual can  
 
 <h3>Setup</h3>   
 
@@ -22,18 +33,6 @@ src/displayHandler - contains functionality for displayHandler
 src/inputHandler - contains functionality for inputHandler 
 test - contains unit tests   
 
-
-<h3>Overview</h3>  
-
-![](https://github.com/anormen/courseCPP_TeamE/blob/main/documentation/system_overview.png "System overview")
-
-InputHandler exe for sending user action and simulation mode change  
-ECM for calculating engine speed, fuel consumption and messages  
-TCM for calculating vehicle speed and actual gear  
-DisplayHandler for debug information  
-GUI for displaying values  
-  
-All binaries communicate via virtual can  
 
 <h3>Scripts</h3>  
 
