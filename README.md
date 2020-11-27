@@ -13,9 +13,9 @@ run ../script
 Folder structure
 
 
-Overview
-InputHandler exe for sending user action and simulation mode change
-ECM for calculating engine speed, fuel consumption and messages
+Overview  
+InputHandler exe for sending user action and simulation mode change  
+ECM for calculating engine speed, fuel consumption and messages  
 TCM for calculating vehicle speed and actual gear
 DisplayHandler for debug information
 GUI for displaying values
