@@ -166,6 +166,8 @@ class frame_300 : public base_frame
     fr300 frame;
 };
 
+typedef std::vector<base_frame *> frameVector;
+
 } // namespace frames
 
 #endif //_FRAMES_H

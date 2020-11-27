@@ -4,6 +4,9 @@
 #include "conversion.hpp"
 #include "key_converter.hpp"
 #include "message_handler.hpp"
+#include <vector>
+#include <functional>
+#include <unordered_map>
 
 namespace kc = key_Converter;
 namespace fr = frames;
@@ -12,7 +15,7 @@ int main()
 {
     message_handler msg;
     fr::frame_100 data_100;
-    std::vector<fr::base_frame *> write_vec;
+    fr::frameVector write_vec;
     write_vec.emplace_back(&data_100);
     bool isRun = true;
     kc::keyConverter keyConvert;

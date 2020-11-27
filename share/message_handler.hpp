@@ -12,8 +12,8 @@ class message_handler
 {
 public:
     message_handler();
-    void IO_write(const std::vector<fr::base_frame *> &write_frames);
-    void IO_read(std::vector<fr::base_frame *> &read_frames);
+    void IO_write(const fr::frameVector &);
+    void IO_read(fr::frameVector &);
     std::mutex read_mutex;
     std::mutex write_mutex;
 

@@ -4,7 +4,7 @@
 #include "message_handler.hpp"
 #include "run_ecu.hpp"
 
-namespace fr=frames;
+namespace fr = frames;
 
 int main()
 {
@@ -17,11 +17,10 @@ int main()
     TCM tcm;
     bool isRun = true;
 
-    std::vector<fr::base_frame *> read_vec;
+    fr::frameVector read_vec;
     read_vec.emplace_back(&data_100);
     read_vec.emplace_back(&data_200);
-
-    std::vector<fr::base_frame *> write_vec;
+    fr::frameVector write_vec;
     write_vec.emplace_back(&data_300);
 
     std::thread IO_thread([&]() {
