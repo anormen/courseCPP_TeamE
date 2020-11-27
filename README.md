@@ -14,19 +14,19 @@ All binaries communicate via virtual can
 
 <h3>Setup</h3>   
 
-git clone https://github.com/anormen/courseCPP_TeamE
+git clone https://github.com/anormen/courseCPP_TeamE  
 mkdir build (make build folder)  
-cd build (change to build folder)
+cd build (change to build folder)  
 cmake..  
 make  
-cd .. (back to root)
-./script_name  (run script)
+cd .. (back to root)  
+./script_name  (run script)  
 
 <h3>Folder structure</h3>  
 
 documentation/      - contains documentation
 ext/app/            - contains GUI  
-ext/lib/            - contain libcanio (for GUI)
+ext/lib/            - contain libcanio (for GUI)  
 share/              - contains functionality for can message handling   
 src/ECM/            - contains functionality for ECM  
 src/TCM/            - contains functionality for TCM  
