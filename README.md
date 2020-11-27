@@ -4,7 +4,8 @@
 
 ![](https://github.com/anormen/courseCPP_TeamE/blob/main/documentation/system_overview.png "System overview")
 
-<h3> Built executables</h3>  
+<h3>Built executables</h3> 
+
 build/InputHandler for sending user action and simulation mode change  
 build/ECM for calculating engine speed, fuel consumption and messages  
 build/TCM for calculating vehicle speed and actual gear  
